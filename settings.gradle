@@ -1,0 +1,12 @@
+rootProject.name = 'adoration'
+
+include 'adoration-application'
+include 'adoration-application:adoration-core'
+include 'adoration-application:adoration-webapp'
+include 'adoration-application:adoration-engine'
+include 'adoration-application:adoration-database'
+
+for (subproject in (project(':adoration-application')).children){
+	subproject.projectDir = file("$rootDir/adoration-application/modules/$subproject.name")
+}
+

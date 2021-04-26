@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- Modal Alert, based on Boostrap -->
+
+<div id="commonAlertModal" class="modal" aria-labelledby="commonAlertTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commonAlertTitle">Modal title</h5>
+                <button type="button" class="close commonAlertClose" aria-label="Bezárás" onClick="hideAlert()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="commonAlertBody">Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer" style="display:flow-root">
+                <button id="commonAlertButton" type="button" class="btn btn-info" data-dismiss="modal" onClick="hideAlert()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

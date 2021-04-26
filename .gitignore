@@ -21,3 +21,26 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#project specific files to be ignored
+.idea
+.gradle
+.settings
+.project
+.classpath
+.checkstyle
+adoration-application/modules/adoration-engine/log
+*.iml
+*.ipr
+*.iws
+*.log
+build
+bin
+release
+out
+secure*.properties
+*.sh
+~*.*
+log
+*.hprof
+

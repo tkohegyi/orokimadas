@@ -1,0 +1,7 @@
+https://orokimadas.info:9092/adoration/
+https://orokimadas.info:9092/adoration/adorRegistration
+https://orokimadas.info:9092/adoration/login
+https://orokimadas.info:9092/resources/img/BishopLetter-BeerM.pdf
+https://orokimadas.info:9092/resources/img/AlapvetoSzabalyok.pdf
+https://orokimadas.info:9092/resources/img/AdatkezelesiSzabalyzat.pdf
+https://orokimadas.info:9092/adorationSecure/live

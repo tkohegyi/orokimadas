@@ -1,0 +1,157 @@
+{
+  "tableName": "people",
+  "modalId": "edit",
+  "edit" : {
+    "title": "Módosítás",
+    "type": "standard-noDelete"
+  },
+  "new" : {
+    "title": "Új Felhasználó/Adorátor felvétele",
+    "type": "standard"
+  },
+  "info": [
+    {
+      "id": "id",
+      "type": "fixText",
+      "text": "ID:",
+      "helpText": "Felhasználó/Adorátor azonosítószáma, nem változtatható.",
+      "edit": {
+        "visible" : true
+      },
+      "new": {
+        "visible" : false,
+        "default": "0"
+      }
+    },
+    {
+      "id": "name",
+      "type": "input-100",
+      "text": "Név:",
+      "name": "Felhaszáló Neve",
+      "helpText": "A felhasználó/adoráló neve.",
+      "mandatory": true
+    },
+    {
+      "id": "adorationStatus",
+      "text": "Adoráló Státusz:",
+      "type": "singleSelect",
+      "helpText": "Az adorálóra leginkább jellemző állapotot kell választani.",
+      "mandatory": true,
+      "selection": [
+        { "id": 5, "value": "Céltalanul regisztrált" },
+        { "id": 0, "value": "Külsős/Alkalmi-Adoráló" },
+        { "id": 2, "value": "Adoráló" },
+        { "id": 3, "value": "Ex-Adoráló" },
+        { "id": 4, "value": "Elhunyt" },
+        { "id": 6, "value": "Kiemelt adoráló" },
+        { "id": 7, "value": "Adminisztrátor" },
+        { "id": 1, "value": "Újonnan regisztrált" }
+      ],
+      "edit": {
+        "visible" : true
+      },
+      "new": {
+        "enabledSelections": [0,1,2,3,4,5,6,7],
+        "default": "2"
+      }
+    },
+    {
+      "id": "isAnonymous",
+      "text": "Anonymous?",
+      "type": "i/n-boolean",
+      "helpText": "Anonymous-ként jelenjen meg?",
+      "mandatory": true,
+      "edit": {
+        "visible" : true
+      },
+      "new": {
+        "default": true
+      }
+    },
+    {
+      "id": "mobile",
+      "text": "Telefonszám:",
+      "name": "Telefonszám",
+      "type": "input-100",
+      "helpText": "Telefonszám(ok)."
+    },
+    {
+      "id": "mobileVisible",
+      "text": "Telefonszám látható?",
+      "type": "i/n-boolean",
+      "helpText": "Publikus-e az adoráló telefonszáma?",
+      "mandatory": true,
+      "edit": {
+        "visible" : true
+      },
+      "new": {
+        "default": true
+      }
+    },
+    {
+      "id": "email",
+      "text": "e-mail",
+      "type": "input-200",
+      "helpText": "Az adoráló e-mail címe(i).",
+      "name": "Az adoráló e-mail címe"
+    },
+    {
+      "id": "emailVisible",
+      "text": "E-mail látható?",
+      "type": "i/n-boolean",
+      "helpText": "Publikus-e az adoráló e-mail címe?",
+      "mandatory": true,
+      "new": {
+        "default": true
+      }
+    },
+    {
+      "id": "adminComment",
+      "text": "Adminisztrátor megjegyzés:",
+      "type": "input-1000",
+      "helpText": "Az Adminisztrátor megjegyzése, csak a koordinátorok láthatják.",
+      "name": "Adminisztrátor megjegyzés"
+    },
+    {
+      "id": "dhcSigned",
+      "text": "Adatkezelési hozzájárulás:",
+      "type": "i/n-boolean",
+      "helpText": "Az adoráló hozzájárulása az adatkezeléshez, megtörtént-e?",
+      "mandatory": true,
+      "new": {
+        "default": true
+      }
+    },
+    {
+      "id": "dhcSignedDate",
+      "text": "Adatkezelési hozzájárulás dátuma:",
+      "type": "dateString-nullable",
+      "helpText": "Az adatkezelési hozzájárulás dátuma."
+    },
+    {
+      "id": "coordinatorComment",
+      "text": "Koordinátorok megjegyzése:",
+      "type": "input-1000",
+      "helpText": "Az koordinátorok megjegyzése, csak a koordinátorok láthatják.",
+      "name": "Koordinátorok megjegyzése"
+    },
+    {
+      "id": "visibleComment",
+      "text": "Megjegyzés:",
+      "type": "input-1000",
+      "helpText": "Minden adoráló által látható megjegyzés.",
+      "name": "Megjegyzés"
+    },
+    {
+      "id": "languageCode",
+      "text": "Nyelvkód:",
+      "type": "fixText",
+      "helpText": "Adoráló által használt nyelv. Nem változtatható.",
+      "mandatory": true,
+      "renderer": "getReadableLanguageCode",
+      "new": {
+        "default": "hu"
+      }
+    }
+  ]
+}

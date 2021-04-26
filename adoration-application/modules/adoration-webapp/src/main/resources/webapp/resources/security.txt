@@ -1,0 +1,5 @@
+# Our security address
+Contact: mailto:kohegyi.tamas@vac-deakvar.vaciegyhazmegye.hu
+
+#Languages we speak
+Preferred-Languages: en, hu

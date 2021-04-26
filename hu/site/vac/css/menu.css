@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+.navbar-inner {
+  background-color: #175eff;
+  /* background color will be black for all browsers */
+  background-image: none;
+  background-repeat: no-repeat;
+  filter: none;
+}
+
+.navbar .nav>li>a:hover {
+  color: #B95011;
+}
+
+.navbar .nav>li:hover {
+  background-color: #178eff;
+}
+
+.navbar .nav>li>a {
+  float: none;
+  padding: 10px 15px 10px;
+  color: white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.navbar .rightname {
+  float: right;
+  padding: 10px 15px 10px;
+  color: white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.navbar .rightname>li>a {
+  float: none;
+  padding: 10px 15px 10px;
+  color: white;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.navbar .rightname>li>a:hover {
+  color: #B95011;
+}
+
+.logout:hover {
+  background-color: #178eff;
+}
+
+.navbar .brand {
+  display: block;
+  float: left;
+  padding: 10px 20px 10px;
+  margin-left: -20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: white;
+  text-shadow: none;
+}
+
+.form-horizontal>.message-legend {
+   margin-bottom: 0px;
+}
+
+.higher-message-size{
+   font-size: 18px;
+   line-height: 22px;
+}

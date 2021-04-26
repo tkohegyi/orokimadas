@@ -1,0 +1,56 @@
+ext.componentDescription = "Adoration Support Tool"
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
+    }
+}
+
+mainClassName="website.magyar.adoration.engine.AdorationApplication"
+
+def configFileDefaultPath = "$project.projectDir/adoration.conf.properties";
+if (!hasProperty("configFilePath")) {
+    project.ext.configFilePath = configFileDefaultPath
+}
+
+run {
+    args = ["$configFilePath"];
+}
+
+dependencies {
+    compile project(':adoration-application:adoration-database')
+    compile project(':adoration-application:adoration-core')
+    compile project(':adoration-application:adoration-webapp')
+}
+
+jar {
+    manifest.attributes( 'provider': 'gradle')
+    manifest.attributes( 'Main-Class': 'website.magyar.adoration.engine.AdorationApplication')
+    manifest.attributes( 'Implementation-Title': "$componentDescription - V$version")
+}
+
+shadowJar {
+        append('META-INF/spring.handlers')
+        append('META-INF/spring.schemas')
+
+        excludes = [
+            'META-INF/*.SF',
+            'META-INF/*.DSA',
+            'META-INF/*.RSA',
+            'images/',
+            '*.txt',
+            '*.gif',
+            '*.png',
+            '*.dtd',
+            '*.xcf',
+            'build.properties',
+            'about.html']
+
+        archiveName = "adoration-$adorationVersion.$buildNumber"+'.jar'
+}
+
+jar.finalizedBy shadowJar

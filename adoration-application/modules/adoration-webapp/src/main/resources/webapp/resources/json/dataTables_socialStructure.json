@@ -1,0 +1,122 @@
+{
+  "tableName": "social",
+  "modalId": "edit",
+  "edit" : {
+    "title": "Módosítás",
+    "type": "standard"
+  },
+  "info": [
+    {
+      "id": "id",
+      "type": "fixText",
+      "text": "ID:",
+      "helpText": "Közösségi azonosító száma, nem változtatható.",
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "personId",
+      "type": "id-nullable",
+      "text": "Adoráló azonosítója:",
+      "name": "Adoráló azonosítója",
+      "helpText": "A felhasználó/adoráló azonosítószáma.",
+      "mandatory": false
+    },
+    {
+      "id": "socialStatus",
+      "text": "Státusz:",
+      "type": "singleSelect",
+      "helpText": "Azonosítás állapota.",
+      "mandatory": true,
+      "selection": [
+        { "id": 1, "value": "Azonosításra vár" },
+        { "id": 2, "value": "Azonosított adoráló" },
+        { "id": 3, "value": "Vendég/érdeklődő" }
+      ],
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "facebookUserName",
+      "type": "input-255",
+      "text": "Facebook - username:",
+      "name": "Facebook - username",
+      "helpText": "Felhasználó \"user\" neve Facebookban.",
+      "mandatory": false,
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "facebookFirstName",
+      "type": "input-255",
+      "text": "Facebook - firstname:",
+      "name": "Facebook - firstname",
+      "helpText": "Felhasználó \"first\" neve Facebookban.",
+      "mandatory": false,
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "facebookEmail",
+      "text": "Facebook - e-mail:",
+      "name": "Facebook - e-mail",
+      "type": "input-200",
+      "helpText": "Az Facebook e-mail címe."
+    },
+    {
+      "id": "facebookUserId",
+      "text": "Facebook - UID:",
+      "name": "Facebook - UID",
+      "type": "input-200",
+      "helpText": "Felhasználó UID-je Facebookban."
+    },
+    {
+      "id": "googleUserName",
+      "type": "input-255",
+      "name": "Google - username",
+      "text": "Google - username:",
+      "helpText": "Felhasználó \"user\" neve Google-ban.",
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "googleUserPicture",
+      "type": "input-255",
+      "name": "Google - picture",
+      "text": "Google - picture:",
+      "helpText": "Felhasználó képe Google-ban.",
+      "edit": {
+        "visible": true
+      }
+    },
+    {
+      "id": "googleEmail",
+      "text": "Google - e-mail:",
+      "name": "Google - e-mail",
+      "type": "input-200",
+      "helpText": "A Google e-mail címe."
+    },
+    {
+      "id": "googleUserId",
+      "text": "Google - UID:",
+      "name": "Google - UID",
+      "type": "input-200",
+      "helpText": "Felhasználó UID-je Google-ban."
+    },
+    {
+      "id": "comment",
+      "type": "input-1024",
+      "name": "Comment",
+      "text": "Comment:",
+      "helpText": "Adminisztrátor megjegyzése.",
+      "edit": {
+        "visible" : true
+      }
+    }
+  ]
+}

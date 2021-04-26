@@ -1,0 +1,43 @@
+{
+  "tableName": "people",
+  "modalId": "edit",
+  "edit" : {
+    "title": "Módosítás",
+    "type": "standard-noDelete"
+  },
+  "info": [
+    {
+      "id": "id",
+      "type": "fixText",
+      "text": "ID:",
+      "helpText": "Felhasználó/Adorátor azonosítószáma, nem változtatható.",
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "name",
+      "type": "fixText",
+      "text": "Név:",
+      "name": "Felhaszáló Neve:",
+      "helpText": "A felhasználó/adoráló neve, nem változtatható.",
+      "edit": {
+        "visible" : true
+      }
+    },
+    {
+      "id": "coordinatorComment",
+      "text": "Koordinátorok megjegyzése:",
+      "type": "input-1000",
+      "helpText": "Az koordinátorok megjegyzése, csak a koordinátorok láthatják.",
+      "name": "Koordinátorok megjegyzése"
+    },
+    {
+      "id": "visibleComment",
+      "text": "Megjegyzés:",
+      "type": "input-1000",
+      "helpText": "Minden adoráló által látható megjegyzés.",
+      "name": "Megjegyzés"
+    }
+  ]
+}

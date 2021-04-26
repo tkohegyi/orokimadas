@@ -1,0 +1,67 @@
+plugins {
+    id "org.sonarqube" version "3.1.1"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "website-magyar_orokimadas"
+        property "sonar.organization", "website-magyar"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+subprojects {
+    ext.adorationVersion=0.1
+
+    group = 'website.magyar.adorapp'
+    apply plugin: 'idea'
+    apply plugin: 'checkstyle'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion = "0.8.6"
+    }
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+        }
+    }
+    test.finalizedBy jacocoTestReport
+
+    compileJava {options.encoding = "UTF-8"}
+
+    version = "$adorationVersion"+'.'+"$buildNumber"
+
+    repositories {
+        maven { url "https://repo.maven.apache.org/maven2" }
+    }
+
+// Source and target info
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    task sourceZip(type: Zip) {
+        from 'src'
+        baseName = "$componentName"
+        classifier 'sources'
+        extension 'jar'
+    }
+
+    checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
+    checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
+    checkstyle.toolVersion = '8.0'
+    checkstyle.ignoreFailures = true
+
+    subprojects {
+        task allDeps(type: DependencyReportTask) {}
+    }
+}
+
+
+if (hasProperty('buildScan')) {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}

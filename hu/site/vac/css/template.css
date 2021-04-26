@@ -1,0 +1,252 @@
+/**
+ * @author Kőhegyi Tamás
+ * @copyright Copyright (C) 2014. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ */
+
+html {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	text-align: center;
+}
+
+#container {
+	margin: 0 auto;
+	text-align: center;
+}
+
+body {
+	background-color: #6091ff;
+	color: #f2f2f2;
+	font-family: Arial, Helvetica, Verdana, Geneva, Lucida, sans-serif;
+	font-size: 14px;
+	height: 100%;
+	width: 100%;
+}
+
+h1 {
+	color: #FFFFFF;
+	font-size: 22px;
+	font-weight: 700;
+}
+
+h2 {
+	font-size: 11px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 400;
+}
+
+.left {
+	align: left;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: 400;
+}
+
+container {
+	position: relative;
+	width: 1020px;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup,
+	menu, nav, section {
+	display: block;
+}
+
+li {
+	list-style: none outside none;
+}
+
+.actions .sublinks li {
+	color: #CAAA83;
+	display: inline;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code,
+	form, fieldset, legend, input, textarea, p, blockquote, th, td {
+	border: medium none;
+	outline: medium none;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	color: #D2d2ff;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #B95011;
+	text-decoration: underline;
+}
+
+.keywords.inline li.divider {
+	font-size: 10px;
+	padding: 0 12px;
+}
+
+.keywords.inline li {
+	color: #343434;
+	display: inline;
+}
+
+.keywords.inline ul {
+	line-height: 12px;
+}
+
+.title {
+	float: left;
+	padding: 0 0 10px;
+	width: 50%;
+	align: left;
+}
+
+.header-inner {
+	padding: 10px 0 10px 65px;
+}
+
+.keywords ul {
+	width: 800px;
+}
+
+.keywords {
+	background-color: #191919;
+	min-height: 13px;
+	padding: 10px;
+	width: 935px;
+}
+
+footer {
+	margin: 20px 0 0 65px;
+}
+
+.clearfix:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+}
+
+.centerdiv {
+	width: 50%;
+	margin: 0 auto;
+	float: center;
+}
+
+.centerwidediv {
+	width: 97%;
+	margin: 0 auto;
+	float: center;
+}
+
+.leftwidediv {
+	width: 97%;
+	margin: 0 auto;
+	text-align: left;
+}
+
+.tablediv {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 2px;
+}
+
+table {
+	text-align: left;
+	width: 97%
+}
+
+tr.head {
+    background-color: #f8a33e;
+    color: black;
+}
+
+tr.odd {
+    background-color: #178eff;
+}
+
+tr.even {
+    background-color: #176eff;
+}
+
+.jelentkezes {
+}
+
+.wideselect {
+	width: 90%;
+}
+
+.input-prepend .add-on {
+	background-color: #175eff;
+	color: white;
+}
+
+.form-inline .checkbox input[type="checkbox"] {
+	float: none;
+	margin-bottom: 5px;
+}
+
+td.left {
+	width: 55%;
+	text-align: left;
+	vertical-align: middle;
+}
+
+td.right {
+	width: 45%;
+	text-align: right;
+	vertical-align: top;
+}
+
+td.center {
+	width: 55%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.error {
+	color: #FF0000;
+	}
+	
+tbody {
+	align: center;	
+}
+
+textarea {
+	padding: 3px;
+	margin-bottom: 10px;
+	width: 90%
+}
+
+.left_hide {
+	display: none;
+}
+
+.hour_class_hide {
+	display: none;
+}
+
+.nap_class_hide {
+	display: none;
+}
+
+@keyframes blink {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1.0; }
+}
+@-webkit-keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1.0; }
+}
+.blink {
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite;
+}

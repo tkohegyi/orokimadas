@@ -1,0 +1,92 @@
+{
+  "tableName": "coordinator",
+  "modalId": "edit",
+  "edit" : {
+    "title": "Módosítás",
+    "type": "standard"
+  },
+  "info": [
+    {
+      "id": "id",
+      "type": "fixText",
+      "text": "ID:",
+      "helpText": "Azonosító szám, nem változtatható.",
+      "edit": {
+        "visible" : true
+      },
+      "new": {
+        "visible" : false,
+        "default": "0"
+      }
+    },
+    {
+      "id": "coordinatorType",
+      "text": "Koordinátor típusa:",
+      "type": "singleSelect",
+      "helpText": "A koordinátor típusa.",
+      "mandatory": true,
+      "selection": [
+        { "id": 0, "value": "0. óra órakoordinátora" },
+        { "id": 1, "value": "1. óra órakoordinátora" },
+        { "id": 2, "value": "2. óra órakoordinátora" },
+        { "id": 3, "value": "3. óra órakoordinátora" },
+        { "id": 4, "value": "4. óra órakoordinátora" },
+        { "id": 5, "value": "5. óra órakoordinátora" },
+        { "id": 6, "value": "6. óra órakoordinátora" },
+        { "id": 7, "value": "7. óra órakoordinátora" },
+        { "id": 8, "value": "8. óra órakoordinátora" },
+        { "id": 9, "value": "9. óra órakoordinátora" },
+        { "id": 10, "value": "10. óra órakoordinátora" },
+        { "id": 11, "value": "11. óra órakoordinátora" },
+        { "id": 12, "value": "12. óra órakoordinátora" },
+        { "id": 13, "value": "13. óra órakoordinátora" },
+        { "id": 14, "value": "14. óra órakoordinátora" },
+        { "id": 15, "value": "15. óra órakoordinátora" },
+        { "id": 16, "value": "16. óra órakoordinátora" },
+        { "id": 17, "value": "17. óra órakoordinátora" },
+        { "id": 18, "value": "18. óra órakoordinátora" },
+        { "id": 19, "value": "19. óra órakoordinátora" },
+        { "id": 20, "value": "20. óra órakoordinátora" },
+        { "id": 21, "value": "21. óra órakoordinátora" },
+        { "id": 22, "value": "22. óra órakoordinátora" },
+        { "id": 23, "value": "23. óra órakoordinátora" },
+        { "id": 24, "value": "Éjszakai napszak-koordinátor" },
+        { "id": 30, "value": "Délelőtti napszak-koordinátor" },
+        { "id": 36, "value": "Délutáni napszak-koordinátor" },
+        { "id": 42, "value": "Esti napszak-koordinátor" },
+        { "id": 48, "value": "Általános koordinátor" },
+        { "id": 96, "value": "Spirituális vezető" }
+      ],
+      "edit": {
+        "visible" : true
+      },
+      "new": {
+        "enabledSelections": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,30,36,42,48,96],
+        "default": "0"
+      }
+    },
+    {
+      "id": "personId",
+      "type": "input-10",
+      "text": "Adoráló azonosítója:",
+      "name": "Adoráló azonosítója",
+      "helpText": "A felhasználó/adoráló azonosítószáma.",
+      "mandatory": false
+    },
+    {
+      "id": "personName",
+      "type": "input-255",
+      "text": "Adoráló neve:",
+      "name": "Adoráló neve",
+      "helpText": "A felhasználó/adoráló neve.",
+      "mandatory": false,
+      "edit": {
+        "visible" : false
+      },
+      "new": {
+        "visible" : false,
+        "default": "N/A"
+      }
+    }
+  ]
+}

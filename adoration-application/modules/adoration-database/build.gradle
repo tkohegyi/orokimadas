@@ -1,0 +1,8 @@
+description = 'Adoration Database'
+
+dependencies {
+    compile(group: 'org.apache.commons', name: 'commons-text', version: '1.6')
+    compile(group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.0')
+    compile(group: 'org.hibernate', name: 'hibernate-core', version: '5.4.2.Final')
+    compile project(':adoration-application:adoration-core')
+}
