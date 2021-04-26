@@ -69,7 +69,7 @@ public class InformationProvider {
             informationJson.linkList = businessWithLink.getLinksOfPerson(person);
             informationJson.hoursCancelled = new HashSet<>();
             for (Link link: informationJson.linkList) {
-                if (link.getType() == AdorationMethodTypes.ONETIME_OFF.getAdorationMethodValue()) {
+                if (link.getType().equals(AdorationMethodTypes.ONETIME_OFF.getAdorationMethodValue())) {
                     informationJson.hoursCancelled.add(link.getHourId());
                 }
             }
