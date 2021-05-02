@@ -186,6 +186,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
         firstName = makeEmptyStringFromNull(firstName);
         Social social = businessWithSocial.getSocialByFacebookUserId(userId);
         if (social == null) {
+            boolean personDetected = false;
             social = new Social();
             social.setFacebookUserId(userId);
             social.setFacebookEmail(email);
@@ -202,6 +203,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
                 if (p != null) { // we were able to identify the person by e-mail
                     social.setPersonId(p.getId());
                     social.setSocialStatus(SocialStatusTypes.IDENTIFIED_USER.getTypeValue());
+                    personDetected = true;
                 }
             }
             String text = "New Social id: " + id.toString() + "\nFacebook Type,\n Name: " + social.getFacebookUserName() + ",\nEmail: " + social.getFacebookEmail();
@@ -214,10 +216,17 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
                     + "\nFacebook azonosító: " + social.getFacebookUserId()
                     + "\n\nAdatkezelési tájékoztatónkat megtalálhatod itt: https://orokimadas.info:9092/resources/img/AdatkezelesiSzabalyzat.pdf"
                     + "\nAdataidról információt illetve azok törlését pedig erre az e-mail címre írva kérheted: kohegyi.tamas (kukac) vac-deakvar.vaciegyhazmegye.hu."
-                    + "\nUgyanezen a címen várjuk leveledet akkor is, ha kérdésed, észrevételed vagy javaslatod van a weboldallal kapcsolatban. "
-                    + "\n\nAmennyiben már regisztrált adoráló vagy, erre a levélre válaszolva kérlek írd meg, hogy mikor szoktál az Örökimádásban részt venni, "
-                    + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot."
-                    + "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
+                    + "\nUgyanezen a címen várjuk leveledet akkor is, ha kérdésed, észrevételed vagy javaslatod van a weboldallal kapcsolatban. ";
+            if (personDetected) {
+                text += "\n\nMivel már regisztálva vagy, bártan használd a weboldal szolgáltatásait.";
+
+            } else { //person not detected
+                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért " +
+                        "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
+                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen." +
+                        " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
+            }
+            text += "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
             //send feedback mail to the registered user
             emailSender.sendMailFromSocialLogin(social.getGoogleEmail(), "Belépés az Örökimádás weboldalán Facebook azonosítóval", text);
             id = businessWithSocial.newSocial(social, auditTrail);
