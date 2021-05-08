@@ -21,6 +21,24 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     }
 } );
 
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "dayBased-pre": function ( a ) {
+        var dayNames = ['vasárnap', 'hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat'];
+        for (var index = 0; index < dayNames.length; index++) {
+            if (a.indexOf(dayNames[index])==0) {
+                return index;
+            }
+        }
+        return 0;
+    },
+    "dayBased-desc": function ( a, b ) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+    "dayBased-asc": function ( a, b ) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+} );
+
 function setupLinkTable() {
     //we must have this response before going forward
     jQuery.ajaxSetup({async:false});
@@ -50,6 +68,7 @@ function setupLinkTable() {
         ],
         "columnDefs": [
             { type: 'numeric-id', targets: 0 },
+            { type: 'dayBased', targets: 1 },
             { type: 'hourBased', targets: 2 },
             {
                 "className": "text-center",
