@@ -1,22 +1,28 @@
 plugins {
-    id "org.sonarqube" version "3.1.1"
+    id "org.sonarqube" version "3.2.0"
 }
+
+ext.myBuildNumber='SNAPSHOT'
+if ( hasProperty('buildNumber') ) {
+    myBuildNumber = "${project.ext.buildNumber}"
+}
+version = "V2.0." + "${project.ext.myBuildNumber}"
 
 sonarqube {
     properties {
         property "sonar.projectKey", "website-magyar_orokimadas"
         property "sonar.organization", "website-magyar"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.java.checkstyle.reportPaths", "build/reports/checkstyle/main.xml"
+        property "sonar.exclusions", "**/external/**/*";
     }
 }
-subprojects {
-    ext.adorationVersion=0.1
 
+subprojects {
     group = 'website.magyar.adorapp'
     apply plugin: 'idea'
     apply plugin: 'checkstyle'
     apply plugin: 'java'
-    apply plugin: 'maven'
     apply plugin: 'jacoco'
 
     jacoco {
@@ -29,23 +35,16 @@ subprojects {
     }
     test.finalizedBy jacocoTestReport
 
-    compileJava {options.encoding = "UTF-8"}
+    // Source and target info
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 
-    version = "$adorationVersion"+'.'+"$buildNumber"
+    compileJava {
+        options.encoding = "UTF-8"
+    }
 
     repositories {
         maven { url "https://repo.maven.apache.org/maven2" }
-    }
-
-// Source and target info
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-
-    task sourceZip(type: Zip) {
-        from 'src'
-        baseName = "$componentName"
-        classifier 'sources'
-        extension 'jar'
     }
 
     checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
@@ -57,7 +56,6 @@ subprojects {
         task allDeps(type: DependencyReportTask) {}
     }
 }
-
 
 if (hasProperty('buildScan')) {
     buildScan {

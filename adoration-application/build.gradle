@@ -1,29 +1,14 @@
 description= 'Adoration'
 
-task docs(type: Javadoc) {
-    destinationDir = file("$buildDir/docs/all")
-    options.memberLevel = JavadocMemberLevel.PRIVATE
-    for (subproject in project.subprojects) {
-        if (subproject.plugins.hasPlugin(JavaPlugin)){
-            source += files(subproject.sourceSets.main.java)
-            classpath += files(subproject.sourceSets.main.compileClasspath)
-        }
-    }
-}
-
 task checkstyle(type: Checkstyle) {
     dependsOn subprojects.checkstyleMain
 }
 
-task deleteRelease(type: Delete) {
-    //delete rootProject.rootDir.absolutePath + '/adoration-application/release'
-}
-
 def releaseCopySpec = project.copySpec {
-   from(rootProject.rootDir.absolutePath + '/adoration-application/modules/adoration-engine/') {
-     include 'adoration.conf.properties'
-     include 'readme.txt'
-   }
+    from(rootProject.rootDir.absolutePath + '/adoration-application/modules/adoration-engine/') {
+        include 'adoration.conf.properties'
+        include 'readme.txt'
+    }
     from(rootProject.rootDir.absolutePath + '/config/'){
         include 'security/adorApp.cer'
         include 'security/adorApp.keystore'
@@ -33,19 +18,18 @@ def releaseCopySpec = project.copySpec {
         include 'security/adorator_info.xlsx'
     }
     from(rootProject.rootDir.absolutePath + '/adoration-application/modules/adoration-engine/build/libs/') {
-     include "adoration-$adorationVersion.$buildNumber" + '.jar'
-   }
+        include "adoration-engine-all.jar"
+    }
 }
 
 task copyToRelease(type: Copy) {
-    dependsOn deleteRelease
     into rootProject.rootDir.absolutePath + '/release'
     with releaseCopySpec
+    rename "adoration-engine-all.jar", "adoration-" + "${rootProject.version}" + ".jar"
 }
 
 task release(type: Zip) {
     dependsOn copyToRelease
-    archiveName = "adoration-application-$adorationVersion.$buildNumber"+'.zip'
     from rootProject.rootDir.absolutePath + '/release'
 }
 
@@ -54,7 +38,6 @@ subprojects {
     repositories {
         maven { url "https://repository.jboss.org/nexus/content/groups/public" }
     }
-  
     dependencies {
         compile(group: 'org.springframework', name: 'spring-context', version:'5.0.16.RELEASE') {
             exclude(module: 'commons-logging')
