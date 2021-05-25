@@ -23,6 +23,7 @@ def releaseCopySpec = project.copySpec {
 }
 
 task copyToRelease(type: Copy) {
+    dependsOn ":adoration-application:adoration-engine:shadowJar"
     into rootProject.rootDir.absolutePath + '/release'
     with releaseCopySpec
     rename "adoration-engine-all.jar", "adoration-" + "${rootProject.version}" + ".jar"
