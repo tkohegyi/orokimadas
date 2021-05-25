@@ -209,7 +209,7 @@ function coverageClick(h) {
             }
         }
         item = $("#hour-" + h);
-        if (item.hasClass("oneTimeCandidate") && !item.hasClass("lowPriorityColumn")) {
+        if (item.hasClass("oneTimeCandidate") && !item.hasClass("lowPriorityColumn") && !item.hasClass("plannedHour")) {
             //offer possibility of one-time adoration
             r = $("<tr/>");
             rContent = "<td><button type=\"button\" class=\"btn btn-success\" onclick=\"registerOneTimeAdoration(" + h + ")\">Jelentkezés egy alkalomra, erre az órára</button></td>";
@@ -221,7 +221,9 @@ function coverageClick(h) {
             $(".pop").hide(500);
             $("#coveragePopup").empty();
         } else { //adorator user logged in and worth to show the info
-            coverageModal.style.display="block";
+            if (!item.hasClass("plannedHour")) {
+                coverageModal.style.display="block";
+            }
         }
     }
 }

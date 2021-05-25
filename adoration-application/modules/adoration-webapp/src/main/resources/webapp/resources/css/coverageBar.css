@@ -106,6 +106,10 @@
     opacity: 0.7
 }
 
+.plannedHour {
+    opacity: 0.4
+}
+
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
