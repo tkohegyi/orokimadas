@@ -33,7 +33,7 @@ tasks.named('jar') {
     manifest {
         attributes('Main-Class': 'website.magyar.adoration.engine.AdorationApplication')
         attributes('Implementation-Title': "$componentDescription - ${rootProject.version}")
-        attributes('Version': "${rootProject.version}")
+        attributes('AdorationApplication-Version': "${rootProject.version}")
     }
 }
 

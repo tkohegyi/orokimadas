@@ -17,6 +17,7 @@ public class PropertyDto {
     private final String hourlyInfoFileName;
     private final String adoratorInfoFileName;
     private final String captchaSiteSecret;
+    private final String manifestVersion;
 
     /**
      * Constructs a new property holding object with the given fields.
@@ -25,7 +26,7 @@ public class PropertyDto {
                        final String baseUrl, final String facebookAppId, final String facebookAppSecret,
                        final Integer sessionTimeout, final String excelFileName, final String dailyInfoFileName,
                        final String hourlyInfoFileName, final String adoratorInfoFileName,
-                       final String captchaSiteSecret) {
+                       final String captchaSiteSecret, final String manifestVersion) {
         super();
         this.googleClientId = googleClientId;
         this.googleClientSecret = googleClientSecret;
@@ -39,6 +40,7 @@ public class PropertyDto {
         this.hourlyInfoFileName = hourlyInfoFileName;
         this.adoratorInfoFileName = adoratorInfoFileName;
         this.captchaSiteSecret = captchaSiteSecret;
+        this.manifestVersion = manifestVersion;
     }
 
     public String getGoogleClientId() {
@@ -88,4 +90,9 @@ public class PropertyDto {
     public String getCaptchaSiteSecret() {
         return captchaSiteSecret;
     }
+
+    public String getManifestVersion() {
+        return manifestVersion;
+    }
+
 }

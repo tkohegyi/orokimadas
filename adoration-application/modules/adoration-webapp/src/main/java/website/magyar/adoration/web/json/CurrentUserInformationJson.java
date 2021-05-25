@@ -41,6 +41,8 @@ public class CurrentUserInformationJson {
     public boolean isHourlyCoordinator;
     @JsonField
     public String socialServiceUsed;
+    @JsonField
+    public String adorationApplicationVersion;
 
     /**
      * Constructor - fills the json structure with default values.
@@ -65,6 +67,7 @@ public class CurrentUserInformationJson {
         isPrivilegedAdorator = false;
         isAdoratorAdmin = false;
         socialServiceUsed = "Undetermined";
+        adorationApplicationVersion = "Örökimádás applikáció - ismeretlen verzió.";
     }
 
     public boolean isPrivilegedUser() {
@@ -104,5 +107,12 @@ public class CurrentUserInformationJson {
             email = social.getFacebookEmail();
         }
         socialEmail = email;
+    }
+
+    /**
+     * Fill Application version.
+     */
+    public void fillApplicationVersion(final String adorationApplicationVersion) {
+        this.adorationApplicationVersion = adorationApplicationVersion;
     }
 }

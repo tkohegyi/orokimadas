@@ -1,5 +1,6 @@
 package website.magyar.adoration.web.configuration;
 
+import com.jcabi.manifests.Manifests;
 import org.apache.commons.lang3.math.NumberUtils;
 import website.magyar.adoration.configuration.ConfigurationAccessBase;
 import website.magyar.adoration.configuration.PropertyHolder;
@@ -41,8 +42,15 @@ public class WebAppConfigurationAccess implements ConfigurationAccessBase {
         String hourlyInfoFileName = propertyHolder.get("hourly_info_file_name");
         String adoratorInfoFileName = propertyHolder.get("adorator_info_file_name");
         String captchaSiteSecret = propertyHolder.get("captcha_site_secret");
+        String manifestVersion = Manifests.read("AdorationApplication-Version");
+        if (manifestVersion == null || manifestVersion.length() == 0) {
+            manifestVersion = "???";
+        } else {
+            manifestVersion = "Örökimádás applikáció - " + manifestVersion;
+        }
         properties = new PropertyDto(googleClientId, googleClientSecret, googleRedirectUrl, baseUrl,
                 facebookAppId, facebookAppSecret, sessionTimeout,
-                excelFileName, dailyInfoFileName, hourlyInfoFileName, adoratorInfoFileName, captchaSiteSecret);
+                excelFileName, dailyInfoFileName, hourlyInfoFileName, adoratorInfoFileName,
+                captchaSiteSecret, manifestVersion);
     }
 }

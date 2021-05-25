@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
+import website.magyar.adoration.web.configuration.PropertyDto;
+import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
 import website.magyar.adoration.web.helper.MockControllerBase;
 import website.magyar.adoration.web.json.CoverageInformationJson;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
@@ -32,6 +34,8 @@ public class HomeControllerTest {
     @Mock
     private CurrentUserProvider currentUserProvider;
     @Mock
+    private WebAppConfigurationAccess webAppConfigurationAccess;
+    @Mock
     private CoverageProvider coverageProvider;
     @Mock
     private CurrentUserInformationJson currentUserInformationJson;
@@ -45,6 +49,7 @@ public class HomeControllerTest {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "currentUserProvider", currentUserProvider);
         Whitebox.setInternalState(underTest, "coverageProvider", coverageProvider);
+        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
         Whitebox.setInternalState(underTest, "logger", logger);
         doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(null);
     }
@@ -141,6 +146,9 @@ public class HomeControllerTest {
         //given
         MockControllerBase mockControllerBase = new MockControllerBase();
         String expected = mockControllerBase.mockGetJsonString("loggedInUserInfo", currentUserInformationJson);
+        doReturn(new PropertyDto(null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null)).when(webAppConfigurationAccess).getProperties();
         //when
         ResponseEntity<String> result = underTest.getLoggedInUserInfo(null);
         //then

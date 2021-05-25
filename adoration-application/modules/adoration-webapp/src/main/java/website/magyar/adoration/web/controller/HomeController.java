@@ -1,6 +1,7 @@
 package website.magyar.adoration.web.controller;
 
 import org.eclipse.jetty.server.Request;
+import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
 import website.magyar.adoration.web.controller.helper.ControllerBase;
 import website.magyar.adoration.web.json.CoverageInformationJson;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
@@ -35,6 +36,8 @@ public class HomeController extends ControllerBase {
     private CurrentUserProvider currentUserProvider;
     @Autowired
     private CoverageProvider coverageProvider;
+    @Autowired
+    private WebAppConfigurationAccess webAppConfigurationAccess;
 
     /**
      * Serves requests which arrive to home and sends back the home page.
@@ -151,6 +154,8 @@ public class HomeController extends ControllerBase {
     public ResponseEntity<String> getLoggedInUserInfo(HttpSession httpSession) {
         ResponseEntity<String> result;
         CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
+        String applicationVersion = webAppConfigurationAccess.getProperties().getManifestVersion();
+        currentUserInformationJson.fillApplicationVersion(applicationVersion);
         result = buildResponseBodyResult(JSON_LOGGED_IN_USER_INFO, currentUserInformationJson, HttpStatus.OK);
         return result;
     }
