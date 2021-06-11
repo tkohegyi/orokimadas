@@ -98,11 +98,11 @@ Az adorálókat tartalmazó adatbázishoz minden napszakkordinátornak van hozz�
 
 Adatbiztonság, adattárolás, személyiségi jogok?
 -----------------------------------------------
-Ezzel kapcsolatban törvényi előírás van a megfelelő adatkezelésre, amelyhez szabályzatot hoztunk létre, ami itt érhető el: [Adatkezelési Szabályzat - Váci Örökimádás](http://vacitemplom.piarista.hu/adoration/resources/Adatkezel%C3%A9siSzab%C3%A1lyzat.pdf)
+Ezzel kapcsolatban törvényi előírás van a megfelelő adatkezelésre, amelyhez szabályzatot hoztunk létre, ami itt érhető el: [Adatkezelési Szabályzat - Váci Örökimádás](https://orokimadas.info:9092/resources/img/AdatkezelesiSzabalyzat.pdf)
 
 Lakcímet, miért kérték el az emberektől, van-e, lehet-e jelentősége?
 --------------------------------------------------------------------
-Az Örökimádás indulásakor, az első jelentkezők esetében volt ez az adat - nem kötelező jelleggel - elkérve. Akkor annak az volt a jelentősége, hogy sokan nem tudtak más kapcsolati pontot megadni, például nem volt telefonszámuk, ahol el tudtuk érni őket. Ebben a helyzetben, akkor amikor az első beosztásra sor került, volt eset, amikor a koordinátorok személyesen keresték fel a jelentkezőket, hogy velük a beosztást megbeszéljék. Jelenleg ezt az adatot még opcionális módon sem kérjük el. Az [itt](http://vacitemplom.piarista.hu/adoration/orok-jelentkezes.php) látható jelentkezési lapnál, a tapasztalatok alapján, már csak a legfontosabb és valóban szükséges adatokat kérjük el a jelentkezőktől.
+Az Örökimádás indulásakor, az első jelentkezők esetében volt ez az adat - nem kötelező jelleggel - elkérve. Akkor annak az volt a jelentősége, hogy sokan nem tudtak más kapcsolati pontot megadni, például nem volt telefonszámuk, ahol el tudtuk érni őket. Ebben a helyzetben, akkor amikor az első beosztásra sor került, volt eset, amikor a koordinátorok személyesen keresték fel a jelentkezőket, hogy velük a beosztást megbeszéljék. Jelenleg ezt az adatot még opcionális módon sem kérjük el. Az [itt](https://orokimadas.info:9092/adoration/adorRegistration) látható jelentkezési lapnál, a tapasztalatok alapján, már csak a legfontosabb és valóban szükséges adatokat kérjük el a jelentkezőktől.
 
 Kérdések, melyek megválaszolásra várnak:
 ----------------------------------------
