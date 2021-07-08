@@ -61,7 +61,7 @@ public class SocialController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the person table
-            Object people = socialProvider.getSocialListAsObject(); // this says [{"id":372,"name" we need data in head
+            var people = socialProvider.getSocialListAsObject(); // this says [{"id":372,"name" we need data in head
             content = new TableDataInformationJson(people);
         }
         return content;
@@ -78,8 +78,8 @@ public class SocialController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the person
-            Long id = Long.valueOf(requestedId);
-            Object social = socialProvider.getSocialAsObject(id);
+            var id = Long.valueOf(requestedId);
+            var social = socialProvider.getSocialAsObject(id);
             content = new TableDataInformationJson(social);
         }
         return content;
@@ -97,15 +97,15 @@ public class SocialController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization: user must have right user type
             if (!currentUserInformationJson.isAdoratorAdmin) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                Social p = g.fromJson(body, Social.class);
-                Long updateInformation = socialProvider.updateSocial(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, Social.class);
+                var updateInformation = socialProvider.updateSocial(p, currentUserInformationJson);
                 if (updateInformation != null) {
                     resultString = "OK-" + updateInformation.toString();
                     result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);
@@ -137,8 +137,8 @@ public class SocialController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the social history
-            Long id = Long.valueOf(requestedId);
-            Object socialHistory = socialProvider.getSocialHistoryAsObject(id);
+            var id = Long.valueOf(requestedId);
+            var socialHistory = socialProvider.getSocialHistoryAsObject(id);
             content = new TableDataInformationJson(socialHistory);
         }
         return content;
@@ -156,15 +156,15 @@ public class SocialController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
             if (!currentUserInformationJson.isAdoratorAdmin) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = socialProvider.deleteSocial(p);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = socialProvider.deleteSocial(p);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_DELETE, resultString, HttpStatus.CREATED);

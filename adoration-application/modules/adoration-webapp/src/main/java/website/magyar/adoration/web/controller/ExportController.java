@@ -69,7 +69,7 @@ public class ExportController extends ControllerBase {
     }
 
     private void prepareAndSendExcelResponse(HttpSession httpSession, HttpServletResponse httpServletResponse, ExcelExportType excelExportType, boolean isAllowed) {
-        String templateFileName = excelExportType.getTemplateName();
+        var templateFileName = excelExportType.getTemplateName();
         httpServletResponse.addHeader(CONTENT_DISPOSITION, String.format(ATTACHMENT_TEMPLATE, templateFileName));
         httpServletResponse.addHeader(CONTENT_TYPE, CONTENT_TYPE_XLSX);
         if (isAllowed) {

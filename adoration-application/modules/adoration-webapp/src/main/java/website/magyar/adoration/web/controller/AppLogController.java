@@ -101,12 +101,12 @@ public class AppLogController extends ControllerBase {
                                                     @RequestParam(value = "source", defaultValue = "false") final boolean source,
                                                     @RequestHeader(value = "User-Agent", defaultValue = "") final String userAgent) {
         ResponseEntity<String> responseEntity;
-        String body = UNAUTHORIZED_ACTION;
+        var body = UNAUTHORIZED_ACTION;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             body = logFileProvider.getLogContent(fileName);
             body = convertLineBreaksIfOnWindows(body, userAgent);
         }
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
         if (!source) {
             headers.set(CONTENT_DISPOSITION, String.format(ATTACHMENT_TEMPLATE, fileName));
@@ -116,7 +116,7 @@ public class AppLogController extends ControllerBase {
     }
 
     private String convertLineBreaksIfOnWindows(final String body, final String userAgent) {
-        String result = body;
+        var result = body;
         if (userIsOnWindows(userAgent)) {
             result = body.replace("\r", "").replace("\n", "\r\n");
         }
@@ -160,8 +160,8 @@ public class AppLogController extends ControllerBase {
         Map<String, Collection<String>> jsonResponse = new HashMap<>();
         Collection<String> jsonString = new ArrayList<>();
 
-        JsonObject jsonObject = new JsonObject();
-        Gson gson = new Gson();
+        var jsonObject = new JsonObject();
+        var gson = new Gson();
         InetAddress ip;
         String hostname;
         try {
@@ -172,7 +172,7 @@ public class AppLogController extends ControllerBase {
         } catch (UnknownHostException e) {
             logger.info("Login page - cannot detect ip/hostname.");
         }
-        String json = gson.toJson(jsonObject);
+        var json = gson.toJson(jsonObject);
         jsonString.add(json);
         jsonResponse.put(JSON_APP_INFO, jsonString);
         return jsonResponse;

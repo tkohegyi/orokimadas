@@ -60,7 +60,7 @@ public class LinksController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the link table
-            Object o = linkProvider.getLinkListAsObject(currentUserProvider.getUserInformation(httpSession));
+            var o = linkProvider.getLinkListAsObject(currentUserProvider.getUserInformation(httpSession));
             content = new TableDataInformationJson(o);
         }
         return content;
@@ -77,8 +77,8 @@ public class LinksController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the history
-            Long id = Long.valueOf(requestedId);
-            Object history = linkProvider.getLinkHistoryAsObject(id);
+            var id = Long.valueOf(requestedId);
+            var history = linkProvider.getLinkHistoryAsObject(id);
             content = new TableDataInformationJson(history);
         }
         return content;
@@ -95,8 +95,8 @@ public class LinksController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the link
-            Long id = Long.valueOf(requestedId);
-            Object person = linkProvider.getLinkAsObject(id, currentUserProvider.getUserInformation(httpSession));
+            var id = Long.valueOf(requestedId);
+            var person = linkProvider.getLinkAsObject(id, currentUserProvider.getUserInformation(httpSession));
             content = new TableDataInformationJson(person);
         }
         return content;
@@ -114,15 +114,15 @@ public class LinksController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
             if (!currentUserInformationJson.isRegisteredAdorator) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
+                var g = new Gson();
                 DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = linkProvider.registerOneTimeAdoration(p, currentUserInformationJson);
+                var updatedObjectId = linkProvider.registerOneTimeAdoration(p, currentUserInformationJson);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_CREATE, resultString, HttpStatus.CREATED);
@@ -155,15 +155,15 @@ public class LinksController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
             if (!currentUserInformationJson.isRegisteredAdorator) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = linkProvider.registerOneTimeMiss(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = linkProvider.registerOneTimeMiss(p, currentUserInformationJson);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_CREATE, resultString, HttpStatus.CREATED);
@@ -196,15 +196,15 @@ public class LinksController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
             if (!currentUserInformationJson.isRegisteredAdorator) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = linkProvider.unRegisterOneTimeAdoration(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = linkProvider.unRegisterOneTimeAdoration(p, currentUserInformationJson);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_CREATE, resultString, HttpStatus.CREATED);
@@ -237,15 +237,15 @@ public class LinksController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
             if (!currentUserInformationJson.isRegisteredAdorator) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = linkProvider.unRegisterOneTimeMiss(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = linkProvider.unRegisterOneTimeMiss(p, currentUserInformationJson);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_CREATE, resultString, HttpStatus.CREATED);

@@ -57,13 +57,13 @@ public class RegisterAdoratorController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
-            Gson g = new Gson();
-            RegisterAdoratorJson p = g.fromJson(body, RegisterAdoratorJson.class);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var g = new Gson();
+            var p = g.fromJson(body, RegisterAdoratorJson.class);
             p.personId = currentUserInformationJson.personId;
             p.socialId = currentUserInformationJson.socialId;
             //authorization is irrelevant
-            Long updateInformation = peopleProvider.registerAdorator(p, currentUserInformationJson.userName);
+            var updateInformation = peopleProvider.registerAdorator(p, currentUserInformationJson.userName);
             if (updateInformation != null) {
                 resultString = "OK-" + updateInformation.toString();
                 result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);

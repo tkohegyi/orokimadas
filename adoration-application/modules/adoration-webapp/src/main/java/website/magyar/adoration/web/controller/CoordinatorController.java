@@ -63,7 +63,7 @@ public class CoordinatorController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isRegisteredAdorator(currentUserProvider, httpSession)) {
             //has right to collect and see information
-            Object coordinators = coordinatorProvider.getCoordinatorListAsObject(currentUserProvider.getUserInformation(httpSession));
+            var coordinators = coordinatorProvider.getCoordinatorListAsObject(currentUserProvider.getUserInformation(httpSession));
             content = new TableDataInformationJson(coordinators);
         }
         return content;
@@ -80,8 +80,8 @@ public class CoordinatorController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the coordinator
-            Long id = Long.valueOf(requestedId);
-            Object coordinatorJson = coordinatorProvider.getCoordinatorAsObject(id, currentUserProvider.getUserInformation(httpSession));
+            var id = Long.valueOf(requestedId);
+            var coordinatorJson = coordinatorProvider.getCoordinatorAsObject(id, currentUserProvider.getUserInformation(httpSession));
             content = new TableDataInformationJson(coordinatorJson);
         }
         return content;
@@ -99,9 +99,9 @@ public class CoordinatorController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
-            Gson g = new Gson();
-            CoordinatorJson p = g.fromJson(body, CoordinatorJson.class);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var g = new Gson();
+            var p = g.fromJson(body, CoordinatorJson.class);
             //check authorization: user must have right user type
             if (!currentUserInformationJson.isAdoratorAdmin) {
                 result = buildUnauthorizedActionBodyResult();
@@ -140,15 +140,15 @@ public class CoordinatorController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
             if (!currentUserInformationJson.isAdoratorAdmin) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = coordinatorProvider.deleteCoordinator(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = coordinatorProvider.deleteCoordinator(p, currentUserInformationJson);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_DELETE, resultString, HttpStatus.CREATED);

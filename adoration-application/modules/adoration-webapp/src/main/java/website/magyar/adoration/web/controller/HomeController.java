@@ -117,7 +117,7 @@ public class HomeController extends ControllerBase {
      */
     @RequestMapping(value = "/adoration/e404", method = {RequestMethod.GET, RequestMethod.POST})
     public String e404(HttpServletRequest httpServletRequest) {
-        String originalUri = "unknown";
+        var originalUri = "unknown";
         if (httpServletRequest instanceof Request) {
             originalUri = ((Request) httpServletRequest).getOriginalURI();
         }
@@ -134,7 +134,7 @@ public class HomeController extends ControllerBase {
      */
     @RequestMapping(value = "/adoration/e500", method = {RequestMethod.GET, RequestMethod.POST})
     public String e500(HttpServletRequest httpServletRequest) {
-        String originalUri = "unknown";
+        var originalUri = "unknown";
         if (httpServletRequest instanceof Request) {
             originalUri = ((Request) httpServletRequest).getOriginalURI();
         }
@@ -153,8 +153,8 @@ public class HomeController extends ControllerBase {
     @GetMapping(value = "/adoration/getLoggedInUserInfo")
     public ResponseEntity<String> getLoggedInUserInfo(HttpSession httpSession) {
         ResponseEntity<String> result;
-        CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
-        String applicationVersion = webAppConfigurationAccess.getProperties().getManifestVersion();
+        var currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
+        var applicationVersion = webAppConfigurationAccess.getProperties().getManifestVersion();
         currentUserInformationJson.fillApplicationVersion(applicationVersion);
         result = buildResponseBodyResult(JSON_LOGGED_IN_USER_INFO, currentUserInformationJson, HttpStatus.OK);
         return result;
@@ -170,8 +170,8 @@ public class HomeController extends ControllerBase {
     @GetMapping(value = "/adoration/getCoverageInformation")
     public ResponseEntity<String> getCoverageInformation(HttpSession httpSession) {
         ResponseEntity<String> result;
-        CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
-        CoverageInformationJson coverageInformationJson = coverageProvider.getCoverageInfo(currentUserInformationJson);
+        var currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
+        var coverageInformationJson = coverageProvider.getCoverageInfo(currentUserInformationJson);
         result = buildResponseBodyResult(JSON_COVERAGE_INFO, coverageInformationJson, HttpStatus.OK);
         return result;
     }

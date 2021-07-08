@@ -61,7 +61,7 @@ public class LiveController extends ControllerBase {
         Collection<String> jsonString = new ArrayList<>();
 
         CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
-        String hash = liveAdoratorProvider.registerLiveAdorator(currentUserInformationJson);
+        var hash = liveAdoratorProvider.registerLiveAdorator(currentUserInformationJson);
 
         jsonString.add(hash);
         jsonResponse.put(JSON_INFO, jsonString);
@@ -78,8 +78,8 @@ public class LiveController extends ControllerBase {
     public ResponseEntity<String> liveAdoratorHeartBeat(HttpSession httpSession, @PathVariable("hash") final String hashString) {
         currentUserProvider.getUserInformation(httpSession); //keep session alive even if user does nothing - after all the user is adorating
         liveAdoratorProvider.incomingTick(hashString);
-        String jsonData = "{\"hash\":\"" + hashString + "\"}";
-        HttpHeaders responseHeaders = new HttpHeaders();
+        var jsonData = "{\"hash\":\"" + hashString + "\"}";
+        var responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(jsonData, responseHeaders, HttpStatus.OK);
     }

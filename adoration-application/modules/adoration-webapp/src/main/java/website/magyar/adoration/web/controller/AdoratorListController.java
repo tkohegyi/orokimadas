@@ -87,7 +87,7 @@ public class AdoratorListController extends ControllerBase {
     public TableDataInformationJson getPersonTable(HttpSession httpSession, @RequestParam("filter") Optional<String> filter) {
         TableDataInformationJson content = null;
         if (isRegisteredAdorator(currentUserProvider, httpSession)) {
-            Object people = peopleProvider.getAdoratorListAsObject(currentUserProvider.getUserInformation(httpSession), isPrivilegedAdorator(currentUserProvider, httpSession));
+            var people = peopleProvider.getAdoratorListAsObject(currentUserProvider.getUserInformation(httpSession), isPrivilegedAdorator(currentUserProvider, httpSession));
             content = new TableDataInformationJson(people);
         }
         return content;
@@ -111,9 +111,9 @@ public class AdoratorListController extends ControllerBase {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                PersonInformationJson p = g.fromJson(body, PersonInformationJson.class);
-                Long updateInformation = peopleProvider.updatePersonByCoo(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, PersonInformationJson.class);
+                var updateInformation = peopleProvider.updatePersonByCoo(p, currentUserInformationJson);
                 if (updateInformation != null) {
                     resultString = "OK-" + updateInformation.toString();
                     result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);

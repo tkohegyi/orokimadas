@@ -51,9 +51,7 @@ public class LoginController {
      * @return the name of the jsp to display as result
      */
     @GetMapping(value = "/adoration/login")
-    public String showLoginPage(
-            @RequestParam(value = "result", defaultValue = "") final String result
-    ) {
+    public String showLoginPage(@RequestParam(value = "result", defaultValue = "") final String result) {
         if (result.length() == 0) {
             return LOGIN_PAGE;
         }
@@ -69,7 +67,7 @@ public class LoginController {
      */
     @GetMapping(value = "/adoration/loginGoogle")
     public String showGoogleLoginPage(HttpServletResponse httpServletResponse) {
-        String loginUrl = googleOauth2Service.getLoginUrlInformation();
+        var loginUrl = googleOauth2Service.getLoginUrlInformation();
         try {
             httpServletResponse.sendRedirect(loginUrl);
             return null;
@@ -86,7 +84,7 @@ public class LoginController {
      */
     @GetMapping(value = "/adoration/loginFacebook")
     public String showFacebookLoginPage(HttpServletResponse httpServletResponse) {
-        String loginUrl = facebookOauth2Service.getLoginUrlInformation();
+        var loginUrl = facebookOauth2Service.getLoginUrlInformation();
         try {
             httpServletResponse.sendRedirect(loginUrl);
             return null;
@@ -122,7 +120,7 @@ public class LoginController {
             HttpServletResponse httpServletResponse,
             HttpServletRequest httpServletRequest
     ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
         if ((code.length() > 0) && (state.length() == 0) && ((auth == null) || auth instanceof AnonymousAuthenticationToken)) {  //if GOOGLE login can be performed and it is not yet authenticated for Ador App
             String nextPage;
             nextPage = authenticateWithGoogle(httpSession, httpServletResponse, code);
@@ -139,7 +137,7 @@ public class LoginController {
     private String commonAuthentication(HttpSession httpSession, HttpServletResponse httpServletResponse,
                                         Authentication authentication, String serviceName) {
         String followUpPage;
-        SecurityContext sc = SecurityContextHolder.getContext();
+        var sc = SecurityContextHolder.getContext();
         sc.setAuthentication(authentication);
         httpSession.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
         logger.info("User logged in with {}: {}", serviceName, currentUserProvider.getQuickUserName(authentication));
@@ -156,14 +154,14 @@ public class LoginController {
 
     private String authenticateWithFacebook(HttpSession httpSession, HttpServletResponse httpServletResponse, String code) {
         String followUpPage;
-        Authentication authentication = facebookOauth2Service.getFacebookUserInfoJson(code);
+        var authentication = facebookOauth2Service.getFacebookUserInfoJson(code);
         followUpPage = commonAuthentication(httpSession, httpServletResponse, authentication, FACEBOOK_TEXT);
         return followUpPage;
     }
 
     private String authenticateWithGoogle(HttpSession httpSession, HttpServletResponse httpServletResponse, String code) {
         String followUpPage;
-        Authentication authentication = googleOauth2Service.getGoogleUserInfoJson(code);
+        var authentication = googleOauth2Service.getGoogleUserInfoJson(code);
         if (authentication == null) { //was unable to get user info properly
             followUpPage = LOGIN_PAGE;
         } else {
@@ -185,9 +183,9 @@ public class LoginController {
             HttpServletResponse httpServletResponse
     ) {
         //clean up the session info
-        SecurityContext sc = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
+        var sc = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
         if (sc != null) {
-            Authentication authentication = sc.getAuthentication();
+            var authentication = sc.getAuthentication();
             if (authentication != null) {
                 logger.info("User logout: {}", currentUserProvider.getQuickUserName(authentication));
                 currentUserProvider.registerLogout(httpSession);

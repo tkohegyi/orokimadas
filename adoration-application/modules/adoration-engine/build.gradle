@@ -24,8 +24,8 @@ run {
 }
 
 dependencies {
-    implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.0')
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation(group: 'org.slf4j', name: 'jcl-over-slf4j', version: "${orgSfl4jVersion}")
+    implementation "$javaxAnnotationApi"
     implementation project(':adoration-application:adoration-database')
     implementation project(':adoration-application:adoration-core')
     implementation project(':adoration-application:adoration-webapp')

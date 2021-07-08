@@ -1,8 +1,8 @@
 description = 'Adoration Properties'
 
 dependencies {
-    implementation group: 'org.springframework', name: 'spring-jms', version: '5.0.16.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-jms', version:  "${springFrameworkVersion}"
     implementation group: 'org.apache.xbean', name: 'xbean-spring', version: '4.1'
-    implementation (group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.0')
+    implementation (group: 'org.slf4j', name: 'jcl-over-slf4j', version: "${orgSfl4jVersion}")
     implementation "javax.mail:mail:1.5.0-b01"
 }

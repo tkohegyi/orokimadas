@@ -73,7 +73,7 @@ public class InformationController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isRegisteredAdorator(currentUserProvider, httpSession)) {
             //has right to collect and see information
-            Object information = informationProvider.getInformation(currentUserProvider.getUserInformation(httpSession));
+            var information = informationProvider.getInformation(currentUserProvider.getUserInformation(httpSession));
             content = new TableDataInformationJson(information);
         }
         return content;
@@ -98,7 +98,7 @@ public class InformationController extends ControllerBase {
             logger.warn("Registered adorator: {} reached hidden area, pls check!", currentUserInformationJson.personId);
             content = new TableDataInformationJson(null);
         } else if (currentUserInformationJson.isLoggedIn) { //can be waiting for identification or guest
-            Object information = informationProvider.getGuestInformation(currentUserInformationJson);
+            var information = informationProvider.getGuestInformation(currentUserInformationJson);
             content = new TableDataInformationJson(information);
         }
         return content;
@@ -115,9 +115,9 @@ public class InformationController extends ControllerBase {
         String resultString;
         ResponseEntity<String> result;
         try {
-            CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
-            Gson g = new Gson();
-            MessageToCoordinatorJson p = g.fromJson(body, MessageToCoordinatorJson.class);
+            var currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
+            var g = new Gson();
+            var p = g.fromJson(body, MessageToCoordinatorJson.class);
             //authorization is irrelevant, just the login status
             if (currentUserInformationJson.isLoggedIn && isCaptchaValid(p.captcha)) { //anybody who logged in can send message to maintainers
                 peopleProvider.messageToCoordinator(p, currentUserInformationJson);

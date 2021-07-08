@@ -54,8 +54,8 @@ public class AuditController extends ControllerBase {
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //has right to collect and see information
             try {
-                Long days = Long.parseLong(requestedDays);
-                Object information = auditProvider.getAuditTrailOfLastDays(days);
+                var days = Long.parseLong(requestedDays);
+                var information = auditProvider.getAuditTrailOfLastDays(days);
                 content = new TableDataInformationJson(information);
             } catch (NumberFormatException e) {
                 logger.warn("Rouge request to getAuditTrailByDays endpoint with bad days parameter.");

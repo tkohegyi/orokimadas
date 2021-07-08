@@ -66,7 +66,7 @@ public class AdoratorsController extends ControllerBase {
         TableDataInformationJson content = null;
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the person table
-            Object people = peopleProvider.getPersonListAsObject(); // this says [{"id":372,"name" we need data in head
+            var people = peopleProvider.getPersonListAsObject(); // this says [{"id":372,"name" we need data in head
             content = new TableDataInformationJson(people);
         }
         return content;
@@ -84,8 +84,8 @@ public class AdoratorsController extends ControllerBase {
         if (isPrivilegedAdorator(currentUserProvider, httpSession)) {
             //can get the person
             try {
-                Long id = Long.valueOf(requestedId);
-                Object person = peopleProvider.getPersonAsObject(id);
+                var id = Long.valueOf(requestedId);
+                var person = peopleProvider.getPersonAsObject(id);
                 content = new TableDataInformationJson(person);
             } catch (NumberFormatException e) {
                 logger.warn("Rouge request to getPerson endpoint with bad id.");
@@ -106,8 +106,8 @@ public class AdoratorsController extends ControllerBase {
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the person history
             try {
-                Long id = Long.valueOf(requestedId);
-                Object personHistory = peopleProvider.getPersonHistoryAsObject(id);
+                var id = Long.valueOf(requestedId);
+                var personHistory = peopleProvider.getPersonHistoryAsObject(id);
                 content = new TableDataInformationJson(personHistory);
             } catch (NumberFormatException e) {
                 logger.warn("Rouge request to getPersonHistory endpoint with bad id.");
@@ -128,8 +128,8 @@ public class AdoratorsController extends ControllerBase {
         if (isAdoratorAdmin(currentUserProvider, httpSession)) {
             //can get the person commitments
             try {
-                Long id = Long.valueOf(requestedId);
-                Object personCommitments = coverageProvider.getPersonCommitmentAsObject(id, getLanguageCode(currentUserProvider, httpSession));
+                var id = Long.valueOf(requestedId);
+                var personCommitments = coverageProvider.getPersonCommitmentAsObject(id, getLanguageCode(currentUserProvider, httpSession));
                 content = new TableDataInformationJson(personCommitments);
             } catch (NumberFormatException e) {
                 logger.warn("Rouge request to getPersonCommitments endpoint with bad id.");
@@ -156,9 +156,9 @@ public class AdoratorsController extends ControllerBase {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                PersonInformationJson p = g.fromJson(body, PersonInformationJson.class);
-                Long updateInformation = peopleProvider.updatePerson(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, PersonInformationJson.class);
+                var updateInformation = peopleProvider.updatePerson(p, currentUserInformationJson);
                 if (updateInformation != null) {
                     resultString = "OK-" + updateInformation.toString();
                     result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);
@@ -196,9 +196,9 @@ public class AdoratorsController extends ControllerBase {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                Link p = g.fromJson(body, Link.class);
-                Long updateInformation = coverageProvider.updatePersonCommitment(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, Link.class);
+                var updateInformation = coverageProvider.updatePersonCommitment(p, currentUserInformationJson);
                 if (updateInformation != null) {
                     resultString = "OK-" + updateInformation.toString();
                     result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);
@@ -237,9 +237,9 @@ public class AdoratorsController extends ControllerBase {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = peopleProvider.deletePerson(p);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = peopleProvider.deletePerson(p);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_DELETE, resultString, HttpStatus.CREATED);
@@ -278,9 +278,9 @@ public class AdoratorsController extends ControllerBase {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
-                Gson g = new Gson();
-                DeleteEntityJson p = g.fromJson(body, DeleteEntityJson.class);
-                Long updatedObjectId = coverageProvider.deletePersonCommitment(p, currentUserInformationJson);
+                var g = new Gson();
+                var p = g.fromJson(body, DeleteEntityJson.class);
+                var updatedObjectId = coverageProvider.deletePersonCommitment(p, currentUserInformationJson);
                 if (updatedObjectId != null) {
                     resultString = "OK";
                     result = buildResponseBodyResult(JSON_RESPONSE_DELETE, resultString, HttpStatus.CREATED);

@@ -27,9 +27,9 @@ public class VersionController {
     @ResponseBody
     @GetMapping(value = "/version")
     public ResponseEntity<String> getVersion() {
-        String adorAppVersion = titleProvider.getVersionTitle();
-        String jsonData = "{\"adorationApplicationVersion\":\"" + adorAppVersion + "\"}";
-        HttpHeaders responseHeaders = new HttpHeaders();
+        var adorAppVersion = titleProvider.getVersionTitle();
+        var jsonData = "{\"adorationApplicationVersion\":\"" + adorAppVersion + "\"}";
+        var responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(jsonData, responseHeaders, HttpStatus.OK);
     }
