@@ -30,7 +30,7 @@ public class LogFileProvider {
      * @return the collection of log file names
      */
     public Collection<String> getLogFileNames() {
-        Collection<File> files = getLogFiles(LOG_PATH);
+        var files = getLogFiles(LOG_PATH);
         return createFileNames(files);
     }
 
@@ -41,8 +41,8 @@ public class LogFileProvider {
      * @return the content of the log file
      */
     public String getLogContent(final String fileName) {
-        Collection<File> files = getLogFiles(LOG_PATH);
-        File file = findFile(fileName, files);
+        var files = getLogFiles(LOG_PATH);
+        var file = findFile(fileName, files);
         return getContent(file);
     }
 
@@ -52,14 +52,14 @@ public class LogFileProvider {
 
     private Collection<String> createFileNames(final Collection<File> files) {
         Collection<String> fileNames = new ArrayList<>();
-        for (File file : files) {
+        for (var file : files) {
             fileNames.add(file.getName());
         }
         return fileNames;
     }
 
     private String getContent(final File file) {
-        String source = FILE_NOT_FOUND_MESSAGE;
+        var source = FILE_NOT_FOUND_MESSAGE;
         if (file != null) {
             try {
                 source = fileUtils.readFileToString(file);
@@ -73,7 +73,7 @@ public class LogFileProvider {
 
     private File findFile(final String fileName, final Collection<File> files) {
         File result = null;
-        for (File file : files) {
+        for (var file : files) {
             if (file.getName().equals(fileName)) {
                 result = file;
                 break;

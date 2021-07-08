@@ -73,7 +73,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
 
     @PostConstruct
     private void googleOauth2Service() {
-        PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
+        var propertyDto = webAppConfigurationAccess.getProperties();
         flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
                 new JacksonFactory(), propertyDto.getGoogleClientId(), propertyDto.getGoogleClientSecret(), SCOPES).build();
     }
@@ -87,16 +87,15 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
         //see help from https://www.programcreek.com/java-api-examples/?api=com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
         //see help from https://www.programcreek.com/java-api-examples/index.php?api=com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl
 
-        GoogleClientSecrets.Details installedDetails = new GoogleClientSecrets.Details();
-        PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
+        var installedDetails = new GoogleClientSecrets.Details();
+        var propertyDto = webAppConfigurationAccess.getProperties();
         installedDetails.setClientId(propertyDto.getGoogleClientId());
         installedDetails.setClientSecret(propertyDto.getGoogleClientSecret());
 
-        GoogleClientSecrets clientSecrets = new GoogleClientSecrets();
+        var clientSecrets = new GoogleClientSecrets();
         clientSecrets.setInstalled(installedDetails);
 
-        GoogleAuthorizationCodeRequestUrl googleAuthorizationCodeRequestUrl =
-                new GoogleAuthorizationCodeRequestUrl(clientSecrets, propertyDto.getGoogleRedirectUrl(), SCOPES);
+        var googleAuthorizationCodeRequestUrl = new GoogleAuthorizationCodeRequestUrl(clientSecrets, propertyDto.getGoogleRedirectUrl(), SCOPES);
         return googleAuthorizationCodeRequestUrl.build();
     }
 
@@ -108,7 +107,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
      */
     public Authentication getGoogleUserInfoJson(final String authCode) {
         Authentication authentication = null;
-        PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
+        var propertyDto = webAppConfigurationAccess.getProperties();
         try {
             GoogleUser googleUser;
             final GoogleTokenResponse response = flow.newTokenRequest(authCode)
@@ -119,11 +118,11 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
                     .buildGetRequest(new GenericUrl(USER_INFO_URL));
             request.getHeaders().setContentType("application/json");
 
-            Gson gson = new Gson();
-            GoogleUserInfoJson googleUserInfoJson = gson.fromJson(request.execute().parseAsString(), GoogleUserInfoJson.class);
+            var gson = new Gson();
+            var googleUserInfoJson = gson.fromJson(request.execute().parseAsString(), GoogleUserInfoJson.class);
 
-            Social social = detectSocial(googleUserInfoJson);
-            Person person = detectPerson(social);
+            var social = detectSocial(googleUserInfoJson);
+            var person = detectPerson(social);
             googleUser = new GoogleUser(social, person, propertyDto.getSessionTimeout());
 
             //googleUser used as Principal, credential is coming from Google
@@ -136,7 +135,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
 
     private Person detectPerson(Social social) {
         Person person = null;
-        Long personId = social.getPersonId();
+        var personId = social.getPersonId();
         if (personId != null) {
             person = businessWithPerson.getPersonById(personId);
         }
@@ -147,7 +146,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
         googleUserInfoJson.email = makeEmptyStringFromNull(googleUserInfoJson.email);
         googleUserInfoJson.name = makeEmptyStringFromNull(googleUserInfoJson.name);
         googleUserInfoJson.picture = makeEmptyStringFromNull(googleUserInfoJson.picture);
-        Social social = businessWithSocial.getSocialByGoogleUserId(googleUserInfoJson.id); //if there is no social this will cause exception that is unhandled !!!
+        var social = businessWithSocial.getSocialByGoogleUserId(googleUserInfoJson.id); //if there is no social this will cause exception that is unhandled !!!
         if (social == null) {
             boolean personDetected = false;
             social = new Social();
@@ -156,20 +155,20 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
             social.setGoogleUserId(googleUserInfoJson.id);
             social.setGoogleUserPicture(googleUserInfoJson.picture);
             social.setSocialStatus(SocialStatusTypes.WAIT_FOR_IDENTIFICATION.getTypeValue());
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
+            var id = businessWithNextGeneralKey.getNextGeneralId();
             social.setId(id);
-            AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(),
+            var auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(),
                     AUDIT_SOCIAL_CREATE + id.toString(), "New Google Social login created.", GOOGLE_TEXT);
             //this is a brand new login, try to identify - by using e-mail
             if ((googleUserInfoJson.email != null) && (googleUserInfoJson.email.length() > 0)) {
-                Person p = businessWithPerson.getPersonByEmail(googleUserInfoJson.email);
+                var p = businessWithPerson.getPersonByEmail(googleUserInfoJson.email);
                 if (p != null) { // we were able to identify the person by e-mail
                     social.setPersonId(p.getId());
                     social.setSocialStatus(SocialStatusTypes.IDENTIFIED_USER.getTypeValue());
                     personDetected = true;
                 }
             }
-            String text = "New Social id: " + id.toString() + "\nGoogle Type,\nName: " + social.getGoogleUserName() + ",\nEmail: " + social.getGoogleEmail();
+            var text = "New Social id: " + id.toString() + "\nGoogle Type,\nName: " + social.getGoogleUserName() + ",\nEmail: " + social.getGoogleEmail();
             emailSender.sendMailToAdministrator(SUBJECT, text); //to administrator to inform about the person
             text = "Kedves " + social.getGoogleUserName()
                     + "!\n\nKöszönettel vettük első bejelentkezésedet a Váci Örökimádás (https://orokimadas.info:9092/) weboldalán."
@@ -206,22 +205,22 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
         Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
         if (social.getGoogleUserName().compareToIgnoreCase(name) != 0) {
             social.setGoogleUserName(name);
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
-            AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
+            var id = businessWithNextGeneralKey.getNextGeneralId();
+            var auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
                     "Google Username updated to:" + name, GOOGLE_TEXT);
             auditTrailCollection.add(auditTrail);
         }
         if (social.getGoogleEmail().compareToIgnoreCase(email) != 0) {
             social.setGoogleEmail(email);
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
-            AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
+            var id = businessWithNextGeneralKey.getNextGeneralId();
+            var auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
                     "Google Email updated to:" + email, GOOGLE_TEXT);
             auditTrailCollection.add(auditTrail);
         }
         if (social.getGoogleUserPicture().compareToIgnoreCase(picture) != 0) {
             social.setGoogleUserPicture(picture);
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
-            AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
+            var id = businessWithNextGeneralKey.getNextGeneralId();
+            var auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getGoogleUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
                     "Google Picture updated to:" + picture, GOOGLE_TEXT);
             auditTrailCollection.add(auditTrail);
         }

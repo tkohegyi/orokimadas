@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -79,7 +78,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
      * @return with the Url
      */
     public String getLoginUrlInformation() {
-        PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
+        var propertyDto = webAppConfigurationAccess.getProperties();
         String authorizationUrl;
         authorizationUrl = AUTHORIZATION_URL
                 + "client_id=" + propertyDto.getFacebookAppId()
@@ -102,20 +101,20 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
 
     private String getAccessToken(String code, String applicationId, String applicationSecret, String redirectUrl) throws IOException, ParseException {
         URL fbGraphURL;
-        String fbGraphURLString = getFacebookGraphUrl(code, applicationId, applicationSecret, redirectUrl);
+        var fbGraphURLString = getFacebookGraphUrl(code, applicationId, applicationSecret, redirectUrl);
         fbGraphURL = new URL(fbGraphURLString);
-        URLConnection fbConnection = fbGraphURL.openConnection(); //NOSONAR - code is properly protected
-        BufferedReader in = new BufferedReader(new InputStreamReader(fbConnection.getInputStream()));
+        var fbConnection = fbGraphURL.openConnection(); //NOSONAR - code is properly protected
+        var in = new BufferedReader(new InputStreamReader(fbConnection.getInputStream()));
         String inputLine;
-        StringBuilder b = new StringBuilder();
+        var b = new StringBuilder();
         while ((inputLine = in.readLine()) != null) {
             b.append(inputLine + "\n");
         }
         in.close();
 
-        String accessToken = b.toString();
-        JSONParser parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
-        JSONObject json = (JSONObject) parser.parse(accessToken);
+        var accessToken = b.toString();
+        var parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
+        var json = (JSONObject) parser.parse(accessToken);
         accessToken = json.getAsString("access_token");
         return accessToken;
     }
@@ -124,19 +123,18 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
         String graph;
         JSONObject json;
         try {
-            String g = "https://graph.facebook.com/me?access_token=" + accessToken + "&fields=name,id,email";
-            URL u = new URL(g);
-            URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    c.getInputStream()));
+            var g = "https://graph.facebook.com/me?access_token=" + accessToken + "&fields=name,id,email";
+            var u = new URL(g);
+            var c = u.openConnection();
+            var in = new BufferedReader(new InputStreamReader(c.getInputStream()));
             String inputLine;
-            StringBuilder b = new StringBuilder();
+            var b = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 b.append(inputLine + "\n");
             }
             in.close();
             graph = b.toString();
-            JSONParser parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
+            var parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
             json = (JSONObject) parser.parse(graph);
         } catch (Exception e) {
             throw new SystemException("ERROR in getting FB graph data. ", e);
@@ -153,12 +151,12 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
     public Authentication getFacebookUserInfoJson(final String authCode) {
         FacebookUser facebookUser;
         Authentication authentication = null;
-        PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
+        var propertyDto = webAppConfigurationAccess.getProperties();
         try {
-            String accessToken = getAccessToken(authCode, propertyDto.getFacebookAppId(), propertyDto.getFacebookAppSecret(), propertyDto.getGoogleRedirectUrl());
-            JSONObject facebookUserInfoJson = getFacebookGraph(accessToken);
-            Social social = detectSocial(facebookUserInfoJson);
-            Person person = detectPerson(social);
+            var accessToken = getAccessToken(authCode, propertyDto.getFacebookAppId(), propertyDto.getFacebookAppSecret(), propertyDto.getGoogleRedirectUrl());
+            var facebookUserInfoJson = getFacebookGraph(accessToken);
+            var social = detectSocial(facebookUserInfoJson);
+            var person = detectPerson(social);
             facebookUser = new FacebookUser(social, person, propertyDto.getSessionTimeout());
 
             // googleUser used as Principal, credential is coming from Google
@@ -179,12 +177,12 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
     }
 
     private Social detectSocial(JSONObject facebookUserInfoJson) {
-        String userId = facebookUserInfoJson.getAsString("id");
-        String email = facebookUserInfoJson.getAsString("email");
+        var userId = facebookUserInfoJson.getAsString("id");
+        var email = facebookUserInfoJson.getAsString("email");
         email = makeEmptyStringFromNull(email);
-        String firstName = facebookUserInfoJson.getAsString("name");
+        var firstName = facebookUserInfoJson.getAsString("name");
         firstName = makeEmptyStringFromNull(firstName);
-        Social social = businessWithSocial.getSocialByFacebookUserId(userId);
+        var social = businessWithSocial.getSocialByFacebookUserId(userId);
         if (social == null) {
             boolean personDetected = false;
             social = new Social();
@@ -193,20 +191,20 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
             social.setFacebookFirstName(firstName);
             social.setFacebookUserName(social.getFacebookFirstName());  // this is what we can access by default...
             social.setSocialStatus(SocialStatusTypes.WAIT_FOR_IDENTIFICATION.getTypeValue());
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
+            var id = businessWithNextGeneralKey.getNextGeneralId();
             social.setId(id);
-            AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getFacebookUserName(),
+            var auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getFacebookUserName(),
                     AUDIT_SOCIAL_CREATE + id.toString(), "New Facebook Social login created.", FACEBOOK_TEXT);
             //this is a brand new login, try to identify - by using e-mail
             if ((email != null) && (email.length() > 0)) {
-                Person p = businessWithPerson.getPersonByEmail(email);
+                var p = businessWithPerson.getPersonByEmail(email);
                 if (p != null) { // we were able to identify the person by e-mail
                     social.setPersonId(p.getId());
                     social.setSocialStatus(SocialStatusTypes.IDENTIFIED_USER.getTypeValue());
                     personDetected = true;
                 }
             }
-            String text = "New Social id: " + id.toString() + "\nFacebook Type,\n Name: " + social.getFacebookUserName() + ",\nEmail: " + social.getFacebookEmail();
+            var text = "New Social id: " + id.toString() + "\nFacebook Type,\n Name: " + social.getFacebookUserName() + ",\nEmail: " + social.getFacebookEmail();
             emailSender.sendMailToAdministrator(SUBJECT, text); //send mail to administrator
             text = "Kedves " + social.getFacebookUserName()
                     + "!\n\nKöszönettel vettük első bejelentkezésedet a Váci Örökimádás (https://orokimadas.info:9092/) weboldalán."
@@ -243,14 +241,14 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
         if (social.getFacebookFirstName().compareToIgnoreCase(firstName) != 0) {
             social.setFacebookFirstName(firstName);
             social.setFacebookUserName(firstName);  // this is what we can access by default...
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
+            var id = businessWithNextGeneralKey.getNextGeneralId();
             AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getFacebookUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
                     "Facebook FirstName/Name updated to:" + firstName, FACEBOOK_TEXT);
             auditTrailCollection.add(auditTrail);
         }
         if (social.getFacebookEmail().compareToIgnoreCase(email) != 0) {
             social.setFacebookEmail(email);
-            Long id = businessWithNextGeneralKey.getNextGeneralId();
+            var id = businessWithNextGeneralKey.getNextGeneralId();
             AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(id, social.getFacebookUserName(), AUDIT_SOCIAL_UPDATE + social.getId().toString(),
                     "Facebook Email updated to:" + email, FACEBOOK_TEXT);
             auditTrailCollection.add(auditTrail);

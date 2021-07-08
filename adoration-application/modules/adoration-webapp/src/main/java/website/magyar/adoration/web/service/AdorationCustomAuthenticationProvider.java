@@ -28,8 +28,8 @@ public class AdorationCustomAuthenticationProvider implements AuthenticationProv
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Authentication validAuthentication = null;
         if ((authentication != null) && (authentication.getPrincipal() instanceof GoogleUser)) {
-            GoogleUser googleUser = (GoogleUser) authentication.getPrincipal();
-            Social social = googleUser.getSocial();
+            var googleUser = (GoogleUser) authentication.getPrincipal();
+            var social = googleUser.getSocial();
             if (social != null) {
                 //authenticated !
                 List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
@@ -39,8 +39,8 @@ public class AdorationCustomAuthenticationProvider implements AuthenticationProv
             }
         }
         if ((authentication != null) && (authentication.getPrincipal() instanceof FacebookUser)) {
-            FacebookUser facebookUser = (FacebookUser) authentication.getPrincipal();
-            Social social = facebookUser.getSocial();
+            var facebookUser = (FacebookUser) authentication.getPrincipal();
+            var social = facebookUser.getSocial();
             if (social != null) {
                 //authenticated !
                 List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

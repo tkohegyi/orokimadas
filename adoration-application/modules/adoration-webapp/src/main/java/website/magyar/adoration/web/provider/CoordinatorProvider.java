@@ -44,7 +44,7 @@ public class CoordinatorProvider extends ProviderBase {
     private BusinessWithTranslator businessWithTranslator;
 
     private CoordinatorJson getCoordinatorJsonFromCoordinator(CurrentUserInformationJson currentUserInformationJson, Coordinator coordinator) {
-        CoordinatorJson coordinatorJson = new CoordinatorJson();
+        var coordinatorJson = new CoordinatorJson();
         coordinatorJson.id = coordinator.getId().toString();
         coordinatorJson.coordinatorType = coordinator.getCoordinatorType().toString();
         coordinatorJson.coordinatorTypeText = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode,
@@ -73,9 +73,9 @@ public class CoordinatorProvider extends ProviderBase {
      * @return with the object
      */
     public Object getCoordinatorListAsObject(CurrentUserInformationJson currentUserInformationJson) {
-        List<Coordinator> coordinatorList = getCoordinatorList();
-        List<CoordinatorJson> coordinatorJsonList = new LinkedList<>();
-        for (Coordinator coordinator : coordinatorList) {
+        var coordinatorList = getCoordinatorList();
+        var coordinatorJsonList = new LinkedList<>();
+        for (var coordinator : coordinatorList) {
             CoordinatorJson coordinatorJson = getCoordinatorJsonFromCoordinator(currentUserInformationJson, coordinator);
             coordinatorJsonList.add(coordinatorJson);
         }
@@ -101,7 +101,7 @@ public class CoordinatorProvider extends ProviderBase {
      * @return with the json coordinator object, filled according to the rights of the user
      */
     public Object getCoordinatorAsObject(final Long id, CurrentUserInformationJson currentUserInformationJson) {
-        Coordinator coordinator = businessWithCoordinator.getById(id);
+        var coordinator = businessWithCoordinator.getById(id);
         CoordinatorJson coordinatorJson;
         coordinatorJson = getCoordinatorJsonFromCoordinator(currentUserInformationJson, coordinator);
         return coordinatorJson;
@@ -116,13 +116,13 @@ public class CoordinatorProvider extends ProviderBase {
 
     private Long createCoordinator(Coordinator newCoordinator, CurrentUserInformationJson currentUserInformationJson) {
         Long id;
-        Coordinator coordinator = new Coordinator();
+        var coordinator = new Coordinator();
         coordinator.setId(businessWithNextGeneralKey.getNextGeneralId());
         coordinator.setCoordinatorType(newCoordinator.getCoordinatorType());
-        Long personId = newCoordinator.getPersonId();
-        String personString = "N/A";
+        var personId = newCoordinator.getPersonId();
+        var personString = "N/A";
         if (personId != null) {
-            Person person = businessWithPerson.getPersonById(personId);
+            var person = businessWithPerson.getPersonById(personId);
             if (person == null) {
                 logger.info("User: {} tried to create Coordinator with non-existing person.", currentUserInformationJson.userName);
                 return null;
@@ -130,7 +130,7 @@ public class CoordinatorProvider extends ProviderBase {
             personString = "ID: " + person.getId().toString() + ", Name: " + person.getName();
         }
         coordinator.setPersonId(personId);
-        AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(coordinator.getId(), currentUserInformationJson.userName,
+        var auditTrail = businessWithAuditTrail.prepareAuditTrail(coordinator.getId(), currentUserInformationJson.userName,
                 "Coordinator:New:" + coordinator.getId(),
                 "CoordinatorType: " + CoordinatorTypes.getTypeFromId(coordinator.getCoordinatorType()).toString() + ", Person: " + personString, "");
         id = businessWithCoordinator.newCoordinator(coordinator, auditTrail);
@@ -138,14 +138,14 @@ public class CoordinatorProvider extends ProviderBase {
     }
 
     /**
-     * UPdate an existing Coordinator.
+     * Update an existing Coordinator.
      *
      * @param coordinatorJson            is the coordinator json to be used for the update event
      * @param currentUserInformationJson info about the actual user
      * @return with the id of the updated coordinator
      */
     public Long updateCoordinator(CoordinatorJson coordinatorJson, CurrentUserInformationJson currentUserInformationJson) {
-        Coordinator newCoordinator = new Coordinator();
+        var newCoordinator = new Coordinator();
         newCoordinator.setId(Long.parseLong(coordinatorJson.id));
         newCoordinator.setCoordinatorType(CoordinatorTypes.getTypeFromId(Integer.parseInt(coordinatorJson.coordinatorType)).getCoordinatorValue());
         if (coordinatorJson.personId.length() == 0) {
@@ -154,15 +154,15 @@ public class CoordinatorProvider extends ProviderBase {
             newCoordinator.setPersonId(Long.parseLong(coordinatorJson.personId));
         }
         Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
-        Long id = newCoordinator.getId();
-        Coordinator coordinator = businessWithCoordinator.getById(id);
+        var id = newCoordinator.getId();
+        var coordinator = businessWithCoordinator.getById(id);
         if (coordinator == null) { //need to create a new one
             return createCoordinator(newCoordinator, currentUserInformationJson);
         }
-        Long refId = coordinator.getId();
+        var refId = coordinator.getId();
         //coordinatorType
-        Integer newIntValue = newCoordinator.getCoordinatorType();
-        Integer oldIntValue = coordinator.getCoordinatorType();
+        var newIntValue = newCoordinator.getCoordinatorType();
+        var oldIntValue = coordinator.getCoordinatorType();
         if (!newIntValue.equals(oldIntValue)) {
             CoordinatorTypes.getTypeFromId(newIntValue); //validation of value
             auditTrailCollection.add(prepareAuditTrail(refId, currentUserInformationJson.userName, "CoordinatorType",
@@ -170,10 +170,10 @@ public class CoordinatorProvider extends ProviderBase {
                     CoordinatorTypes.getTypeFromId(newIntValue).toString()));
         }
         //personId
-        Long newLongValue = newCoordinator.getPersonId();
-        Long oldLongValue = coordinator.getPersonId();
+        var newLongValue = newCoordinator.getPersonId();
+        var oldLongValue = coordinator.getPersonId();
         if (newLongValue != null) {
-            Person person = businessWithPerson.getPersonById(newLongValue);
+            var person = businessWithPerson.getPersonById(newLongValue);
             if (person == null) {
                 logger.info("User: {} tried to update Coordinator with non-existing person.", currentUserInformationJson.userName);
                 return null;
@@ -206,12 +206,11 @@ public class CoordinatorProvider extends ProviderBase {
      * @return with the id of the deleted entity
      */
     public Long deleteCoordinator(DeleteEntityJson p, CurrentUserInformationJson currentUserInformationJson) {
-        Long id = Long.parseLong(p.entityId);
-        Coordinator coordinator = businessWithCoordinator.getById(id);
+        var id = Long.parseLong(p.entityId);
+        var coordinator = businessWithCoordinator.getById(id);
         //collect related audit records
-        List<AuditTrail> auditTrailList = businessWithAuditTrail.getAuditTrailOfObject(id);
-        Long result;
-        result = businessWithCoordinator.deleteCoordinator(coordinator, auditTrailList);
+        var auditTrailList = businessWithAuditTrail.getAuditTrailOfObject(id);
+        var result = businessWithCoordinator.deleteCoordinator(coordinator, auditTrailList);
         return result;
     }
 
@@ -222,12 +221,12 @@ public class CoordinatorProvider extends ProviderBase {
      * @return with the list of json records
      */
     public List<CoordinatorJson> getLeadership(CurrentUserInformationJson currentUserInformationJson) {
-        List<Coordinator> coordinatorList = businessWithCoordinator.getList();
+        var coordinatorList = businessWithCoordinator.getList();
         //sort here by type
         coordinatorList.sort(Comparator.comparing(Coordinator::getCoordinatorType));
         List<CoordinatorJson> coordinatorJsonList = new LinkedList<>();
-        for (Coordinator coordinator : coordinatorList) {
-            CoordinatorJson coordinatorJson = getCoordinatorJsonFromCoordinator(currentUserInformationJson, coordinator);
+        for (var coordinator : coordinatorList) {
+            var coordinatorJson = getCoordinatorJsonFromCoordinator(currentUserInformationJson, coordinator);
             coordinatorJsonList.add(coordinatorJson);
         }
         return coordinatorJsonList;

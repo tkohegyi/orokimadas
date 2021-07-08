@@ -69,8 +69,7 @@ public class PeopleProvider extends ProviderBase {
      * @return with the list as object
      */
     public Object getPersonListAsObject() {
-        List<Person> people;
-        people = businessWithPerson.getPersonList();
+        var people = businessWithPerson.getPersonList();
         return people;
     }
 
@@ -81,8 +80,7 @@ public class PeopleProvider extends ProviderBase {
      * @return with the person as object
      */
     public Object getPersonAsObject(final Long id) {
-        Person person;
-        person = businessWithPerson.getPersonById(id);
+        var person = businessWithPerson.getPersonById(id);
         return person;
     }
 
@@ -102,8 +100,8 @@ public class PeopleProvider extends ProviderBase {
      */
     public Long updatePerson(PersonInformationJson personInformationJson, CurrentUserInformationJson currentUserInformationJson) {
         Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
-        Long id = Long.parseLong(personInformationJson.id);
-        Person person = businessWithPerson.getPersonById(id);
+        var id = Long.parseLong(personInformationJson.id);
+        var person = businessWithPerson.getPersonById(id);
         if (person == null) {
             //new Person
             id = createNewPerson(personInformationJson, currentUserInformationJson.userName);
@@ -179,8 +177,8 @@ public class PeopleProvider extends ProviderBase {
     }
 
     private void handleAdorationStatusUpdate(PersonInformationJson personInformationJson, Person person, String userName, Collection<AuditTrail> auditTrailCollection) {
-        Integer newStatus = Integer.parseInt(personInformationJson.adorationStatus);
-        Integer oldStatus = person.getAdorationStatus();
+        var newStatus = Integer.parseInt(personInformationJson.adorationStatus);
+        var oldStatus = person.getAdorationStatus();
         person.setAdorationStatus(newStatus);
         if (!oldStatus.equals(newStatus)) {
             auditTrailCollection.add(prepareAuditTrail(person.getId(), userName, "AdorationStatus",
@@ -207,8 +205,8 @@ public class PeopleProvider extends ProviderBase {
 
     private void handleNameUpdate(PersonInformationJson personInformationJson, Person person,
                                   String userName, Collection<AuditTrail> auditTrailCollection) {
-        String newValue = personInformationJson.name.trim();
-        String oldValue = person.getName();
+        var newValue = personInformationJson.name.trim();
+        var oldValue = person.getName();
         businessWithAuditTrail.checkDangerousValue(newValue, userName);
         //name length must be > 0, and shall not fit to other existing names
         if (newValue.length() == 0) {
@@ -223,7 +221,7 @@ public class PeopleProvider extends ProviderBase {
 
     private Long createNewPerson(PersonInformationJson personInformationJson, String userName) {
         Long id;
-        Person person = new Person();
+        var person = new Person();
         person.setId(businessWithNextGeneralKey.getNextGeneralId());
         person.setName(personInformationJson.name);
         person.setAdorationStatus(Integer.parseInt(personInformationJson.adorationStatus));
@@ -262,14 +260,14 @@ public class PeopleProvider extends ProviderBase {
      * @return with the id of the deleted Person
      */
     public Long deletePerson(DeleteEntityJson personJson) {
-        Long personId = Long.parseLong(personJson.entityId);
-        Person person = businessWithPerson.getPersonById(personId);
+        var personId = Long.parseLong(personJson.entityId);
+        var person = businessWithPerson.getPersonById(personId);
         //collect related social - this can be null, if there was no social for the person + we need to clear the social - person connection only
-        List<Social> socialList = businessWithSocial.getSocialsOfPerson(person);
+        var socialList = businessWithSocial.getSocialsOfPerson(person);
         //collect related links
-        List<Link> linkList = businessWithLink.getLinksOfPerson(person);
+        var linkList = businessWithLink.getLinksOfPerson(person);
         //collect related audit records
-        List<AuditTrail> auditTrailList = businessWithAuditTrail.getAuditTrailOfObject(personId);
+        var auditTrailList = businessWithAuditTrail.getAuditTrailOfObject(personId);
         Long result;
         result = businessWithPerson.deletePerson(person, socialList, linkList, auditTrailList);
         return result;
@@ -323,15 +321,15 @@ public class PeopleProvider extends ProviderBase {
     }
 
     private Long createNewAdorator(RegisterAdoratorJson adoratorJson) {
-        Long newId = businessWithNextGeneralKey.getNextGeneralId();
-        DateTimeConverter dateTimeConverter = new DateTimeConverter();
-        String dhcSignedDate = dateTimeConverter.getCurrentDateAsString();
+        var newId = businessWithNextGeneralKey.getNextGeneralId();
+        var dateTimeConverter = new DateTimeConverter();
+        var dhcSignedDate = dateTimeConverter.getCurrentDateAsString();
         adoratorJson.dhcSignedDate = dhcSignedDate;
         //send mail about the person
-        String text = "New id: " + newId + "\nDHC Signed Date: " + dhcSignedDate + "\nAdatok:\n" + adoratorJson.toString();
+        var text = "New id: " + newId + "\nDHC Signed Date: " + dhcSignedDate + "\nAdatok:\n" + adoratorJson.toString();
         emailSender.sendMailToAdministrator(SUBJECT_NEW_ADORATOR, text);
         //new Person
-        Person person = new Person();
+        var person = new Person();
         person.setId(newId);
         person.setName(adoratorJson.name);
         person.setAdorationStatus(AdoratorStatusTypes.PRE_ADORATOR.getAdoratorStatusValue());
@@ -347,7 +345,7 @@ public class PeopleProvider extends ProviderBase {
         person.setVisibleComment("");
         person.setIsAnonymous(false);
         person.setCoordinatorComment("");
-        AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(person.getId(), "SYSTEM",
+        var auditTrail = businessWithAuditTrail.prepareAuditTrail(person.getId(), "SYSTEM",
                 "Person:New:" + person.getId(), "Új adoráló regisztrációja.", text);
         Long id;
         id = businessWithPerson.newPerson(person, auditTrail);
@@ -362,26 +360,26 @@ public class PeopleProvider extends ProviderBase {
      * @return with the list of adorators as object
      */
     public Object getAdoratorListAsObject(CurrentUserInformationJson currentUserInformationJson, Boolean privilegedAdorator) {
-        List<Person> people = businessWithPerson.getPersonList();
+        var people = businessWithPerson.getPersonList();
         List<PersonJson> personList = new LinkedList<>();
         List<Link> linkList = new LinkedList<>();
         //filter out ppl and fields
-        for (Person p : people) {
+        for (var p : people) {
             if (!AdoratorStatusTypes.isInactive(p.getAdorationStatus())) {
                 personList.add(new PersonJson(p, privilegedAdorator));
-                List<Link> personLinkList = businessWithLink.getLinksOfPerson(p);
+                var personLinkList = businessWithLink.getLinksOfPerson(p);
                 fillLinkListFromPersonLinkList(linkList, personLinkList);
             }
         }
         //now fill the structure
-        LinkJson linkJson = new LinkJson();
+        var linkJson = new LinkJson();
         linkJson.linkList = linkList;
         linkJson.relatedPersonList = personList;
         //fill the day names
         linkJson.dayNames = new HashMap<>();
-        for (TranslatorDayNames dayName : TranslatorDayNames.values()) {
-            String textId = dayName.toString();
-            String value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
+        for (var dayName : TranslatorDayNames.values()) {
+            var textId = dayName.toString();
+            var value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
             linkJson.dayNames.put(dayName.getDayValue(), value);
         }
         return linkJson;
@@ -389,7 +387,7 @@ public class PeopleProvider extends ProviderBase {
 
     private void fillLinkListFromPersonLinkList(List<Link> linkList, List<Link> personLinkList) {
         if (personLinkList != null) {
-            for (Link l : personLinkList) {
+            for (var l : personLinkList) {
                 if (!linkList.contains(l)) {
                     l.setAdminComment(""); //empty the admin comment part, since adorators shall not see this part
                     linkList.add(l);
@@ -405,14 +403,14 @@ public class PeopleProvider extends ProviderBase {
      * @param currentUserInformationJson is the actual user
      */
     public void messageToCoordinator(MessageToCoordinatorJson messageToCoordinatorJson, CurrentUserInformationJson currentUserInformationJson) {
-        String unknown = "[ Unknown ]";
-        String socialText = currentUserInformationJson.socialServiceUsed == null ? unknown : currentUserInformationJson.socialServiceUsed;
-        String socialId = currentUserInformationJson.socialId == null ? unknown : currentUserInformationJson.socialId.toString();
-        String personId = currentUserInformationJson.personId == null ? unknown : currentUserInformationJson.personId.toString();
-        String info = messageToCoordinatorJson.info == null ? "[ Nincs adat ]" : messageToCoordinatorJson.info;
-        String message = messageToCoordinatorJson.text == null ? "[ Nincs üzenet ]" : messageToCoordinatorJson.text;
+        var unknown = "[ Unknown ]";
+        var socialText = currentUserInformationJson.socialServiceUsed == null ? unknown : currentUserInformationJson.socialServiceUsed;
+        var socialId = currentUserInformationJson.socialId == null ? unknown : currentUserInformationJson.socialId.toString();
+        var personId = currentUserInformationJson.personId == null ? unknown : currentUserInformationJson.personId.toString();
+        var info = messageToCoordinatorJson.info == null ? "[ Nincs adat ]" : messageToCoordinatorJson.info;
+        var message = messageToCoordinatorJson.text == null ? "[ Nincs üzenet ]" : messageToCoordinatorJson.text;
         //send mail from the person
-        String text = "Felhasználó neve: " + currentUserInformationJson.loggedInUserName
+        var text = "Felhasználó neve: " + currentUserInformationJson.loggedInUserName
                 + "\n  Egyéb azonosító: \n   Bejelentkezés: " + socialText + "\n   Social ID: " + socialId + "\n   Person ID: " + personId
                 + "\n\n  Kapcsolat üzenet: \n" + info
                 + "\n\n  Üzenet:\n" + message;
@@ -428,8 +426,8 @@ public class PeopleProvider extends ProviderBase {
      */
     public Long updatePersonByCoo(PersonInformationJson personInformationJson, CurrentUserInformationJson currentUserInformationJson) {
         Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
-        Long id = Long.parseLong(personInformationJson.id);
-        Person person = businessWithPerson.getPersonById(id);
+        var id = Long.parseLong(personInformationJson.id);
+        var person = businessWithPerson.getPersonById(id);
         if (person == null) {
             //new Person? - shall not be done by Coo-s
             throw new DatabaseHandlingException("Coordinator cannot create new adorator.");

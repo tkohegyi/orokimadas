@@ -54,21 +54,21 @@ public class LinkProvider extends ProviderBase {
      * @return with the info in json object form
      */
     public Object getLinkListAsObject(CurrentUserInformationJson currentUserInformationJson) {
-        LinkJson linkJson = new LinkJson();
+        var linkJson = new LinkJson();
         List<Link> linkList;
         linkList = businessWithLink.getLinkList();
         linkJson.linkList = linkList;
         Set<Long> personIds = new HashSet<>();
         if (linkJson.linkList != null) {
-            for (Link l : linkJson.linkList) {
+            for (var l : linkJson.linkList) {
                 personIds.add(l.getPersonId());
             }
         }
-        Iterator<Long> ppl = personIds.iterator();
+        var ppl = personIds.iterator();
         List<PersonJson> relatedPersonList = new LinkedList<>();
         while (ppl.hasNext()) {
-            Long id = ppl.next();
-            Person p = businessWithPerson.getPersonById(id);
+            var id = ppl.next();
+            var p = businessWithPerson.getPersonById(id);
             if (p != null) {
                 relatedPersonList.add(new PersonJson(p, currentUserInformationJson.isPrivilegedUser()));
             } else {
@@ -78,9 +78,9 @@ public class LinkProvider extends ProviderBase {
         linkJson.relatedPersonList = relatedPersonList;
         //fill the day names first
         linkJson.dayNames = new HashMap<>();
-        for (TranslatorDayNames dayName : TranslatorDayNames.values()) {
-            String textId = dayName.toString();
-            String value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
+        for (var dayName : TranslatorDayNames.values()) {
+            var textId = dayName.toString();
+            var value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
             linkJson.dayNames.put(dayName.getDayValue(), value);
         }
         return linkJson;
@@ -92,13 +92,13 @@ public class LinkProvider extends ProviderBase {
      * @return with the info in json object form
      */
     public Object getLinkAsObject(Long id, CurrentUserInformationJson currentUserInformationJson) {
-        LinkJson linkJson = new LinkJson();
-        Link link = businessWithLink.getLink(id);
+        var linkJson = new LinkJson();
+        var link = businessWithLink.getLink(id);
         List<Link> linkList = new LinkedList<>();
         linkList.add(link);
         linkJson.linkList = linkList;
         List<PersonJson> relatedPersonList = new LinkedList<>();
-        Person p = businessWithPerson.getPersonById(link.getPersonId());
+        var p = businessWithPerson.getPersonById(link.getPersonId());
         if (p != null) {
             relatedPersonList.add(new PersonJson(p, currentUserInformationJson.isPrivilegedUser()));
         } else {
@@ -125,7 +125,7 @@ public class LinkProvider extends ProviderBase {
      * @return with id of the created Link or null in case of error
      */
     public Long registerOneTimeAdoration(DeleteEntityJson p, CurrentUserInformationJson currentUserInformationJson) {
-        Link link = new Link();
+        var link = new Link();
         Integer hourId;
         try {
             hourId = Integer.parseInt(p.entityId);
@@ -149,7 +149,7 @@ public class LinkProvider extends ProviderBase {
      * @return with id of the created Link or null in case of error
      */
     public Long registerOneTimeMiss(DeleteEntityJson p, CurrentUserInformationJson currentUserInformationJson) {
-        Link link = new Link();
+        var link = new Link();
         Integer hourId;
         try {
             hourId = Integer.parseInt(p.entityId);
@@ -172,7 +172,7 @@ public class LinkProvider extends ProviderBase {
 
     private String calculateTargetDate(Integer hourId) {
         //figure out closest date of specified hour
-        Calendar cal = Calendar.getInstance();
+        var cal = Calendar.getInstance();
         int hourIdNow = (cal.get(Calendar.DAY_OF_WEEK) - 1) * BusinessWithLink.HOUR_IN_A_DAY + cal.get(Calendar.HOUR_OF_DAY);  // use sun as 0 day
         int diff = hourId - hourIdNow;
         if (diff < 0) {

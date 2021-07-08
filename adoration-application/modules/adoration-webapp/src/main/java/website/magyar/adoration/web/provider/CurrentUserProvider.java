@@ -39,17 +39,17 @@ public class CurrentUserProvider {
      * @return with current user information in json
      */
     public CurrentUserInformationJson getUserInformation(HttpSession httpSession) {
-        CurrentUserInformationJson currentUserInformationJson = new CurrentUserInformationJson(); //default info - user not logged in
+        var currentUserInformationJson = new CurrentUserInformationJson(); //default info - user not logged in
 
         Authentication authentication = null;
-        SecurityContext securityContext = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
+        var securityContext = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
         if (securityContext != null) {
             authentication = securityContext.getAuthentication();
         }
         if (authentication != null) {
-            Object principal = authentication.getPrincipal();
+            var principal = authentication.getPrincipal();
             if (principal instanceof AuthenticatedUser) {
-                AuthenticatedUser user = (AuthenticatedUser) principal;
+                var user = (AuthenticatedUser) principal;
                 if (user.isSessionValid()) {
                     user.extendSessionTimeout();
                     currentUserInformationJson = getCurrentUserInformation(user);
@@ -67,14 +67,14 @@ public class CurrentUserProvider {
         String userName;
         Person person;
         Social social;
-        CurrentUserInformationJson currentUserInformationJson = new CurrentUserInformationJson();
+        var currentUserInformationJson = new CurrentUserInformationJson();
         currentUserInformationJson.isLoggedIn = true;  // if authentication is not null then the person is logged in
         currentUserInformationJson.coordinatorId = -1;
         currentUserInformationJson.isHourlyCoordinator = false;
         currentUserInformationJson.isDailyCoordinator = false;
         person = user.getPerson();
         if (person != null) {
-            Coordinator coordinator = businessWithCoordinator.getCoordinatorFromPersonId(person.getId());
+            var coordinator = businessWithCoordinator.getCoordinatorFromPersonId(person.getId());
             currentUserInformationJson.fillIdentifiedPersonFields(person, coordinator);
             loggedInUserName = person.getName();
             userName = loggedInUserName;
@@ -107,11 +107,11 @@ public class CurrentUserProvider {
      * @return with the name
      */
     public String getQuickUserName(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
+        var principal = authentication.getPrincipal();
         String loggedInUserName = "";
         Person person;
         if (principal instanceof AuthenticatedUser) {
-            AuthenticatedUser user = (AuthenticatedUser) principal;
+            var user = (AuthenticatedUser) principal;
             person = user.getPerson();
             if (person != null) {
                 loggedInUserName = person.getName();
@@ -135,8 +135,8 @@ public class CurrentUserProvider {
      * @param oauth2ServiceName identifies the used social service
      */
     public void registerLogin(HttpSession httpSession, final String oauth2ServiceName) {
-        CurrentUserInformationJson currentUserInformationJson = getUserInformation(httpSession);
-        String data = oauth2ServiceName;
+        var currentUserInformationJson = getUserInformation(httpSession);
+        var data = oauth2ServiceName;
         long socialId = 0;
         if (currentUserInformationJson.socialId != null) {
             socialId = currentUserInformationJson.socialId;
@@ -155,14 +155,14 @@ public class CurrentUserProvider {
      */
     public void registerLogout(HttpSession httpSession) {
         CurrentUserInformationJson currentUserInformationJson = getUserInformation(httpSession);
-        String data = "";
+        var data = "";
         long socialId = 0;
         if (currentUserInformationJson.socialId != null) {
             socialId = currentUserInformationJson.socialId;
         } else {
             data = "Unidentified Social data.";
         }
-        AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(socialId,
+        var auditTrail = businessWithAuditTrail.prepareAuditTrail(socialId,
                 currentUserInformationJson.userName, "Logout", "User logged out: " + currentUserInformationJson.userName, data);
         businessWithAuditTrail.saveAuditTrailSafe(auditTrail);
     }

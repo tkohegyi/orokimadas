@@ -1,9 +1,6 @@
 package website.magyar.adoration.web.provider.helper;
 
 import website.magyar.adoration.database.business.BusinessWithAuditTrail;
-import website.magyar.adoration.database.tables.AuditTrail;
-
-import java.util.List;
 
 /**
  * Base class of Providers.
@@ -51,8 +48,7 @@ public class ProviderBase {
      * @return with the list of audit trail that belong to the specified item, as object
      */
     protected Object getEntityHistoryAsObject(BusinessWithAuditTrail businessWithAuditTrail, Long id) {
-        List<AuditTrail> auditTrailOfObject;
-        auditTrailOfObject = businessWithAuditTrail.getAuditTrailOfObject(id);
+        var auditTrailOfObject = businessWithAuditTrail.getAuditTrailOfObject(id);
         return auditTrailOfObject;
     }
 

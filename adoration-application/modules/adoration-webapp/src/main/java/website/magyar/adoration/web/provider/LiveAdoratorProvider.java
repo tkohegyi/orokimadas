@@ -21,8 +21,7 @@ public class LiveAdoratorProvider {
      * @return with uuid assigned to this specific live adorator
      */
     public String registerLiveAdorator(CurrentUserInformationJson currentUserInformationJson) {
-        String uuid;
-        uuid = liveAdoratorHandler.registerLiveAdorator(currentUserInformationJson);
+        var uuid = liveAdoratorHandler.registerLiveAdorator(currentUserInformationJson);
         return uuid;
     }
 

@@ -30,7 +30,7 @@ public class LiveAdoratorHandler {
      * @return with the response body
      */
     public String getLiveMapAsResponse() {
-        StringBuilder response = new StringBuilder("{\n  \"liveMap\": [\n");
+        var response = new StringBuilder("{\n  \"liveMap\": [\n");
         if (!liveMap.isEmpty()) {
             synchronized (OBJECT) {
                 String[] keySet = liveMap.keySet().toArray(new String[liveMap.size()]);
@@ -56,7 +56,7 @@ public class LiveAdoratorHandler {
      * @return with a uuid associated to the live adorator
      */
     public String registerLiveAdorator(CurrentUserInformationJson currentUserInformationJson) {
-        String uuid = UUID.randomUUID().toString();
+        var uuid = UUID.randomUUID().toString();
         synchronized (OBJECT) {
             if (liveMap.get(uuid) == null) {
                 logger.info("Live Adorator joined - {} - {}", currentUserInformationJson.userName, uuid);

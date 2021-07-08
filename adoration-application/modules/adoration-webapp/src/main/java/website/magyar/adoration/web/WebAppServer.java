@@ -69,8 +69,8 @@ public class WebAppServer {
     }
 
     private static List<ContainerInitializer> jspInitializers() {
-        JettyJasperInitializer sci = new JettyJasperInitializer();
-        ContainerInitializer initializer = new ContainerInitializer(sci, null);
+        var sci = new JettyJasperInitializer();
+        var initializer = new ContainerInitializer(sci, null);
         List<ContainerInitializer> initializers = new ArrayList<>();
         initializers.add(initializer);
         return initializers;
@@ -78,7 +78,7 @@ public class WebAppServer {
 
     private WebAppContext configureWebAppContext() {
         final WebAppContext context = new WebAppContext();
-        String baseUrl = getBaseUrl();
+        var baseUrl = getBaseUrl();
         context.setDescriptor(baseUrl + WEB_XML_LOCATION);
         context.setResourceBase(baseUrl + "");
         context.setContextPath("/");
@@ -91,7 +91,7 @@ public class WebAppServer {
         context.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
         context.addBean(new ServletContainerInitializersStarter(context), true);
 
-        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
+        var errorHandler = new ErrorPageErrorHandler();
         errorHandler.addErrorPage(HttpStatus.NOT_FOUND.value(), "/adoration/e404");
         errorHandler.addErrorPage(HttpStatus.INTERNAL_SERVER_ERROR.value(), "/adoration/e500");
         context.setErrorHandler(errorHandler);
@@ -135,7 +135,7 @@ public class WebAppServer {
     }
 
     private String getBaseUrl() {
-        URL webInfUrl = WebAppServer.class.getClassLoader().getResource(WEBAPP_ROOT);
+        var webInfUrl = WebAppServer.class.getClassLoader().getResource(WEBAPP_ROOT);
         return webInfUrl.toExternalForm();
     }
 

@@ -3,8 +3,6 @@ package website.magyar.adoration.web.controller;
 import org.eclipse.jetty.server.Request;
 import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
 import website.magyar.adoration.web.controller.helper.ControllerBase;
-import website.magyar.adoration.web.json.CoverageInformationJson;
-import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.provider.CoverageProvider;
 import website.magyar.adoration.web.provider.CurrentUserProvider;
 import org.slf4j.Logger;

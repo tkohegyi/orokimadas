@@ -3,7 +3,6 @@ package website.magyar.adoration.web.controller;
 import com.google.gson.Gson;
 import website.magyar.adoration.exception.SystemException;
 import website.magyar.adoration.web.controller.helper.ControllerBase;
-import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.json.RegisterAdoratorJson;
 import website.magyar.adoration.web.provider.CurrentUserProvider;
 import website.magyar.adoration.web.provider.PeopleProvider;

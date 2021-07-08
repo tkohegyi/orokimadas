@@ -51,8 +51,7 @@ public class SocialProvider extends ProviderBase {
     }
 
     private AuditTrail prepareAuditTrail(Long id, String userName, String fieldName, String oldValue, String newValue) {
-        AuditTrail auditTrail;
-        auditTrail = businessWithAuditTrail.prepareAuditTrail(id, userName, "Social:Update:" + id.toString(),
+        var auditTrail = businessWithAuditTrail.prepareAuditTrail(id, userName, "Social:Update:" + id.toString(),
                 fieldName + " changed from:\"" + oldValue + "\" to:\"" + newValue + "\"", "");
         return auditTrail;
     }
@@ -66,11 +65,11 @@ public class SocialProvider extends ProviderBase {
      */
     public Long updateSocial(Social proposedSocial, CurrentUserInformationJson currentUserInformationJson) {
         Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
-        Long refId = proposedSocial.getId();
-        Social targetSocial = businessWithSocial.getSocialById(refId);
+        var refId = proposedSocial.getId();
+        var targetSocial = businessWithSocial.getSocialById(refId);
         //personId
-        Long newLongValue = proposedSocial.getPersonId();
-        Long oldLongValue = targetSocial.getPersonId();
+        var newLongValue = proposedSocial.getPersonId();
+        var oldLongValue = targetSocial.getPersonId();
         if (isLongChanged(oldLongValue, newLongValue)) {
             targetSocial.setPersonId(newLongValue); //if we are here, it must have been changed
             String oldValue = prepareAuditValueString(oldLongValue);
@@ -78,8 +77,8 @@ public class SocialProvider extends ProviderBase {
             auditTrailCollection.add(prepareAuditTrail(refId, currentUserInformationJson.userName, "PersonId", oldValue, newValue));
         }
         //socialStatus
-        Integer newStatus = proposedSocial.getSocialStatus();
-        Integer oldStatus = targetSocial.getSocialStatus();
+        var newStatus = proposedSocial.getSocialStatus();
+        var oldStatus = targetSocial.getSocialStatus();
         if (!oldStatus.equals(newStatus)) {
             targetSocial.setSocialStatus(newStatus);
             auditTrailCollection.add(prepareAuditTrail(refId, currentUserInformationJson.userName, "SocialStatus",
@@ -92,8 +91,8 @@ public class SocialProvider extends ProviderBase {
             return null;
         }
         //comment
-        String newString = proposedSocial.getComment();
-        String oldString = targetSocial.getComment();
+        var newString = proposedSocial.getComment();
+        var oldString = targetSocial.getComment();
         try {
             isSocialStringFieldChangeValid(oldString, newString, currentUserInformationJson.userName);
             handleSimpleStringFieldUpdate(refId, newString, oldString, currentUserInformationJson.userName, auditTrailCollection, "Comment");
@@ -105,7 +104,7 @@ public class SocialProvider extends ProviderBase {
     }
 
     private void handleSocialUpdatePreparationGooglePart(Social targetSocial, Social proposedSocial, Collection<AuditTrail> auditTrailCollection, String userName) {
-        Long refId = proposedSocial.getId();
+        var refId = proposedSocial.getId();
         String newString;
         String oldString;
         //googleUserName
@@ -135,7 +134,7 @@ public class SocialProvider extends ProviderBase {
     }
 
     private void handleSocialUpdatePreparationFacebookPart(Social targetSocial, Social proposedSocial, Collection<AuditTrail> auditTrailCollection, String userName) {
-        Long refId = proposedSocial.getId();
+        var refId = proposedSocial.getId();
         String newString;
         String oldString;
         //facebookUserName
@@ -173,7 +172,7 @@ public class SocialProvider extends ProviderBase {
 
     private void isSocialStringFieldChangeValid(String oldString, String newString, String userName) {
         if ((oldString == null) || (newString == null)) {
-            String issue = "User: " + userName + " tried to create/update Social with null string.";
+            var issue = "User: " + userName + " tried to create/update Social with null string.";
             logger.info(issue);
             throw new DatabaseHandlingException(issue);
         }
@@ -199,10 +198,10 @@ public class SocialProvider extends ProviderBase {
      * @return with the id of the deleted Social record
      */
     public Long deleteSocial(DeleteEntityJson deleteEntityJson) {
-        Long id = Long.parseLong(deleteEntityJson.entityId);
-        Social social = businessWithSocial.getSocialById(id);
+        var id = Long.parseLong(deleteEntityJson.entityId);
+        var social = businessWithSocial.getSocialById(id);
         //collect related audit records
-        List<AuditTrail> auditTrailList = businessWithAuditTrail.getAuditTrailOfObject(id);
+        var auditTrailList = businessWithAuditTrail.getAuditTrailOfObject(id);
         Long result;
         result = businessWithSocial.deleteSocial(social, auditTrailList);
         return result;

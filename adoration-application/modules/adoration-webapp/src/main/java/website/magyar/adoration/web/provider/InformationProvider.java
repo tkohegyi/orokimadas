@@ -53,10 +53,10 @@ public class InformationProvider {
      * @return with the info in json object form
      */
     public Object getInformation(CurrentUserInformationJson currentUserInformationJson) {
-        InformationJson informationJson = new InformationJson();
+        var informationJson = new InformationJson();
         //get name and status
-        Long personId = currentUserInformationJson.personId;
-        Person person = businessWithPerson.getPersonById(personId);
+        var personId = currentUserInformationJson.personId;
+        var person = businessWithPerson.getPersonById(personId);
         if (person == null) {
             //wow, we should not be here
             logger.warn("User got access to prohibited area: {}", currentUserInformationJson.loggedInUserName);
@@ -74,7 +74,7 @@ public class InformationProvider {
                 }
             }
             informationJson.leadership = coordinatorProvider.getLeadership(currentUserInformationJson);
-            Calendar cal = Calendar.getInstance();
+            var cal = Calendar.getInstance();
             int hourId = (cal.get(Calendar.DAY_OF_WEEK) - 1) * BusinessWithLink.HOUR_IN_A_DAY + cal.get(Calendar.HOUR_OF_DAY);  // use sun as 0 day
             informationJson.hourInDayNow = hourId % BusinessWithLink.HOUR_IN_A_DAY;
             informationJson.hourInDayNext = (hourId + 1) % BusinessWithLink.HOUR_IN_A_DAY;
@@ -97,25 +97,25 @@ public class InformationProvider {
         //NOTE: linkList, currentHourList and futureHourList must be filled already
         Set<Long> personIds = new HashSet<>();
         if (informationJson.linkList != null) {
-            for (Link l : informationJson.linkList) {
+            for (var l : informationJson.linkList) {
                 personIds.add(l.getPersonId());
             }
         }
         if (informationJson.currentHourList != null) {
-            for (Link l : informationJson.currentHourList) {
+            for (var l : informationJson.currentHourList) {
                 personIds.add(l.getPersonId());
             }
         }
         if (informationJson.futureHourList != null) {
-            for (Link l : informationJson.futureHourList) {
+            for (var l : informationJson.futureHourList) {
                 personIds.add(l.getPersonId());
             }
         }
-        Iterator<Long> ppl = personIds.iterator();
+        var ppl = personIds.iterator();
         List<PersonJson> relatedPersonList = new LinkedList<>();
         while (ppl.hasNext()) {
             Long id = ppl.next();
-            Person p = businessWithPerson.getPersonById(id);
+            var p = businessWithPerson.getPersonById(id);
             if (p != null) {
                 relatedPersonList.add(new PersonJson(p, isPrivilegedUser));
             } else {
@@ -131,10 +131,10 @@ public class InformationProvider {
      * @return with the info in json object form
      */
     public Object getGuestInformation(CurrentUserInformationJson currentUserInformationJson) {
-        GuestInformationJson guestInformationJson = new GuestInformationJson();
+        var guestInformationJson = new GuestInformationJson();
         //get name and status
-        Long socialId = currentUserInformationJson.socialId;
-        Social social = businessWithSocial.getSocialById(socialId);
+        var socialId = currentUserInformationJson.socialId;
+        var social = businessWithSocial.getSocialById(socialId);
         if (social == null) {
             //wow, we should not be here
             logger.warn("Guest User got access to prohibited area: {}", currentUserInformationJson.loggedInUserName);

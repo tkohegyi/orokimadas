@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import website.magyar.adoration.exception.SystemException;
 import website.magyar.adoration.web.controller.helper.ControllerBase;
 import website.magyar.adoration.web.json.CoordinatorJson;
-import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.json.DeleteEntityJson;
 import website.magyar.adoration.web.json.TableDataInformationJson;
 import website.magyar.adoration.web.provider.CoordinatorProvider;

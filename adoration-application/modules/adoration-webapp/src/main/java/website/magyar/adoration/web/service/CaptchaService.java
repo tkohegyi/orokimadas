@@ -27,8 +27,8 @@ public class CaptchaService {
 
     private JSONObject performRecaptchaSiteVerify(String recaptchaResponseToken)
             throws IOException {
-        URL url = new URL(SITE_VERIFY_URL);
-        StringBuilder postData = new StringBuilder();
+        var url = new URL(SITE_VERIFY_URL);
+        var postData = new StringBuilder();
         addParam(postData, SECRET_PARAM, webAppConfigurationAccess.getProperties().getCaptchaSiteSecret());
         addParam(postData, RESPONSE_PARAM, recaptchaResponseToken);
 
@@ -36,7 +36,7 @@ public class CaptchaService {
     }
 
     private JSONObject postAndParseJSON(URL url, String postData) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        var urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setDoOutput(true);
         urlConnection.setRequestMethod("POST");
         urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -66,7 +66,7 @@ public class CaptchaService {
      */
     public boolean verifyCaptcha(String captcha) throws IOException {
         boolean success;
-        JSONObject jsonObject = performRecaptchaSiteVerify(captcha);
+        var jsonObject = performRecaptchaSiteVerify(captcha);
         success = jsonObject.getBoolean("success");
         return success;
     }
