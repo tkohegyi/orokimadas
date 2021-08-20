@@ -21,7 +21,6 @@ import website.magyar.adoration.database.tables.AuditTrail;
 import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.database.tables.Social;
 import website.magyar.adoration.helper.EmailSender;
-import website.magyar.adoration.web.configuration.PropertyDto;
 import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
 import website.magyar.adoration.web.service.helper.Oauth2ServiceBase;
 import org.slf4j.Logger;

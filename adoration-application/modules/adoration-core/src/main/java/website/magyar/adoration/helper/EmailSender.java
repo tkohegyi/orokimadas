@@ -27,7 +27,7 @@ public class EmailSender {
     @Autowired
     private EmailConfigurationAccess emailConfigurationAccess;
 
-    private void sendProperMail(final String subject, final String text, final String to, final String cc, final String typeText) {
+    private void sendProperMail(final String subject, final String text, final String to, final String cc, final String bcc, final String typeText) {
         PropertyDto propertyDto = emailConfigurationAccess.getProperties();
         Properties prop = new Properties();
         prop.put("mail.smtp.host", propertyDto.getSmtpServer()); //optional, defined in SMTPTransport
@@ -44,7 +44,13 @@ public class EmailSender {
             // to
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
             // cc
-            msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
+            if (cc != null) {
+                msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
+            }
+            // bcc
+            if (bcc != null) {
+                msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(bcc, false));
+            }
             // subject
             msg.setSubject(subject);
             // content
@@ -72,11 +78,11 @@ public class EmailSender {
      */
     public void sendMailToAdministrator(final String subject, final String text) {
         PropertyDto propertyDto = emailConfigurationAccess.getProperties();
-        sendProperMail(subject, text, propertyDto.getEmailTo(), "", "to Administrator");
+        sendProperMail(subject, text, propertyDto.getEmailTo(), "", "","to Administrator");
     }
 
     /**
-     * Send a mail to a person + to Administrator in CC.
+     * Send a mail to a person + to Administrator in BCC.
      *
      * @param providedEmail is the email of the adorator (or any other user)
      * @param subject       is the subject of the mail
@@ -84,6 +90,6 @@ public class EmailSender {
      */
     public void sendMailFromSocialLogin(String providedEmail, String subject, String text) {
         PropertyDto propertyDto = emailConfigurationAccess.getProperties();
-        sendProperMail(subject, text, providedEmail, propertyDto.getEmailTo(), "to person logged-in first time");
+        sendProperMail(subject, text, providedEmail, "", propertyDto.getEmailTo(), "to person logged-in first time");
     }
 }

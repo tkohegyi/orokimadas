@@ -57,10 +57,21 @@ subprojects {
         maven { url "https://repo.maven.apache.org/maven2" }
     }
 
-    checkstyle.configFile = file("$rootProject.rootDir/config/checkstyle/checkstyle.xml")
-    checkstyle.configProperties = ['samedir' : "$rootProject.rootDir/config/checkstyle"]
-    checkstyle.toolVersion = '8.0'
+    // checkstyle settings
+    // general checkstyle availability:  https://checkstyle.sourceforge.io/releasenotes.html
+    // compatibility with sonar https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
+    checkstyle.toolVersion = '8.40'
     checkstyle.ignoreFailures = true
+    checkstyle.configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    checkstyle.configProperties = ['samedir' : "${rootDir}/config/checkstyle"]
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.required = false
+            html.required = true
+            html.stylesheet resources.text.fromFile("${rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl")
+        }
+    }
+
 
     subprojects {
         task allDeps(type: DependencyReportTask) {}
