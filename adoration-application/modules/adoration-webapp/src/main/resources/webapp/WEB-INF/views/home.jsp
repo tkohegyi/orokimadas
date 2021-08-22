@@ -92,15 +92,15 @@
             </tr>
             <tr>
                 <td />
-                <td>- A kápolnában elhelyezett jelentkezési lapokon, kitöltés után azt bedobva a piarista rendház postaládájába.</td>
+                <td><ex:i18n messageId="home.jsp.application.method2"/></td>
             </tr>
             <tr>
                 <td />
-                <td>- E-mailben erre a címre írva: <a href="mailto:prhvac@gmail.com">prhvac@gmail.com</a></td>
+                <td><ex:i18n messageId="home.jsp.application.method3"/></td>
             </tr>
             <tr>
                 <td />
-                <td>- A következő telefonszámok egyikén: <em>30-524-8291, 70-375-4140</em>.</td>
+                <td><ex:i18n messageId="home.jsp.application.method4"/></td>
             </tr>
         </table>
     </div>
@@ -108,20 +108,20 @@
         <br />
         <table aria-describedby="actualCoverage">
             <tr>
-                <th scope="col">Letölthető dokumentumok:</th>
+                <th scope="col"><ex:i18n messageId="home.jsp.documents.downloadable"/></th>
                 <th scope="col"></th>
             </tr>
             <tr>
                 <td />
-                <td>- <a href="/resources/img/BishopLetter-BeerM.pdf" target="new">dr. Beer Miklós püspök atya levele a regisztrált szentségimádókhoz</a></td>
+                <td><ex:i18n messageId="home.jsp.documents.downloadable.mail"/></td>
             </tr>
             <tr>
                 <td />
-                <td>- <a href="/resources/img/AlapvetoSzabalyok.pdf" target="new">Alapvető szabályok szentségimádók számára</a></td>
+                <td><ex:i18n messageId="home.jsp.documents.downloadable.rules"/></td>
             </tr>
             <tr>
                 <td />
-                <td>- <a href="/resources/img/AdatkezelesiSzabalyzat.pdf" target="new">Adatkezelési Szabályzat</a>.</td>
+                <td><ex:i18n messageId="home.jsp.documents.downloadable.data"/></td>
             </tr>
         </table>
     </div>

@@ -42,6 +42,8 @@ public class CurrentUserProvider {
      */
     public CurrentUserInformationJson getUserInformation(HttpSession httpSession) {
         var currentUserInformationJson = new CurrentUserInformationJson(); //default info - user not logged in
+        //even a not logged-in user needs language pack
+        currentUserInformationJson.fillLanguagePack(internationalization.getLanguagePack(currentUserInformationJson.languageCode));
 
         Authentication authentication = null;
         var securityContext = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
@@ -99,6 +101,7 @@ public class CurrentUserProvider {
         if (social != null) {
             currentUserInformationJson.fillIdentifiedSocialFields(social);
         }
+        currentUserInformationJson.fillLanguagePack(internationalization.getLanguagePack(currentUserInformationJson.languageCode));
         return currentUserInformationJson;
     }
 

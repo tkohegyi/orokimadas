@@ -5,7 +5,7 @@ function setupMenu() {
     $.get('/adoration/getLoggedInUserInfo', function(data) {
         loggedInUserInfo = data.loggedInUserInfo;
         if (loggedInUserInfo.isLoggedIn) {
-            $("#loggedInUserLegend").text("Belépve: " + loggedInUserInfo.loggedInUserName);
+            $("#loggedInUserLegend").text(loggedInUserInfo.languagePack["common.loggedInUserLegend"] + loggedInUserInfo.loggedInUserName);
             $("#nav-information").show();
             $("#nav-exit").show();
         } else {
@@ -28,8 +28,8 @@ function getReadableLanguageCode(code) {
     var z;
     switch (code) {
         case "hu": z = 'magyar'; break;
-        case "en": z = 'angol'; break;
-        case "it": z = 'olasz'; break;
+        case "en": z = 'English'; break;
+        case "it": z = 'Italiano'; break;
         case "es": z = 'spanyol'; break;
         case "fr": z = 'francia'; break;
         case "ge": z = 'német'; break;
@@ -60,7 +60,7 @@ function getDayNameLocalized(hourId, dayNames) {
 }
 
 function getDayName(hourId) {
-    var dayNames = ['vasárnap', 'hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat']
+    var dayNames = [loggedInUserInfo.languagePack["common.dayName.sunday"], loggedInUserInfo.languagePack["common.dayName.monday"], loggedInUserInfo.languagePack["common.dayName.tuesday"], loggedInUserInfo.languagePack["common.dayName.wednesday"], loggedInUserInfo.languagePack["common.dayName.thursday"], loggedInUserInfo.languagePack["common.dayName.friday"], loggedInUserInfo.languagePack["common.dayName.saturday"]]
     var x = getDay(hourId);
     return dayNames[x];
 }

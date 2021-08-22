@@ -7,6 +7,8 @@ import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.database.tables.Social;
 import website.magyar.adoration.helper.JsonField;
 
+import java.util.HashMap;
+
 /**
  * Json structure to hold information about the actual user.
  */
@@ -43,6 +45,8 @@ public class CurrentUserInformationJson {
     public String socialServiceUsed;
     @JsonField
     public String adorationApplicationVersion;
+    @JsonField
+    public HashMap<String, String> languagePack;
 
     /**
      * Constructor - fills the json structure with default values.
@@ -68,6 +72,7 @@ public class CurrentUserInformationJson {
         isAdoratorAdmin = false;
         socialServiceUsed = "Undetermined";
         adorationApplicationVersion = "Örökimádás applikáció - ismeretlen verzió.";
+        languagePack = null;
     }
 
     public boolean isPrivilegedUser() {
@@ -115,5 +120,9 @@ public class CurrentUserInformationJson {
      */
     public void fillApplicationVersion(final String adorationApplicationVersion) {
         this.adorationApplicationVersion = adorationApplicationVersion;
+    }
+
+    public void fillLanguagePack(HashMap<String, String> languagePack) {
+        this.languagePack = languagePack;
     }
 }

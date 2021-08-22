@@ -5,12 +5,16 @@ import org.springframework.stereotype.Component;
 import website.magyar.adoration.exception.SystemException;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @Component
 public class Internationalization {
 
     @Autowired
     private LangProperties langProperties;
+
+    private static HashMap<String,String> languagePackHu = null;
+    private static HashMap<String,String> languagePackEn = null;
 
     /**
      * Set language information if it is not-yet set for the session.
@@ -28,4 +32,15 @@ public class Internationalization {
         }
     }
 
+    public HashMap<String,String> getLanguagePack(String languageCode) {
+        if (languagePackHu == null) { //load the lang pack only one time
+            languagePackHu = langProperties.getWebStrings("hu");
+            languagePackEn = langProperties.getWebStrings("en");
+        }
+        HashMap<String,String> langPack = languagePackHu; //default
+        if (languageCode.equals("en")) {
+            langPack = languagePackEn;
+        }
+        return langPack;
+    }
 }
