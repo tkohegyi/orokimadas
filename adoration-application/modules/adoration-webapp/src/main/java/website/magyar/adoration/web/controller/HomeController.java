@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 /**
  * Controller for handling requests for the application home page.
@@ -53,7 +54,8 @@ public class HomeController extends ControllerBase {
      * @return with proper content
      */
     @GetMapping(value = "/adoration/")
-    public String realHome() {
+    public String realHome(HttpSession httpSession) {
+        currentUserProvider.setLanguage(httpSession);
         return "home";
     }
 
@@ -114,7 +116,8 @@ public class HomeController extends ControllerBase {
      * @return with proper content
      */
     @RequestMapping(value = "/adoration/e404", method = {RequestMethod.GET, RequestMethod.POST})
-    public String e404(HttpServletRequest httpServletRequest) {
+    public String e404(HttpSession httpSession, HttpServletRequest httpServletRequest) {
+        currentUserProvider.setLanguage(httpSession);
         var originalUri = "unknown";
         if (httpServletRequest instanceof Request) {
             originalUri = ((Request) httpServletRequest).getOriginalURI();
@@ -131,7 +134,8 @@ public class HomeController extends ControllerBase {
      * @return with proper content
      */
     @RequestMapping(value = "/adoration/e500", method = {RequestMethod.GET, RequestMethod.POST})
-    public String e500(HttpServletRequest httpServletRequest) {
+    public String e500(HttpSession httpSession, HttpServletRequest httpServletRequest) {
+        currentUserProvider.setLanguage(httpSession);
         var originalUri = "unknown";
         if (httpServletRequest instanceof Request) {
             originalUri = ((Request) httpServletRequest).getOriginalURI();

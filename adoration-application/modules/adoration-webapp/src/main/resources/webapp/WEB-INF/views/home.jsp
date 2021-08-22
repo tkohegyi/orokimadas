@@ -1,4 +1,5 @@
 ﻿<%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -16,7 +17,7 @@
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
 <script src="/resources/js/external/jquery-3.4.1.js"></script>
 <script src="/resources/js/external/bootstrap-4.3.1.min.js"></script>
-<title>Örökimádás - Vác</title>
+<title><ex:i18n messageId="home.jsp.title"/></title>
 <link href="/resources/css/external/bootstrap-4.3.1.min.css" rel="stylesheet" media="screen">
 <link href="/resources/css/menu.css" rel="stylesheet" media="screen">
 <link href="/resources/css/coverageBar.css" rel="stylesheet" media="screen">
@@ -29,13 +30,13 @@
 
     <div class="centerwidediv" style="text-align: center">
         <br />
-        <img alt="Örökimádás" src="/resources/img/topimage3.jpg" style="width:100%; max-width:635px">
+        <img alt="<ex:i18n messageId="home.jsp.altImage"/>" src="/resources/img/topimage3.jpg" style="width:100%; max-width:635px">
     </div>
 
     <fieldset class="form-horizontal" id="actualCoverage">
-        <legend class="message-legend h4">Az órák aktuális fedettsége
+        <legend class="message-legend h4"><ex:i18n messageId="home.jsp.actualCoverage.legend"/>
             <span style="float: right">
-                <button id="uniqueRegister" style="display:none; vertical-align: super" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#oneTimeModal" onclick="registerOneTimeSetup()">Jelentkezés helyettesítésre...</button>
+                <button id="uniqueRegister" style="display:none; vertical-align: super" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#oneTimeModal" onclick="registerOneTimeSetup()"><ex:i18n messageId="home.jsp.uniqueRegister"/></button>
             </span>
         </legend>
         <div class="control-group">
@@ -48,33 +49,32 @@
 		<br />
 		<table aria-describedby="actualCoverage">
 			<tr>
-				<th scope="col">Jelmagyarázat:</th>
+				<th scope="col"><ex:i18n messageId="home.jsp.explanation"/></th>
 				<th scope="col"></th>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;" class="veryBadCoverage textRight">2 - Piros&nbsp;</td>
-				<td style="padding-left:4px">színűek azok az órák, amelyekben a jelentkezőkre leginkább szükség van. Ezért, ha teheted, jelentkezz a pirossal jelölt órák valamelyikére.</td>
+				<td style="vertical-align:middle;" class="veryBadCoverage textRight"><ex:i18n messageId="home.jsp.explanation.two"/></td>
+				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.two.text"/></td>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;" class="badCoverage textRight">1 - Sárga&nbsp;</td>
-				<td style="padding-left:4px">színűek azok az órák, amelyekben az Örökimádás folyamatos, de nem megfelelően biztosított -
-					ezekre az időpontokra is örömmel várunk még jelentkezőket.</td>
+				<td style="vertical-align:middle;" class="badCoverage textRight"><ex:i18n messageId="home.jsp.explanation.one"/></td>
+				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.one.text"/></td>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;" class="goodCoverage textRight">Zöld&nbsp;</td>
-				<td style="padding-left:4px">színűek azok az órák, amelyekben az Örökimádás folytonossága megfelelően biztosított. Természetesen ezekre az órákra is lehet még jelentkezni.</td>
+				<td style="vertical-align:middle;" class="goodCoverage textRight"><ex:i18n messageId="home.jsp.explanation.green"/></td>
+				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.green.text"/></td>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;" class="onlineAdorator textRight">Kék keret&nbsp;&nbsp;</td>
-				<td style="padding-left:4px">-tel rendelkeznek azok az órák, amelyekben Online módon is biztosítva van az Örökimádás. Online adorálásra az ország azaz a világ bármely pontjáról lehet jelentkezni, illetve azon idősebb vagy beteg testvéreinknek is ezt a módot ajánljuk, akik személyesen nem tudják felkeresni a kápolnát.</td>
+				<td style="vertical-align:middle;" class="onlineAdorator textRight"><ex:i18n messageId="home.jsp.explanation.blue.frame"/></td>
+				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.blue.frame.text"/></td>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;" class="lowPriorityColumn textRight">Szürke&nbsp;&nbsp;</td>
-				<td style="padding-left:4px">színűek azok az órák, amelyekben a kápolnában ideiglenesen szünetel az Örökimádás. Ezeknél az óráknál csak Online adorálásra van lehetőség, így javasoljuk, hogy válassza azt.</td>
+				<td style="vertical-align:middle;" class="lowPriorityColumn textRight"><ex:i18n messageId="home.jsp.explanation.gray"/></td>
+				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.gray.text"/></td>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;background-color:#60ABF3" class="textRight" >Kék&nbsp;&nbsp;</td>
-				<td style="padding-left:4px">színűek azok az órák, amelyekben a kápolnában ideiglenesen szünetel az Örökimádás, de van bejegyzett Online adoráló, aki távolról végzi az Örökimádást.</td>
+				<td style="vertical-align:middle;background-color:#60ABF3" class="textRight" ><ex:i18n messageId="home.jsp.explanation.blue"/></td>
+				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.blue.text"/></td>
 			</tr>
 		</table>
 		<br />
@@ -83,12 +83,12 @@
     <div class="centerwidediv">
         <table aria-describedby="actualCoverage">
             <tr>
-                <th scope="col">Jelentkezni lehet:</th>
+                <th scope="col"><ex:i18n messageId="home.jsp.application.intro"/></th>
                 <th scope="col"></th>
             </tr>
             <tr>
                 <td />
-                <td>- Közvetlenül, ezen az oldalon: <a href="/adoration/adorRegistration" target="_self">Jelentkezés örökimádásra</a>.</td>
+                <td><ex:i18n messageId="home.jsp.application.method1"/></td>
             </tr>
             <tr>
                 <td />

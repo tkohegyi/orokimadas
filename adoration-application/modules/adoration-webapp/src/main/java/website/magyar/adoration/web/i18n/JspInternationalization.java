@@ -1,0 +1,50 @@
+package website.magyar.adoration.web.i18n;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+import java.io.IOException;
+
+public class JspInternationalization extends SimpleTagSupport {
+    private final Logger logger = LoggerFactory.getLogger(JspInternationalization.class);
+
+    private String messageId;
+    public void setMessageId(String msg) {
+        this.messageId = msg;
+    }
+
+    /**
+     * Gets language specific text.
+     * There are 2 language specific attribute in the session:
+     * - 1. "lang" attribute which is a String, and may be "en" or "hu" - the later one is the default
+     * - 2. "lang2" attribute is an Environment object, and contains the property data that first to the language code
+     * In this method only the second one is in use.
+     *
+     * @throws JspException if something goes wrong
+     * @throws IOException if something goes wrong
+     */
+    public void doTag() throws JspException, IOException {
+        String text = null;
+        String lang = (String)getJspContext().getAttribute("lang", PageContext.SESSION_SCOPE);
+        Environment environment = (Environment)getJspContext().getAttribute("lang2", PageContext.SESSION_SCOPE);
+        if (environment != null && lang != null) {
+            text = environment.getProperty(lang + messageId);
+        } else {
+            logger.warn("Language not set for session!");
+        }
+        if (lang == null) {
+            lang = "lang-missing.";
+        }
+        if (text == null) {
+            text = "LanguageError - " + lang + messageId;
+            logger.warn(text);
+        }
+        JspWriter out = getJspContext().getOut();
+        out.print(text);
+    }
+}

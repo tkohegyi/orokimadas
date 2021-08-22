@@ -93,6 +93,7 @@ public class CurrentUserInformationJson {
         isRegisteredAdorator = AdoratorStatusTypes.getRegisteredAdoratorSet().contains(status);
         isPrivilegedAdorator = AdoratorStatusTypes.getLeadersSet().contains(status) || coordinatorId > -1;
         isAdoratorAdmin = AdoratorStatusTypes.getAdminsSet().contains(status);
+        languageCode = person.getLanguageCode();
     }
 
     /**

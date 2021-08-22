@@ -18,7 +18,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import website.magyar.adoration.web.service.ServerException;
 import org.springframework.http.HttpStatus;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,9 +3,9 @@ package website.magyar.adoration.web.provider;
 import website.magyar.adoration.database.business.BusinessWithAuditTrail;
 import website.magyar.adoration.database.business.BusinessWithCoordinator;
 import website.magyar.adoration.database.tables.AuditTrail;
-import website.magyar.adoration.database.tables.Coordinator;
 import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.database.tables.Social;
+import website.magyar.adoration.web.i18n.Internationalization;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.service.AuthenticatedUser;
 import website.magyar.adoration.web.service.FacebookUser;
@@ -32,6 +32,8 @@ public class CurrentUserProvider {
     @Autowired
     private BusinessWithCoordinator businessWithCoordinator;
 
+    @Autowired
+    private Internationalization internationalization;
     /**
      * Get information about the actual user.
      *
@@ -136,6 +138,7 @@ public class CurrentUserProvider {
      */
     public void registerLogin(HttpSession httpSession, final String oauth2ServiceName) {
         var currentUserInformationJson = getUserInformation(httpSession);
+        internationalization.setLanguage(httpSession, currentUserInformationJson.languageCode);
         var data = oauth2ServiceName;
         long socialId = 0;
         if (currentUserInformationJson.socialId != null) {
@@ -165,5 +168,10 @@ public class CurrentUserProvider {
         var auditTrail = businessWithAuditTrail.prepareAuditTrail(socialId,
                 currentUserInformationJson.userName, "Logout", "User logged out: " + currentUserInformationJson.userName, data);
         businessWithAuditTrail.saveAuditTrailSafe(auditTrail);
+    }
+
+    public void setLanguage(HttpSession httpSession) {
+        var currentUserInformationJson = getUserInformation(httpSession);
+        internationalization.setLanguage(httpSession, currentUserInformationJson.languageCode);
     }
 }

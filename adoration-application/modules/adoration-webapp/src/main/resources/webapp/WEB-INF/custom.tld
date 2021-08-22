@@ -1,0 +1,15 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>Common WM TLD</short-name>
+    <tag>
+        <name>i18n</name>
+        <tag-class>website.magyar.adoration.web.i18n.JspInternationalization</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Id key of the message to load based on the locale info of the user.</description>
+            <name>messageId</name>
+            <required>true</required>
+        </attribute>
+    </tag>
+</taglib>

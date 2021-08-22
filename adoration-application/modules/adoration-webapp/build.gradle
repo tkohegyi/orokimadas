@@ -25,9 +25,7 @@ dependencies {
     implementation(group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: "${springFrameworkVersion}")
     implementation(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.4')
     implementation(group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.5.1.RELEASE')
-//    implementation(group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.3.6.RELEASE')
     implementation 'com.google.apis:google-api-services-oauth2:v1-rev160-1.25.0'
-//    implementation 'com.google.apis:google-api-services-oauth2:v1-rev155-1.25.0'
     implementation 'org.springframework.social:spring-social-facebook:2.0.3.RELEASE'
     implementation "$javaxAnnotationApi"
     implementation group: 'com.jcabi', name: 'jcabi-manifests', version: '1.1'

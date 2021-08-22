@@ -17,10 +17,13 @@ import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link HomeController} class.
@@ -42,14 +45,13 @@ public class HomeControllerTest {
     @Mock
     private HttpServletRequest httpServletRequest;
     @Mock
+    private HttpSession httpSession;
+    @Mock
     private Logger logger;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "currentUserProvider", currentUserProvider);
-        Whitebox.setInternalState(underTest, "coverageProvider", coverageProvider);
-        Whitebox.setInternalState(underTest, "webAppConfigurationAccess", webAppConfigurationAccess);
         Whitebox.setInternalState(underTest, "logger", logger);
         doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(null);
     }
@@ -66,8 +68,9 @@ public class HomeControllerTest {
     @Test
     public void realHome() {
         //given - no precondition
+        when(httpSession.getAttribute(anyString())).thenReturn("hu");
         //when
-        String result = underTest.realHome();
+        String result = underTest.realHome(httpSession);
         // then
         assertEquals("home", result);
     }
@@ -123,7 +126,7 @@ public class HomeControllerTest {
         doReturn("A").when(httpServletRequest).getRemoteHost();
         doReturn("C").when(httpServletRequest).getMethod();
         //when
-        String result = underTest.e404(httpServletRequest);
+        String result = underTest.e404(httpSession, httpServletRequest);
         // then
         assertEquals("E404", result);
         verify(logger).info("E404 caused by: {}, method: {}, URI: {}", "A", "C", "unknown");
@@ -135,7 +138,7 @@ public class HomeControllerTest {
         doReturn("A").when(httpServletRequest).getRemoteHost();
         doReturn("C").when(httpServletRequest).getMethod();
         //when
-        String result = underTest.e500(httpServletRequest);
+        String result = underTest.e500(httpSession, httpServletRequest);
         // then
         assertEquals("E404", result);
         verify(logger).info("E500 caused by: {}, method: {}, URI: {}", "A", "C", "unknown");
