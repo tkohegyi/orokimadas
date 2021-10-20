@@ -1,6 +1,5 @@
 package website.magyar.adoration.web.service;
 
-import website.magyar.adoration.database.tables.Social;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

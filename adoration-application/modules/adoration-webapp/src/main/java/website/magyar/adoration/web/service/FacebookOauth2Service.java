@@ -219,14 +219,14 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
                 text += "\n\nMivel már regisztálva vagy, bártan használd a weboldal szolgáltatásait.";
 
             } else { //person not detected
-                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért " +
-                        "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
-                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen." +
-                        " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
+                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért "
+                        + "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
+                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen."
+                        + " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
             }
             text += "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
             //send feedback mail to the registered user
-            emailSender.sendMailFromSocialLogin(social.getGoogleEmail(), "Belépés az Örökimádás weboldalán Facebook azonosítóval", text);
+            emailSender.sendMailFromSocialLogin(social.getFacebookEmail(), "Belépés az Örökimádás weboldalán Facebook azonosítóval", text);
             id = businessWithSocial.newSocial(social, auditTrail);
             social.setId(id); //Social object is ready
         } else {

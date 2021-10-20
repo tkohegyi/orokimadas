@@ -9,7 +9,6 @@ import website.magyar.adoration.database.business.helper.enums.AdorationMethodTy
 import website.magyar.adoration.database.business.helper.enums.TranslatorDayNames;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 import website.magyar.adoration.database.tables.Link;
-import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.json.DeleteEntityJson;
 import website.magyar.adoration.web.json.LinkJson;
@@ -24,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
