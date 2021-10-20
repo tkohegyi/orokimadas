@@ -7,6 +7,7 @@ public class DummyTestObject {
 
     /**
      * Just a simple accessible method.
+     *
      * @return always true
      */
     public boolean getTrue() {
