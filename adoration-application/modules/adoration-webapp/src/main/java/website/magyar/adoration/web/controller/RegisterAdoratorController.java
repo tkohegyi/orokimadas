@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -39,8 +38,8 @@ public class RegisterAdoratorController extends ControllerBase {
      * @return the name of the adorRegistration jsp file
      */
     @GetMapping(value = "/adoration/adorRegistration")
-    public String adorRegistration(HttpSession httpSession,
-                                   HttpServletResponse httpServletResponse) {
+    public String adorRegistration(HttpSession httpSession) {
+        currentUserProvider.setLanguage(httpSession);
         return "adorRegistration";
     }
 

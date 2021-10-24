@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -42,7 +43,8 @@ public class JspInternationalization extends SimpleTagSupport {
         }
         if (text == null) {
             text = "LanguageError - " + lang + messageId;
-            logger.warn(text);
+            String usedJsp = ((HttpServletRequest) ((PageContext)getJspContext()).getRequest()).getRequestURI();
+            logger.warn("{} - path:{}", text, usedJsp);
         }
         JspWriter out = getJspContext().getOut();
         out.print(text);

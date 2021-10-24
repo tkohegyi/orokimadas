@@ -39,7 +39,8 @@ public class LiveController extends ControllerBase {
      * @return with proper content
      */
     @GetMapping(value = "/adorationSecure/live")
-    public String live() {
+    public String live(HttpSession httpSession) {
+        currentUserProvider.setLanguage(httpSession);
         return "live";
     }
 

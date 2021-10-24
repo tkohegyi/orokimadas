@@ -51,7 +51,8 @@ public class LoginController {
      * @return the name of the jsp to display as result
      */
     @GetMapping(value = "/adoration/login")
-    public String showLoginPage(@RequestParam(value = "result", defaultValue = "") final String result) {
+    public String showLoginPage(HttpSession httpSession, @RequestParam(value = "result", defaultValue = "") final String result) {
+        currentUserProvider.setLanguage(httpSession);
         if (result.length() == 0) {
             return LOGIN_PAGE;
         }
