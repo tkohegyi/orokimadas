@@ -1,18 +1,26 @@
 package website.magyar.adoration.web.json;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import website.magyar.adoration.database.business.BusinessWithLink;
 import website.magyar.adoration.database.business.helper.enums.AdoratorStatusTypes;
+import website.magyar.adoration.database.business.helper.enums.TranslatorDayNames;
 import website.magyar.adoration.database.tables.Coordinator;
 import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.database.tables.Social;
 import website.magyar.adoration.helper.JsonField;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Json structure to hold information about the actual user.
  */
 public class CurrentUserInformationJson {
+
+    private static final String EMPTY_STRING = "";
+    private final Logger logger = LoggerFactory.getLogger(CurrentUserInformationJson.class);
+
     @JsonField
     public boolean isLoggedIn;
     @JsonField
@@ -124,5 +132,41 @@ public class CurrentUserInformationJson {
 
     public void fillLanguagePack(HashMap<String, String> languagePack) {
         this.languagePack = languagePack;
+    }
+
+    /**
+     * Loads user language dependant web.[lang].[messageId] string.
+     *
+     * @param messageId is the id of the language dependent text.
+     *
+     * @return with the text
+     */
+    public String getLanguageString(String messageId) {
+        String text;
+        if (languageCode != null) {
+            text = languagePack.get(messageId);
+            if (text == null) {
+                text = EMPTY_STRING;
+                logger.warn("Cannot load user dependent language text. MessageId:{}", messageId);
+            }
+        } else {
+            text = EMPTY_STRING;
+            logger.warn("LanguagePack is missing for user: {}", userName);
+        }
+        return text;
+    }
+
+    /**
+     * Return map of day names in user language.
+     *
+     * @return with the map.
+     */
+    public Map<Integer, String> getUserDayNames() {
+        Map<Integer, String> dayNames = new HashMap<>();
+        for (TranslatorDayNames dayName : TranslatorDayNames.values()) {
+            String value = getLanguageString("common.day." + dayName.getDayValue().toString());
+            dayNames.put(dayName.getDayValue(), value);
+        }
+        return dayNames;
     }
 }

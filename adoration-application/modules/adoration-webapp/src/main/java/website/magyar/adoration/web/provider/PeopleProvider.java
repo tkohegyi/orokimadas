@@ -5,15 +5,12 @@ import website.magyar.adoration.database.business.BusinessWithLink;
 import website.magyar.adoration.database.business.BusinessWithNextGeneralKey;
 import website.magyar.adoration.database.business.BusinessWithPerson;
 import website.magyar.adoration.database.business.BusinessWithSocial;
-import website.magyar.adoration.database.business.BusinessWithTranslator;
 import website.magyar.adoration.database.business.helper.DateTimeConverter;
 import website.magyar.adoration.database.business.helper.enums.AdoratorStatusTypes;
-import website.magyar.adoration.database.business.helper.enums.TranslatorDayNames;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 import website.magyar.adoration.database.tables.AuditTrail;
 import website.magyar.adoration.database.tables.Link;
 import website.magyar.adoration.database.tables.Person;
-import website.magyar.adoration.database.tables.Social;
 import website.magyar.adoration.helper.EmailSender;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.json.DeleteEntityJson;
@@ -30,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,8 +53,6 @@ public class PeopleProvider extends ProviderBase {
     private BusinessWithLink businessWithLink;
     @Autowired
     private BusinessWithSocial businessWithSocial;
-    @Autowired
-    private BusinessWithTranslator businessWithTranslator;
     @Autowired
     private EmailSender emailSender;
 
@@ -376,12 +370,7 @@ public class PeopleProvider extends ProviderBase {
         linkJson.linkList = linkList;
         linkJson.relatedPersonList = personList;
         //fill the day names
-        linkJson.dayNames = new HashMap<>();
-        for (var dayName : TranslatorDayNames.values()) {
-            var textId = dayName.toString();
-            var value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
-            linkJson.dayNames.put(dayName.getDayValue(), value);
-        }
+        linkJson.dayNames = currentUserInformationJson.getUserDayNames();
         return linkJson;
     }
 

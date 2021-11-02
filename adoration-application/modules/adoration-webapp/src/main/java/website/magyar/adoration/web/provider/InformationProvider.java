@@ -3,14 +3,10 @@ package website.magyar.adoration.web.provider;
 import website.magyar.adoration.database.business.BusinessWithLink;
 import website.magyar.adoration.database.business.BusinessWithPerson;
 import website.magyar.adoration.database.business.BusinessWithSocial;
-import website.magyar.adoration.database.business.BusinessWithTranslator;
 import website.magyar.adoration.database.business.helper.enums.AdorationMethodTypes;
 import website.magyar.adoration.database.business.helper.enums.AdoratorStatusTypes;
 import website.magyar.adoration.database.business.helper.enums.SocialStatusTypes;
-import website.magyar.adoration.database.business.helper.enums.TranslatorDayNames;
 import website.magyar.adoration.database.tables.Link;
-import website.magyar.adoration.database.tables.Person;
-import website.magyar.adoration.database.tables.Social;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.json.GuestInformationJson;
 import website.magyar.adoration.web.json.InformationJson;
@@ -21,9 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -42,8 +36,6 @@ public class InformationProvider {
     private BusinessWithSocial businessWithSocial;
     @Autowired
     private BusinessWithLink businessWithLink;
-    @Autowired
-    private BusinessWithTranslator businessWithTranslator;
     @Autowired
     private CoordinatorProvider coordinatorProvider;
 
@@ -82,13 +74,7 @@ public class InformationProvider {
             informationJson.futureHourList = businessWithLink.getLinksOfHour((hourId + 1) % (Link.MAX_HOUR + 1));
             fillRelatedPersonIds(informationJson, currentUserInformationJson.isPrivilegedUser());
             //fill the day names first
-            informationJson.dayNames = new HashMap<>();
-            for (TranslatorDayNames dayName : TranslatorDayNames.values()) {
-                String textId = dayName.toString();
-                String value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
-                informationJson.dayNames.put(dayName.getDayValue(), value);
-            }
-
+            informationJson.dayNames = currentUserInformationJson.getUserDayNames();
         }
         return informationJson;
     }

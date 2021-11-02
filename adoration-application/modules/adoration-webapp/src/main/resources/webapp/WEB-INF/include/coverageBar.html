@@ -2,7 +2,7 @@
 <div class="container textWebkitCenter" id="horizontalCoverage">
     <table class="coverageTable" role="presentation">
         <tbody>
-        <tr><td/><td colspan="3"/><td class="textCenter topHours" colspan="24">Órák</td></tr>
+        <tr><td/><td colspan="3"/><td class="textCenter topHours" colspan="24"><ex:i18n messageId="coverageBar.html.hours"/></td></tr>
         <tr><td/><td colspan="3"/>
             <td class="coverageHour lowPriorityColumn">0</td>
             <td class="coverageHour lowPriorityColumn">1</td>
@@ -28,8 +28,8 @@
             <td class="coverageHour lowPriorityColumn">21</td>
             <td class="coverageHour lowPriorityColumn">22</td>
             <td class="coverageHour lowPriorityColumn">23</td></tr>
-        <tr><td class="coverageDaysLeftSide centerText rotated" rowspan="7"><p>Napok</p></td>
-            <td id="sunday" colspan="3" class="coverageDay dayName">.</td>
+        <tr><td class="coverageDaysLeftSide centerText rotated" rowspan="7"><p><ex:i18n messageId="coverageBar.html.days"/></p></td>
+            <td id="sunday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.0"/></td>
             <td id="hour-0" class="coverageHour lowPriority" onClick="coverageClick(0)">.</td>
             <td id="hour-1" class="coverageHour lowPriority" onClick="coverageClick(1)">.</td>
             <td id="hour-2" class="coverageHour lowPriority" onClick="coverageClick(2)">.</td>
@@ -57,7 +57,7 @@
             <td id="hour-23" class="coverageHour lowPriority" onClick="coverageClick(23)">.</td>
         </tr>
         <tr>
-            <td id="monday" colspan="3" class="coverageDay dayName">.</td>
+            <td id="monday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.1"/></td>
             <td id="hour-24" class="coverageHour lowPriority" onClick="coverageClick(24)">.</td>
             <td id="hour-25" class="coverageHour lowPriority" onClick="coverageClick(25)">.</td>
             <td id="hour-26" class="coverageHour lowPriority" onClick="coverageClick(26)">.</td>
@@ -84,7 +84,7 @@
             <td id="hour-47" class="coverageHour lowPriority" onClick="coverageClick(47)">.</td>
         </tr>
         <tr>
-            <td id="tuesday" colspan="3" class="coverageDay dayName">.</td>
+            <td id="tuesday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.2"/></td>
             <td id="hour-48" class="coverageHour lowPriority" onClick="coverageClick(48)">.</td>
             <td id="hour-49" class="coverageHour lowPriority" onClick="coverageClick(49)">.</td>
             <td id="hour-50" class="coverageHour lowPriority" onClick="coverageClick(50)">.</td>
@@ -111,7 +111,7 @@
             <td id="hour-71" class="coverageHour lowPriority" onClick="coverageClick(71)">.</td>
         </tr>
         <tr>
-            <td id="wednesday" colspan="3" class="coverageDay dayName">.</td>
+            <td id="wednesday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.3"/></td>
             <td id="hour-72" class="coverageHour lowPriority" onClick="coverageClick(72)">.</td>
             <td id="hour-73" class="coverageHour lowPriority" onClick="coverageClick(73)">.</td>
             <td id="hour-74" class="coverageHour lowPriority" onClick="coverageClick(74)">.</td>
@@ -138,7 +138,7 @@
             <td id="hour-95" class="coverageHour lowPriority" onClick="coverageClick(95)">.</td>
         </tr>
         <tr>
-            <td id="thursday" colspan="3" class="coverageDay dayName">.</td>
+            <td id="thursday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.4"/></td>
             <td id="hour-96" class="coverageHour lowPriority" onClick="coverageClick(96)">.</td>
             <td id="hour-97" class="coverageHour lowPriority" onClick="coverageClick(97)">.</td>
             <td id="hour-98" class="coverageHour lowPriority" onClick="coverageClick(98)">.</td>
@@ -165,7 +165,7 @@
             <td id="hour-119" class="coverageHour lowPriority" onClick="coverageClick(119)">.</td>
         </tr>
         <tr>
-            <td id="friday" colspan="3" class="coverageDay dayName">.</td>
+            <td id="friday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.5"/></td>
             <td id="hour-120" class="coverageHour lowPriority" onClick="coverageClick(120)">.</td>
             <td id="hour-121" class="coverageHour lowPriority" onClick="coverageClick(121)">.</td>
             <td id="hour-122" class="coverageHour lowPriority" onClick="coverageClick(122)">.</td>
@@ -192,7 +192,7 @@
             <td id="hour-143" class="coverageHour lowPriority" onClick="coverageClick(143)">.</td>
         </tr>
         <tr>
-            <td id="saturday" colspan="3" class="coverageDay dayName">.</td>
+            <td id="saturday" colspan="3" class="coverageDay dayName"><ex:i18n messageId="coverageBar.html.day.6"/></td>
             <td id="hour-144" class="coverageHour lowPriority" onClick="coverageClick(144)">.</td>
             <td id="hour-145" class="coverageHour lowPriority" onClick="coverageClick(145)">.</td>
             <td id="hour-146" class="coverageHour lowPriority" onClick="coverageClick(146)">.</td>
@@ -218,7 +218,7 @@
             <td id="hour-166" class="coverageHour lowPriority" onClick="coverageClick(166)">.</td>
             <td id="hour-167" class="coverageHour lowPriority" onClick="coverageClick(167)">.</td>
         </tr>
-        <tr><td/><td colspan="3"/><td class="coverageQuarter" colspan="6">Hajnal</td><td class="coverageQuarter" colspan="6">Délelőtt</td><td class="coverageQuarter" colspan="6">Délután</td><td class="coverageQuarter" colspan="6">Este</td></tr>
+        <tr><td/><td colspan="3"/><td class="coverageQuarter" colspan="6"><ex:i18n messageId="coverageBar.html.q1"/></td><td class="coverageQuarter" colspan="6"><ex:i18n messageId="coverageBar.html.q2"/></td><td class="coverageQuarter" colspan="6"><ex:i18n messageId="coverageBar.html.q3"/></td><td class="coverageQuarter" colspan="6"><ex:i18n messageId="coverageBar.html.q4"/></td></tr>
         </tbody>
     </table>
 </div>

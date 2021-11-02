@@ -45,8 +45,6 @@ public class WebAppConfigurationAccess implements ConfigurationAccessBase {
         String manifestVersion = Manifests.read("AdorationApplication-Version");
         if (manifestVersion == null || manifestVersion.length() == 0) {
             manifestVersion = "???";
-        } else {
-            manifestVersion = "Örökimádás applikáció - " + manifestVersion;
         }
         properties = new PropertyDto(googleClientId, googleClientSecret, googleRedirectUrl, baseUrl,
                 facebookAppId, facebookAppSecret, sessionTimeout,

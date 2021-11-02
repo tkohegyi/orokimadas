@@ -42,7 +42,6 @@
         <mapping class="website.magyar.adoration.database.tables.Person"/>
         <mapping class="website.magyar.adoration.database.tables.Coordinator"/>
         <mapping class="website.magyar.adoration.database.tables.Social"/>
-        <mapping class="website.magyar.adoration.database.tables.Translator"/>
         <mapping class="website.magyar.adoration.database.tables.Link"/>
         <mapping class="website.magyar.adoration.database.tables.AuditTrail"/>
 

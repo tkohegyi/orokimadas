@@ -23,8 +23,7 @@ public class JspInternationalization extends SimpleTagSupport {
      * Gets language specific text.
      * There are 2 language specific attribute in the session:
      * - 1. "lang" attribute which is a String, and may be "en" or "hu" - the later one is the default
-     * - 2. "lang2" attribute is an Environment object, and contains the property data that first to the language code
-     * In this method only the second one is in use.
+     * - 2. "lang2" attribute is an Environment object, and contains the property data that fits to the language code
      *
      * @throws JspException if something goes wrong
      * @throws IOException if something goes wrong
@@ -32,14 +31,16 @@ public class JspInternationalization extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         String text = null;
         String lang = (String)getJspContext().getAttribute("lang", PageContext.SESSION_SCOPE);
+        if (lang == null) {
+            lang = "hu";
+            getJspContext().setAttribute("lang", lang, PageContext.SESSION_SCOPE);
+            logger.warn("Language not set for session! Falling back to 'hu'.");
+        }
         Environment environment = (Environment)getJspContext().getAttribute("lang2", PageContext.SESSION_SCOPE);
-        if (environment != null && lang != null) {
+        if (environment != null) {
             text = environment.getProperty(lang + messageId);
         } else {
-            logger.warn("Language not set for session!");
-        }
-        if (lang == null) {
-            lang = "lang-missing.";
+            logger.warn("Environment was not set for session!");
         }
         if (text == null) {
             text = "LanguageError - " + lang + messageId;

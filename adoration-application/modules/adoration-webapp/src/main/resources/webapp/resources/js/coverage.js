@@ -41,6 +41,7 @@ function setupCoverage() {
         coverageAdoratorInfo = coverageInfo.adorators; //id - info pairs
         coverageDayNames = coverageInfo.dayNames; // eg FRIDAY: "péntek"
 
+/*
         var days = document.getElementsByClassName('dayName');
         for (var i = 0; i < days.length; ++i) {
             var item = days[i];
@@ -49,7 +50,7 @@ function setupCoverage() {
             let command = "item.textContent = coverageDayNames." + targetDayName;
             eval(command); //NOSONAR
         }
-
+*/
         for (i = 0; i < 168; i++) { //since we have 168 hours altogether
             item = $("#hour-" + i);
             var item2 = $("#hour-" + i + "-2");

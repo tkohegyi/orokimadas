@@ -1,8 +1,9 @@
 package website.magyar.adoration.web.i18n;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import website.magyar.adoration.exception.SystemException;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ public class Internationalization {
 
     @Autowired
     private LangProperties langProperties;
+
+    private final Logger logger = LoggerFactory.getLogger(Internationalization.class);
 
     private static HashMap<String,String> languagePackHu = null;
     private static HashMap<String,String> languagePackEn = null;
@@ -23,7 +26,8 @@ public class Internationalization {
      */
     public void setLanguage(HttpSession httpSession, String localeString) {
         if (!"hu".equals(localeString) && !"en".equals(localeString)) {
-            throw new SystemException("Incorrect setLanguage call - contact to maintainers.");
+            localeString = "hu";
+            logger.warn("Incorrect setLanguage call - falling back to 'hu' - contact to maintainers.");
         }
         httpSession.setAttribute("lang", "i18n." + localeString + ".");
         if (httpSession.getAttribute("lang2") == null) {

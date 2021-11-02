@@ -4,13 +4,11 @@ import website.magyar.adoration.database.business.BusinessWithAuditTrail;
 import website.magyar.adoration.database.business.BusinessWithLink;
 import website.magyar.adoration.database.business.BusinessWithNextGeneralKey;
 import website.magyar.adoration.database.business.BusinessWithPerson;
-import website.magyar.adoration.database.business.BusinessWithTranslator;
 import website.magyar.adoration.database.business.helper.enums.AdorationMethodTypes;
 import website.magyar.adoration.database.business.helper.enums.TranslatorDayNames;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 import website.magyar.adoration.database.tables.AuditTrail;
 import website.magyar.adoration.database.tables.Link;
-import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.web.json.CoverageInformationJson;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.json.DeleteEntityJson;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,8 +36,6 @@ public class CoverageProvider {
     private static final Integer MAX_PRIORITY = 25;
     private final Logger logger = LoggerFactory.getLogger(CoverageProvider.class);
 
-    @Autowired
-    private BusinessWithTranslator businessWithTranslator;
     @Autowired
     private BusinessWithLink businessWithLink;
     @Autowired
@@ -63,7 +58,7 @@ public class CoverageProvider {
         coverageInformationJson.dayNames = new HashMap<>();
         for (var dayName : TranslatorDayNames.values()) {
             var textId = dayName.toString();
-            var value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
+            var value = currentUserInformationJson.getLanguageString("common.day." + dayName.getDayValue().toString());
             coverageInformationJson.dayNames.put(textId.toLowerCase(), value);
         }
 
@@ -175,10 +170,10 @@ public class CoverageProvider {
      * Get person commitment information (the hours when the person performs adoration) as json object.
      *
      * @param id           identifies the person
-     * @param languageCode of the actual user
+     * @param currentUserInformationJson of the actual user
      * @return with the json object
      */
-    public Object getPersonCommitmentAsObject(Long id, String languageCode) {
+    public Object getPersonCommitmentAsObject(Long id, CurrentUserInformationJson currentUserInformationJson) {
         var personCommitmentJson = new PersonCommitmentJson();
         var linkList = businessWithLink.getLinkList();
         Set<Integer> committedHours = new HashSet<>();
@@ -197,7 +192,7 @@ public class CoverageProvider {
         }
         //fill dayNames since we need to decode it from hourId
         for (TranslatorDayNames dayName : TranslatorDayNames.values()) {
-            personCommitmentJson.dayNames.add(businessWithTranslator.getTranslatorValue(languageCode, dayName.toString(), "unknown"));
+            personCommitmentJson.dayNames.add(currentUserInformationJson.getLanguageString("common.day." + dayName.getDayValue().toString()));
         }
         return personCommitmentJson;
     }

@@ -129,7 +129,7 @@ public class AdoratorsController extends ControllerBase {
             //can get the person commitments
             try {
                 var id = Long.valueOf(requestedId);
-                var personCommitments = coverageProvider.getPersonCommitmentAsObject(id, getLanguageCode(currentUserProvider, httpSession));
+                var personCommitments = coverageProvider.getPersonCommitmentAsObject(id, currentUserProvider.getUserInformation(httpSession));
                 content = new TableDataInformationJson(personCommitments);
             } catch (NumberFormatException e) {
                 logger.warn("Rouge request to getPersonCommitments endpoint with bad id.");

@@ -10,7 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import website.magyar.adoration.database.business.BusinessWithCoordinator;
 import website.magyar.adoration.database.business.BusinessWithLink;
 import website.magyar.adoration.database.business.BusinessWithPerson;
-import website.magyar.adoration.database.business.BusinessWithTranslator;
 import website.magyar.adoration.database.business.helper.enums.AdorationMethodTypes;
 import website.magyar.adoration.database.business.helper.enums.AdoratorStatusTypes;
 import website.magyar.adoration.database.tables.Coordinator;
@@ -75,8 +74,6 @@ public class ExcelProvider {
     private CoverageProvider coverageProvider;
     @Autowired
     private CoordinatorProvider coordinatorProvider;
-    @Autowired
-    private BusinessWithTranslator businessWithTranslator;
 
     private Row getRow(Sheet sheet, int rowNo) {
         Row row = sheet.getRow(rowNo);
@@ -381,7 +378,7 @@ public class ExcelProvider {
     public void getExcelAdoratorInfo(CurrentUserInformationJson userInformation, ServletOutputStream outputStream) throws IOException {
         Workbook w = createInitialAdoratorInfoXls();
         if (userInformation.personId != null) {
-            updateAdoratorInfo(userInformation.personId, userInformation.languageCode, w);
+            updateAdoratorInfo(userInformation.personId, userInformation, w);
         }
         reCalculateAllExcelCells(w);
         w.write(outputStream);
@@ -392,7 +389,7 @@ public class ExcelProvider {
         return getSpecificXlsTemplate(propertyDto.getAdoratorInfoFileName());
     }
 
-    private void updateAdoratorInfo(Long personId, String languageCode, Workbook w) {
+    private void updateAdoratorInfo(Long personId, CurrentUserInformationJson currentUserInformationJson, Workbook w) {
         final String publicName = "Publikus";
         final String hiddenName = "Titkos";
         Sheet sheet = w.getSheet("Adoráló");
@@ -428,8 +425,7 @@ public class ExcelProvider {
             if (c.getPersonId() != null) {
                 Person coo = businessWithPerson.getPersonById(c.getPersonId());
                 if (coo != null) {
-                    String coordinatorText = businessWithTranslator.getTranslatorValue(languageCode,
-                            "COORDINATOR-" + c.getCoordinatorType().toString(), "N/A");
+                    String coordinatorText = currentUserInformationJson.getLanguageString("coordinator." + c.getCoordinatorType().toString());
                     setCellOnSheet(sheet, baseRow, 1, coordinatorText);
                     setCellOnSheet(sheet, baseRow, 3, getPersonNameInformation(coo));
                     setCellOnSheet(sheet, baseRow, 4, getPersonMobileAndEmailInformation(coo));

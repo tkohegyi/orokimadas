@@ -4,7 +4,6 @@ import website.magyar.adoration.database.business.BusinessWithAuditTrail;
 import website.magyar.adoration.database.business.BusinessWithCoordinator;
 import website.magyar.adoration.database.business.BusinessWithNextGeneralKey;
 import website.magyar.adoration.database.business.BusinessWithPerson;
-import website.magyar.adoration.database.business.BusinessWithTranslator;
 import website.magyar.adoration.database.business.helper.enums.CoordinatorTypes;
 import website.magyar.adoration.database.tables.AuditTrail;
 import website.magyar.adoration.database.tables.Coordinator;
@@ -40,15 +39,12 @@ public class CoordinatorProvider extends ProviderBase {
     private BusinessWithPerson businessWithPerson;
     @Autowired
     private BusinessWithNextGeneralKey businessWithNextGeneralKey;
-    @Autowired
-    private BusinessWithTranslator businessWithTranslator;
 
     private CoordinatorJson getCoordinatorJsonFromCoordinator(CurrentUserInformationJson currentUserInformationJson, Coordinator coordinator) {
         var coordinatorJson = new CoordinatorJson();
         coordinatorJson.id = coordinator.getId().toString();
         coordinatorJson.coordinatorType = coordinator.getCoordinatorType().toString();
-        coordinatorJson.coordinatorTypeText = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode,
-                "COORDINATOR-" + coordinatorJson.coordinatorType, "N/A");
+        coordinatorJson.coordinatorTypeText = currentUserInformationJson.getLanguageString("coordinator." + coordinatorJson.coordinatorType);
         if (coordinator.getPersonId() != null) {
             coordinatorJson.personId = coordinator.getPersonId().toString();
             Person p = businessWithPerson.getPersonById(coordinator.getPersonId());

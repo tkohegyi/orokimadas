@@ -3,10 +3,8 @@ package website.magyar.adoration.web.provider;
 import website.magyar.adoration.database.business.BusinessWithAuditTrail;
 import website.magyar.adoration.database.business.BusinessWithLink;
 import website.magyar.adoration.database.business.BusinessWithPerson;
-import website.magyar.adoration.database.business.BusinessWithTranslator;
 import website.magyar.adoration.database.business.helper.DateTimeConverter;
 import website.magyar.adoration.database.business.helper.enums.AdorationMethodTypes;
-import website.magyar.adoration.database.business.helper.enums.TranslatorDayNames;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 import website.magyar.adoration.database.tables.Link;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,8 +36,6 @@ public class LinkProvider extends ProviderBase {
     private BusinessWithPerson businessWithPerson;
     @Autowired
     private BusinessWithLink businessWithLink;
-    @Autowired
-    private BusinessWithTranslator businessWithTranslator;
     @Autowired
     private BusinessWithAuditTrail businessWithAuditTrail;
     @Autowired
@@ -75,12 +70,7 @@ public class LinkProvider extends ProviderBase {
         }
         linkJson.relatedPersonList = relatedPersonList;
         //fill the day names first
-        linkJson.dayNames = new HashMap<>();
-        for (var dayName : TranslatorDayNames.values()) {
-            var textId = dayName.toString();
-            var value = businessWithTranslator.getTranslatorValue(currentUserInformationJson.languageCode, textId, textId);
-            linkJson.dayNames.put(dayName.getDayValue(), value);
-        }
+        linkJson.dayNames = currentUserInformationJson.getUserDayNames();
         return linkJson;
     }
 

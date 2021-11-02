@@ -156,7 +156,8 @@ public class HomeController extends ControllerBase {
         ResponseEntity<String> result;
         var currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
         var applicationVersion = webAppConfigurationAccess.getProperties().getManifestVersion();
-        currentUserInformationJson.fillApplicationVersion(applicationVersion);
+        var applicationTitle = currentUserInformationJson.getLanguageString("common.application.version");
+        currentUserInformationJson.fillApplicationVersion( applicationTitle + applicationVersion);
         result = buildResponseBodyResult(JSON_LOGGED_IN_USER_INFO, currentUserInformationJson, HttpStatus.OK);
         return result;
     }
