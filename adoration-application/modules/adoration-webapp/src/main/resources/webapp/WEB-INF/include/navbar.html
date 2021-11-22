@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="navbar">
 		<div class="container">
-            <table class="fullWidth" role="presentation"><tbody><tr>
+            <table class="fullWidth" role="presentation"><tbody>
+            <tr>
                 <td class="textLeft">
     			<ul class="nav">
 	    			<li id="nav-home"><a class="menu-item-text" href="/adoration/"><ex:i18n messageId="navbar.html.nav-home"/></a></li>
@@ -17,8 +18,20 @@
                     <li id="loggedInUserLegend" style="color: #E05050"></li>
                     <li id="nav-login" style="display:none"><a class="menu-item-text" href="/adoration/login"><ex:i18n messageId="navbar.html.nav-login"/></a></li>
                     <li id="nav-exit" style="display:none"><a class="menu-item-text" href="/adorationSecure/exit"><ex:i18n messageId="navbar.html.nav-exit"/></a></li>
+                    <li id="nav-language"><a class="menu-item-text" onClick="toggleLanguageBar()"><img alt="Language selection" src="/resources/img/1-2-globe-transparent-thumb.png" style="max-width:27px"/></a></li>
                 </ul>
                 </td>
-            </tr></tbody></table>
+            </tr>
+            <tr id="languageBar" style="display:none">
+                <td colspan="2">
+                    <div class="centerDiv" style="padding-top:6px">
+                    <ul class="nav" style="width:fit-content">
+                        <li><a class="menu-item-text" onClick="setLanguage('hu')"><img style="padding:4px" alt="Magyar" src="/resources/img/hu.png">MAGYAR</img></a></li>
+                        <li><a class="menu-item-text" onClick="setLanguage('en')"><img style="padding:4px" alt="English" src="/resources/img/en.png"/>ENGLISH</a></li>
+                    </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody></table>
         </div>
 </div>

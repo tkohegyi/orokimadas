@@ -1,7 +1,10 @@
 package website.magyar.adoration.web.provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import website.magyar.adoration.database.business.BusinessWithAuditTrail;
 import website.magyar.adoration.database.business.BusinessWithCoordinator;
+import website.magyar.adoration.database.business.BusinessWithPerson;
 import website.magyar.adoration.database.tables.AuditTrail;
 import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.database.tables.Social;
@@ -17,6 +20,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 /**
@@ -25,6 +31,7 @@ import static org.springframework.security.web.context.HttpSessionSecurityContex
 @Component
 public class CurrentUserProvider {
     private static final String GUEST_NAME_INTRO = "Vend\u00e9g - ";
+    private final Logger logger = LoggerFactory.getLogger(CurrentUserProvider.class);
 
     @Autowired
     private BusinessWithAuditTrail businessWithAuditTrail;
@@ -34,6 +41,10 @@ public class CurrentUserProvider {
 
     @Autowired
     private Internationalization internationalization;
+
+    @Autowired
+    private BusinessWithPerson businessWithPerson;
+
     /**
      * Get information about the actual user.
      *
@@ -42,9 +53,8 @@ public class CurrentUserProvider {
      */
     public CurrentUserInformationJson getUserInformation(HttpSession httpSession) {
         var currentUserInformationJson = new CurrentUserInformationJson(); //default info - user not logged in
-        //even a not logged-in user needs language pack
+        currentUserInformationJson.languageCode = internationalization.detectLanguage(httpSession);
         currentUserInformationJson.fillLanguagePack(internationalization.getLanguagePack(currentUserInformationJson.languageCode));
-
         Authentication authentication = null;
         var securityContext = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
         if (securityContext != null) {
@@ -56,7 +66,7 @@ public class CurrentUserProvider {
                 var user = (AuthenticatedUser) principal;
                 if (user.isSessionValid()) {
                     user.extendSessionTimeout();
-                    currentUserInformationJson = getCurrentUserInformation(user);
+                    currentUserInformationJson = getCurrentUserInformation(httpSession, user);
                 } else { //session expired!
                     securityContext.setAuthentication(null); // this cleans up the authentication data technically
                     httpSession.removeAttribute(SPRING_SECURITY_CONTEXT_KEY); // this clean up the session itself
@@ -66,7 +76,7 @@ public class CurrentUserProvider {
         return currentUserInformationJson;
     }
 
-    private CurrentUserInformationJson getCurrentUserInformation(AuthenticatedUser user) {
+    private CurrentUserInformationJson getCurrentUserInformation(HttpSession httpSession, AuthenticatedUser user) {
         String loggedInUserName;
         String userName;
         Person person;
@@ -80,6 +90,7 @@ public class CurrentUserProvider {
         if (person != null) {
             var coordinator = businessWithCoordinator.getCoordinatorFromPersonId(person.getId());
             currentUserInformationJson.fillIdentifiedPersonFields(person, coordinator);
+            internationalization.setLanguage(httpSession, currentUserInformationJson.languageCode);
             loggedInUserName = person.getName();
             userName = loggedInUserName;
         } else { //only Social info we have - person is not identified
@@ -173,8 +184,38 @@ public class CurrentUserProvider {
         businessWithAuditTrail.saveAuditTrailSafe(auditTrail);
     }
 
-    public void setLanguage(HttpSession httpSession) {
-        var currentUserInformationJson = getUserInformation(httpSession);
-        internationalization.setLanguage(httpSession, currentUserInformationJson.languageCode);
+    public void setUserLanguageCode(HttpSession httpSession, String languageCode) {
+        if (languageCode.contentEquals("hu") || languageCode.contentEquals("en")) {
+            //set at person, if logged in
+            Authentication authentication = null;
+            var securityContext = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
+            if (securityContext != null) {
+                authentication = securityContext.getAuthentication();
+            }
+            if (authentication != null) {
+                var principal = authentication.getPrincipal();
+                if (principal instanceof AuthenticatedUser) {
+                    var user = (AuthenticatedUser) principal;
+                    if (user.isSessionValid()) {
+                        user.extendSessionTimeout();
+                        Person person = user.getPerson();
+                        if (person != null) {
+                            Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
+                            AuditTrail auditTrail = businessWithAuditTrail.prepareAuditTrail(person.getId(),
+                                    person.getName(), "Set Language", languageCode, null);
+                            auditTrailCollection.add(auditTrail);
+                            person.setLanguageCode(languageCode);
+                            try {
+                                businessWithPerson.updatePerson(person, auditTrailCollection);
+                            } catch (Exception e) {
+                                logger.warn("Update Person: {} with language code:{} failed.", person.getId(), languageCode);
+                            }
+                        }
+                    }
+                }
+            }
+        //regardless the user is logged in or not set the language in the session
+        internationalization.setLanguage(httpSession, languageCode);
+        }
     }
 }

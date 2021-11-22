@@ -30,6 +30,7 @@ public class Internationalization {
             logger.warn("Incorrect setLanguage call - falling back to 'hu' - contact to maintainers.");
         }
         httpSession.setAttribute("lang", "i18n." + localeString + ".");
+        httpSession.setAttribute("langCode", localeString);
         if (httpSession.getAttribute("lang2") == null) {
             //no locale was set to this session previously
             httpSession.setAttribute("lang2", langProperties.getEnvironment());
@@ -46,5 +47,18 @@ public class Internationalization {
             langPack = languagePackEn;
         }
         return langPack;
+    }
+
+    public String detectLanguage(HttpSession httpSession) {
+        if ((httpSession.getAttribute("lang") == null)
+                || (httpSession.getAttribute("lang2") == null)
+                || (httpSession.getAttribute("langCode") == null)) {
+            setLanguage(httpSession, "hu"); //default
+        }
+        String langCode = (String) httpSession.getAttribute("langCode");
+        if (langCode == null) {
+            logger.warn("Detect language failed with null langCode.");
+        }
+        return langCode;
     }
 }

@@ -52,7 +52,7 @@ public class LoginController {
      */
     @GetMapping(value = "/adoration/login")
     public String showLoginPage(HttpSession httpSession, @RequestParam(value = "result", defaultValue = "") final String result) {
-        currentUserProvider.setLanguage(httpSession);
+        currentUserProvider.getUserInformation(httpSession);
         if (result.length() == 0) {
             return LOGIN_PAGE;
         }
@@ -121,6 +121,7 @@ public class LoginController {
             HttpServletResponse httpServletResponse,
             HttpServletRequest httpServletRequest
     ) {
+        currentUserProvider.getUserInformation(httpSession);
         var auth = SecurityContextHolder.getContext().getAuthentication();
         if ((code.length() > 0) && (state.length() == 0) && ((auth == null) || auth instanceof AnonymousAuthenticationToken)) {  //if GOOGLE login can be performed and it is not yet authenticated for Ador App
             String nextPage;
@@ -184,6 +185,7 @@ public class LoginController {
             HttpServletResponse httpServletResponse
     ) {
         //clean up the session info
+        currentUserProvider.getUserInformation(httpSession);
         var sc = (SecurityContext) httpSession.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
         if (sc != null) {
             var authentication = sc.getAuthentication();

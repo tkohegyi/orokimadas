@@ -161,3 +161,20 @@ function hideConfirmOk() {
 function reloadLocation() {
     location.reload();
 }
+
+function toggleLanguageBar() {
+    $("#languageBar").toggle();
+}
+
+function setLanguage(language) {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    jQuery.ajax({
+        url: '/adoration/setLanguage?language=' + language,
+        async: false,
+        beforeSend : function(request) {
+                    request.setRequestHeader(header, token);
+                }
+        });
+    window.location.href = window.location.href.split('#')[0];
+}

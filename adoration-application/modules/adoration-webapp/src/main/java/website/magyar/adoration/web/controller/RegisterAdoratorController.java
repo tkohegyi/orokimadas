@@ -39,7 +39,7 @@ public class RegisterAdoratorController extends ControllerBase {
      */
     @GetMapping(value = "/adoration/adorRegistration")
     public String adorRegistration(HttpSession httpSession) {
-        currentUserProvider.setLanguage(httpSession);
+        currentUserProvider.getUserInformation(httpSession);
         return "adorRegistration";
     }
 
@@ -87,7 +87,8 @@ public class RegisterAdoratorController extends ControllerBase {
      * @return with the correct page content
      */
     @GetMapping(value = "/adoration/registrationSuccess")
-    public String registrationSuccess() {
+    public String registrationSuccess(HttpSession httpSession) {
+        currentUserProvider.getUserInformation(httpSession);
         return "registrationSuccess";
     }
 

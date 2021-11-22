@@ -1,10 +1,6 @@
 package website.magyar.adoration.web.controller;
 
 import org.eclipse.jetty.server.Request;
-import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
-import website.magyar.adoration.web.controller.helper.ControllerBase;
-import website.magyar.adoration.web.provider.CoverageProvider;
-import website.magyar.adoration.web.provider.CurrentUserProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
+import website.magyar.adoration.web.controller.helper.ControllerBase;
+import website.magyar.adoration.web.provider.CoverageProvider;
+import website.magyar.adoration.web.provider.CurrentUserProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -54,7 +55,7 @@ public class HomeController extends ControllerBase {
      */
     @GetMapping(value = "/adoration/")
     public String realHome(HttpSession httpSession) {
-        currentUserProvider.setLanguage(httpSession);
+        currentUserProvider.getUserInformation(httpSession);
         return "home";
     }
 
@@ -116,7 +117,7 @@ public class HomeController extends ControllerBase {
      */
     @RequestMapping(value = "/adoration/e404", method = {RequestMethod.GET, RequestMethod.POST})
     public String e404(HttpSession httpSession, HttpServletRequest httpServletRequest) {
-        currentUserProvider.setLanguage(httpSession);
+        currentUserProvider.getUserInformation(httpSession);
         var originalUri = "unknown";
         if (httpServletRequest instanceof Request) {
             originalUri = ((Request) httpServletRequest).getOriginalURI();
@@ -134,7 +135,7 @@ public class HomeController extends ControllerBase {
      */
     @RequestMapping(value = "/adoration/e500", method = {RequestMethod.GET, RequestMethod.POST})
     public String e500(HttpSession httpSession, HttpServletRequest httpServletRequest) {
-        currentUserProvider.setLanguage(httpSession);
+        currentUserProvider.getUserInformation(httpSession);
         var originalUri = "unknown";
         if (httpServletRequest instanceof Request) {
             originalUri = ((Request) httpServletRequest).getOriginalURI();
@@ -175,6 +176,22 @@ public class HomeController extends ControllerBase {
         var currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
         var coverageInformationJson = coverageProvider.getCoverageInfo(currentUserInformationJson);
         result = buildResponseBodyResult(JSON_COVERAGE_INFO, coverageInformationJson, HttpStatus.OK);
+        return result;
+    }
+
+    /**
+     * Sets the language for the session, and for a logged-in user, for the user itself too.
+     *
+     * @param httpSession  is the session of the user
+     * @return with proper content
+     */
+    @ResponseBody
+    @GetMapping(value = "/adoration/setLanguage")
+    public ResponseEntity<String> setLanguage(@RequestParam(value = "language", defaultValue = "hu") final String languageCode,
+                                              HttpSession httpSession) {
+        ResponseEntity<String> result;
+        currentUserProvider.setUserLanguageCode(httpSession, languageCode);
+        result = buildResponseBodyResult(JSON_LOGGED_IN_USER_INFO, "OK", HttpStatus.OK);
         return result;
     }
 

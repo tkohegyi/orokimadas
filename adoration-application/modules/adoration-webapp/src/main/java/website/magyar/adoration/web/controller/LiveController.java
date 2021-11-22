@@ -40,7 +40,7 @@ public class LiveController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/live")
     public String live(HttpSession httpSession) {
-        currentUserProvider.setLanguage(httpSession);
+        currentUserProvider.getUserInformation(httpSession);
         return "live";
     }
 
@@ -77,7 +77,7 @@ public class LiveController extends ControllerBase {
      */
     @GetMapping(value = "/adoration/liveAdorator/{hash:.+}")
     public ResponseEntity<String> liveAdoratorHeartBeat(HttpSession httpSession, @PathVariable("hash") final String hashString) {
-        currentUserProvider.getUserInformation(httpSession); //keep session alive even if user does nothing - after all the user is adorating
+        currentUserProvider.getUserInformation(httpSession); //keep session alive even if user does nothing - after all, the user is adorating
         liveAdoratorProvider.incomingTick(hashString);
         var jsonData = "{\"hash\":\"" + hashString + "\"}";
         var responseHeaders = new HttpHeaders();
