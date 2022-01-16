@@ -308,6 +308,7 @@ public class PeopleProvider extends ProviderBase {
         businessWithAuditTrail.checkDangerousValue(adoratorJson.coordinate, userName);
         businessWithAuditTrail.checkDangerousValue(adoratorJson.dhc, userName);
         businessWithAuditTrail.checkDangerousValue(adoratorJson.mobile, userName);
+        businessWithAuditTrail.checkDangerousValue(adoratorJson.languageCode, userName);
     }
 
     private boolean isMethodAcceptable(Integer method) {
@@ -320,7 +321,7 @@ public class PeopleProvider extends ProviderBase {
         var dhcSignedDate = dateTimeConverter.getCurrentDateAsString();
         adoratorJson.dhcSignedDate = dhcSignedDate;
         //send mail about the person
-        var text = "New id: " + newId + "\nDHC Signed Date: " + dhcSignedDate + "\nAdatok:\n" + adoratorJson.toString();
+        var text = "New id: " + newId + "\nDHC Signed Date: " + dhcSignedDate + "\nAdatok:\n" + adoratorJson;
         emailSender.sendMailToAdministrator(SUBJECT_NEW_ADORATOR, text);
         //new Person
         var person = new Person();
@@ -333,7 +334,7 @@ public class PeopleProvider extends ProviderBase {
         person.setDhcSignedDate(dhcSignedDate);
         person.setEmail(adoratorJson.email);
         person.setEmailVisible(true);
-        person.setLanguageCode("hu");
+        person.setLanguageCode(adoratorJson.languageCode);
         person.setMobile(adoratorJson.mobile);
         person.setMobileVisible(true);
         person.setVisibleComment("");

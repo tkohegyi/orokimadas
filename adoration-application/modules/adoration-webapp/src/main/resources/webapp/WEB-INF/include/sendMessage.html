@@ -7,7 +7,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="sendMessageCenterTitle">Üzenetküldés</h5>
+                <h5 class="modal-title" id="sendMessageCenterTitle"><ex:i18n messageId="sendMessage.html.title"/></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -16,8 +16,8 @@
                 <form>
                     <input type="hidden" id="socialId" value=""/>
                     <table class="fullWidth" role="presentation">
-                        <tr class="infoTable textRight"><td class="evenInfo" style="width:20%;vertical-align:top;">Az Ön elérhetősége (telefonszám vagy e-mail): </td><td class="oddInfo"><input class="fullWidth" type="text" id="emailOrPhone" name="emailOrPhone" value=""></td></tr>
-                        <tr class="infoTable textRight"><td class="evenInfo" style="vertical-align:top;">Üzenet:</td><td class="oddInfo"><textarea class="fullWidth" id="messageContent" cols="55" rows="15"></textarea></td></tr>
+                        <tr class="infoTable textRight"><td class="evenInfo" style="width:20%;vertical-align:top;"><ex:i18n messageId="sendMessage.html.sender"/></td><td class="oddInfo"><input class="fullWidth" type="text" id="emailOrPhone" name="emailOrPhone" value=""></td></tr>
+                        <tr class="infoTable textRight"><td class="evenInfo" style="vertical-align:top;"><ex:i18n messageId="sendMessage.html.message"/></td><td class="oddInfo"><textarea class="fullWidth" id="messageContent" cols="55" rows="15"></textarea></td></tr>
                     </table>
                 </form>
             </div>
@@ -29,10 +29,10 @@
                     </tr>
                     <tr>
                     <td class="textLeft">
-                        <button id="cancelButton" type="button" class="btn btn-info" data-dismiss="modal">Mégsem</button>
+                        <button id="cancelButton" type="button" class="btn btn-info" data-dismiss="modal"><ex:i18n messageId="common.cancel"/></button>
                     </td>
                     <td class="textRight">
-                        <button id="sendButton" type="button" class="btn btn-success" onclick="sendMessage()">Üzenet küldése</button>
+                        <button id="sendButton" type="button" class="btn btn-success" onclick="sendMessage()"><ex:i18n messageId="sendMessage.html.send"/></button>
                     </td>
                 </tr></table>
             </div>

@@ -53,7 +53,7 @@ public class InformationController extends ControllerBase {
             return "information";
         }
         if (currentUserInformationJson.isLoggedIn) { //can be waiting for identification or guest
-            return "infoGuest";
+            return "guestinfo";
         }
         return REDIRECT_TO_HOME; //not even logged in -> go back to basic home page
     }
@@ -124,7 +124,7 @@ public class InformationController extends ControllerBase {
                 resultString = "OK";
                 result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);
             } else { //a non logged in person or without proper captcha, a user wants to send something - it is prohibited
-                resultString = "Üzenetküldés sikertelen.";
+                resultString = currentUserInformationJson.getLanguageString("messageToCoordinator.Failed");
                 result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.BAD_REQUEST);
                 logger.warn("WARNING, somebody - who was not logged in or did not set proper captcha - tried to send a message to us.");
             }

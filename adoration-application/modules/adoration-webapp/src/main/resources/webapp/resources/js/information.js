@@ -19,9 +19,9 @@ function getInformation() {
             return;
         }
         //we have something to show
-        $("#name").text("Az Ön neve: " + information.name);
-        $("#status").text("Státusza: " + information.status);
-        $("#adoratorId").text("Az Ön adorálói azonosítószáma: " + information.id);
+        $("#name").text(loggedInUserInfo.languagePack["information.yourName"] + ": " + information.name);
+        $("#status").text(loggedInUserInfo.languagePack["information.yourStatus"] + ": " + information.status);
+        $("#adoratorId").text(loggedInUserInfo.languagePack["information.yourId"] + ": " + information.id);
         //show offered hours
         $("#yesOfferedHours").empty();
         var tr;
@@ -33,9 +33,9 @@ function getInformation() {
             //has offered hours
             $("#noOfferedHours").hide();
             $("#yesOfferedHours").show();
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"3\">Vállalt órám/óráim:</th><th class=\"infoTable\" colspan=\"3\">Órafelelős:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"3\">" + loggedInUserInfo.languagePack["information.yourHours"] + ":</th><th class=\"infoTable\" colspan=\"3\">" + loggedInUserInfo.languagePack["information.yourCoordinator"] + ":</th></tr>");
             $("#yesOfferedHours").append(tr);
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">Nap:</th><th colspan=\"2\" class=\"infoTable\">Óra:</th><th class=\"infoTable\">Név:</th><th class=\"infoTable\">Telefon:</th><th class=\"infoTable\">E-mail:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">" + loggedInUserInfo.languagePack["information.day"] + ":</th><th colspan=\"2\" class=\"infoTable\">" + loggedInUserInfo.languagePack["information.hour"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.name"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.phone"] + ":</th><th class=\"infoTable\">E-mail:</th></tr>");
             $("#yesOfferedHours").append(tr);
             for (i = 0; i < information.linkList.length; i++) {
                 offeredHour = information.linkList[i];
@@ -65,19 +65,19 @@ function getInformation() {
                 default:
                 case 0: //ph
                     if (information.hoursCancelled.indexOf(offeredHour.hourId) >= 0) { //if cancelled
-                        hourTd = "<td class=\"infoTable\">Kápolnában - legközelebbi alkalom lemondva.</td>";
+                        hourTd = "<td class=\"infoTable\">" + loggedInUserInfo.languagePack["information.inChapel"] + loggedInUserInfo.languagePack["information.nextMissing"] + "</td>";
                     } else {
-                        hourTd = "<td class=\"infoTable\">Kápolnában <button type=\"button\" class=\"btn btn-outline-danger btn-sm\" onclick=\"registerOneTimeMiss(" + offeredHour.hourId + ")\">Következő alkalom lemondása</button></td>";
+                        hourTd = "<td class=\"infoTable\">" + loggedInUserInfo.languagePack["information.inChapel"] + " <button type=\"button\" class=\"btn btn-outline-danger btn-sm\" onclick=\"registerOneTimeMiss(" + offeredHour.hourId + ")\">" + loggedInUserInfo.languagePack["information.oneTimeMiss"] + "</button></td>";
                     }
                     break;
                 case 1: //online
-                    hourTd = "<td class=\"infoTable\">Online óra</td>";
+                    hourTd = "<td class=\"infoTable\">" + loggedInUserInfo.languagePack["information.onlineHour"] + "</td>";
                     break;
                 case 2: //one time on
-                    hourTd = "<td class=\"infoTable\">Egyszer vállalt óra <button type=\"button\" class=\"btn btn-outline-danger btn-sm\" onclick=\"unRegisterOneTimeAdoration(" + offeredHour.id + ")\">Lemondás</button></td>";
+                    hourTd = "<td class=\"infoTable\">" + loggedInUserInfo.languagePack["information.oneTimeHour"] + " <button type=\"button\" class=\"btn btn-outline-danger btn-sm\" onclick=\"unRegisterOneTimeAdoration(" + offeredHour.id + ")\">" + loggedInUserInfo.languagePack["information.cancelHour"] + "</button></td>";
                     break;
                 case 3: //one time off
-                    hourTd = "<td class=\"infoTable\">Az óra egyszer lemondva <button type=\"button\" class=\"btn btn-outline-danger btn-sm\" onclick=\"unRegisterOneTimeMiss(" + offeredHour.id + ")\">Lemondás viszavonása</button></td>";
+                    hourTd = "<td class=\"infoTable\">" + loggedInUserInfo.languagePack["information.cancelled"] + " <button type=\"button\" class=\"btn btn-outline-danger btn-sm\" onclick=\"unRegisterOneTimeMiss(" + offeredHour.id + ")\">" + loggedInUserInfo.languagePack["information.undoCancelHour"] + "</button></td>";
                     break;
                 }
                 tr.append($("<td class=\"infoTable\">"
@@ -99,9 +99,9 @@ function getInformation() {
             //has leadership info
             $("#noLeadership").hide();
             $("#yesLeadership").show();
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"4\">Napszak és Általános Koordinátorok:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"4\">" + loggedInUserInfo.languagePack["information.coordinatorList"] + ":</th></tr>");
             $("#yesLeadership").append(tr);
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">Szolgálat:</th><th class=\"infoTable\">Név:</th><th class=\"infoTable\">Telefon:</th><th class=\"infoTable\">E-mail:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">" + loggedInUserInfo.languagePack["information.serving"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.name"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.phone"] + ":</th><th class=\"infoTable\">E-mail:</th></tr>");
             $("#yesLeadership").append(tr);
             for (i = 0; i < information.leadership.length; i++) {
                 coordinator = information.leadership[i];
@@ -130,9 +130,9 @@ function getInformation() {
             //has leadership info
             $("#noSubLeadership").hide();
             $("#yesSubLeadership").show();
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"4\">Óra Koordinátorok:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"4\">" + loggedInUserInfo.languagePack["information.hourCoordinators"] + ":</th></tr>");
             $("#yesSubLeadership").append(tr);
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">Óra:</th><th class=\"infoTable\">Név:</th><th class=\"infoTable\">Telefon:</th><th class=\"infoTable\">E-mail:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">" + loggedInUserInfo.languagePack["information.hour"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.name"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.phone"] + ":</th><th class=\"infoTable\">E-mail:</th></tr>");
             $("#yesSubLeadership").append(tr);
             for (i = 0; i < information.leadership.length; i++) {
                 coordinator = information.leadership[i];
@@ -160,7 +160,7 @@ function getInformation() {
         if (information.currentHourList.length > 0) {
             //has offered hours
             $("#noAdoratorNow").hide();
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">Név:</th><th class=\"infoTable\">Telefon:</th><th class=\"infoTable\">E-mail:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.name"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.phone"] + ":</th><th class=\"infoTable\">E-mail:</th></tr>");
             $("#yesAdoratorNow").append(tr);
             for (i = 0; i < information.currentHourList.length; i++) {
                 offeredHour = information.currentHourList[i];
@@ -183,8 +183,8 @@ function getInformation() {
         }
         var c = getCoordinator(information.leadership, information.hourInDayNow);
         if (c != null && c.personName.length > 0) {
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"3\">Órafelelős, "
-                + information.hourInDayNow + " óra:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"3\">" + loggedInUserInfo.languagePack["information.yourCoordinator"] + ", "
+                + information.hourInDayNow + " " + loggedInUserInfo.languagePack["common.hour"] + ":</th></tr>");
             $("#yesAdoratorNow").append(tr);
             tr = $("<td class=\"infoTable\">"
                 + c.personName + "</td><td class=\"infoTable\">"
@@ -197,7 +197,7 @@ function getInformation() {
         if (information.futureHourList.length > 0) {
             //has offered hours
             $("#noAdoratorNext").hide();
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">Név:</th><th class=\"infoTable\">Telefon:</th><th class=\"infoTable\">E-mail:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.name"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.phone"] + ":</th><th class=\"infoTable\">E-mail:</th></tr>");
             $("#yesAdoratorNext").append(tr);
             for (i = 0; i < information.futureHourList.length; i++) {
                 offeredHour = information.futureHourList[i];
@@ -220,8 +220,8 @@ function getInformation() {
         }
         c = getCoordinator(information.leadership, information.hourInDayNext);
         if (c != null && c.personName.length > 0) {
-            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"3\">Órafelelős, "
-                + information.hourInDayNext + " óra:</th></tr>");
+            tr = $("<tr class=\"tableHead\"><th class=\"infoTable\" colspan=\"3\">" + loggedInUserInfo.languagePack["information.yourCoordinator"] + ", "
+                + information.hourInDayNext + " " + loggedInUserInfo.languagePack["common.hour"] + ":</th></tr>");
             $("#yesAdoratorNext").append(tr);
             tr = $("<td class=\"infoTable\">"
                 + c.personName + "</td><td class=\"infoTable\">"
@@ -244,8 +244,8 @@ function getInformation() {
 }
 
 function registerOneTimeMiss(h) {
-  hour = getDayName(h) + "/" + getHourName(h) + " óra";
-  showConfirm("Megerősítés kérdés", "Biztosan nem tud részt venni a legközelebbi alkalmon: " + hour + "?", function () { registerOneMissConfirmOk(h) });
+  hour = getDayName(h) + "/" + getHourName(h) + " " + loggedInUserInfo.languagePack["common.hour"];
+  showConfirm(loggedInUserInfo.languagePack["information.pleaseConfirm"], loggedInUserInfo.languagePack["information.cancelNextEvent"] + ": " + hour + "?", function () { registerOneMissConfirmOk(h) });
 }
 
 function registerOneMissConfirmOk(h) {
@@ -267,12 +267,12 @@ function registerOneMissConfirmOk(h) {
         },
     }).fail( function(xhr, status) {
         var obj = JSON.parse(xhr.responseText);
-        showAlert("Hiba történt!", obj.entityCreate);
+        showAlert(loggedInUserInfo.languagePack["common.errorOccurred"], obj.entityCreate);
     });
 }
 
 function unRegisterOneTimeAdoration(id) {
-  showConfirm("Megerősítés kérdés", "Lemondja a jelentkezést?", function () { unRegisterOneTimeAdorationConfirmOk(id) });
+  showConfirm(loggedInUserInfo.languagePack["information.pleaseConfirm"], loggedInUserInfo.languagePack["information.doCancel"], function () { unRegisterOneTimeAdorationConfirmOk(id) });
 }
 
 function unRegisterOneTimeAdorationConfirmOk(h) {
@@ -294,12 +294,12 @@ function unRegisterOneTimeAdorationConfirmOk(h) {
         },
     }).fail( function(xhr, status) {
         var obj = JSON.parse(xhr.responseText);
-        showAlert("Hiba történt!", obj.entityCreate);
+        showAlert(loggedInUserInfo.languagePack["common.errorOccurred"], obj.entityCreate);
     });
 }
 
 function unRegisterOneTimeMiss(id) {
-  showConfirm("Megerősítés kérdés", "Mégis rész tud venni a következő alkalmon?", function () { unRegisterOneTimeMissConfirmOk(id) });
+  showConfirm(loggedInUserInfo.languagePack["information.pleaseConfirm"], loggedInUserInfo.languagePack["information.doCancelCancel"], function () { unRegisterOneTimeMissConfirmOk(id) });
 }
 
 function unRegisterOneTimeMissConfirmOk(h) {
@@ -321,6 +321,6 @@ function unRegisterOneTimeMissConfirmOk(h) {
         },
     }).fail( function(xhr, status) {
         var obj = JSON.parse(xhr.responseText);
-        showAlert("Hiba történt!", obj.entityCreate);
+        showAlert(loggedInUserInfo.languagePack["common.errorOccurred"], obj.entityCreate);
     });
 }

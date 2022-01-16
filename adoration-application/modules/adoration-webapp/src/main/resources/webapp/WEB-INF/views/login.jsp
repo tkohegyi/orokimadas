@@ -1,8 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
 <!DOCTYPE html>
-<html lang="hu">
 <head>
+<meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
@@ -12,7 +14,7 @@
 <meta name="author" content="Tamas Kohegyi" />
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
-<title>Örökimádás - Vác - Belépés</title>
+<title><ex:i18n messageId="login.jsp.title"/></title>
 <link href="/resources/css/external/bootstrap-4.3.1.min.css" rel="stylesheet" media="screen">
 <link href="/resources/css/menu.css" rel="stylesheet" media="screen">
 <link id="favicon" rel="shortcut icon" type="image/png" href="/resources/img/favicon.png" />
@@ -20,15 +22,16 @@
 <body class="body">
     <div class="container">
         <%@include file="../include/navbar.html" %>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <fieldset class="form-horizontal">
-            <legend class="message-legend" style="text-align:center; color:#E05050; padding: 0px; font-family: Oswald">Ön nincs bejelentkezve, kérjük lépjen be (vagy regisztráljon), hogy további oldalakhoz is hozzáférjen.</legend>
+            <legend class="message-legend" style="text-align:center; color:#E05050; padding: 0px; font-family: Oswald"><ex:i18n messageId="login.jsp.notLoggedIn"/></legend>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <div id="login-possibilities">
                 <br />
-                <p><span style="font-weight:bold">Kérjük vegye figyelembe, hogy a legelső bejelentkezés után még eltelhet pár nap mire a végleges azonosítás megtörténik, és további információkhoz is hozzáférhet.</span></p>
-                <br />A belépés többféleképpen is történhet:<br />
-                Használhatja például a Google-t azonosításra: <a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="/resources/img/google_login.png" alt="Google logo"/></a>, (kattintson a Google logora!)<br/>
-                de beléphet Facebook fiókjával is: <a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="/resources/img/facebook_login.png" alt="Facebook logo"/></a>, (kattintson a Facebook logora!)<br/>
+                <p><span style="font-weight:bold"><ex:i18n messageId="login.jsp.firstLoginCase"/></span></p>
+                <br /><ex:i18n messageId="login.jsp.loginText1"/><br />
+                <ex:i18n messageId="login.jsp.loginText2"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="/resources/img/google_login.png" alt="Google logo"/></a><ex:i18n messageId="login.jsp.loginText3"/><br/>
+                <ex:i18n messageId="login.jsp.loginText4"/><a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="/resources/img/facebook_login.png" alt="Facebook logo"/></a><ex:i18n messageId="login.jsp.loginText5"/><br/>
                 <br /></p>
             </div>
         </fieldset>

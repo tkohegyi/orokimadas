@@ -60,13 +60,14 @@ public class RegisterAdoratorController extends ControllerBase {
             var p = g.fromJson(body, RegisterAdoratorJson.class);
             p.personId = currentUserInformationJson.personId;
             p.socialId = currentUserInformationJson.socialId;
+            p.languageCode = currentUserInformationJson.languageCode;
             //authorization is irrelevant
             var updateInformation = peopleProvider.registerAdorator(p, currentUserInformationJson.userName);
             if (updateInformation != null) {
                 resultString = "OK-" + updateInformation.toString();
                 result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.CREATED);
             } else {
-                resultString = "A regisztrálás sikertelen, kérjük ellenőrizze a megadott adatokat és próbálkozzon újra.";
+                resultString = currentUserInformationJson.getLanguageString("adorRegistration.Failed");
                 result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.BAD_REQUEST);
                 logger.info("Cannot register Adorator: {}", p.name);
             }
@@ -74,7 +75,7 @@ public class RegisterAdoratorController extends ControllerBase {
             resultString = e.getMessage();
             result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            resultString = "A regiszrálás sikertelen, kérjük lépjen kapcsolatba a weboldal karbantartójával!";
+            resultString = "Sorry and error occurred - please contact to site maintainers!";
             result = buildResponseBodyResult(JSON_RESPONSE_UPDATE, resultString, HttpStatus.BAD_REQUEST);
             logger.warn("Error happened at register new Adorator function, pls contact to maintainers", e);
         }

@@ -30,7 +30,6 @@ import static org.springframework.security.web.context.HttpSessionSecurityContex
  */
 @Component
 public class CurrentUserProvider {
-    private static final String GUEST_NAME_INTRO = "Vend\u00e9g - ";
     private final Logger logger = LoggerFactory.getLogger(CurrentUserProvider.class);
 
     @Autowired
@@ -66,7 +65,7 @@ public class CurrentUserProvider {
                 var user = (AuthenticatedUser) principal;
                 if (user.isSessionValid()) {
                     user.extendSessionTimeout();
-                    currentUserInformationJson = getCurrentUserInformation(httpSession, user);
+                    currentUserInformationJson = getCurrentUserInformation(httpSession, user, currentUserInformationJson.languageCode);
                 } else { //session expired!
                     securityContext.setAuthentication(null); // this cleans up the authentication data technically
                     httpSession.removeAttribute(SPRING_SECURITY_CONTEXT_KEY); // this clean up the session itself
@@ -76,7 +75,7 @@ public class CurrentUserProvider {
         return currentUserInformationJson;
     }
 
-    private CurrentUserInformationJson getCurrentUserInformation(HttpSession httpSession, AuthenticatedUser user) {
+    private CurrentUserInformationJson getCurrentUserInformation(HttpSession httpSession, AuthenticatedUser user, String suggestedLanguageCode) {
         String loggedInUserName;
         String userName;
         Person person;
@@ -91,18 +90,22 @@ public class CurrentUserProvider {
             var coordinator = businessWithCoordinator.getCoordinatorFromPersonId(person.getId());
             currentUserInformationJson.fillIdentifiedPersonFields(person, coordinator);
             internationalization.setLanguage(httpSession, currentUserInformationJson.languageCode);
+            currentUserInformationJson.fillLanguagePack(internationalization.getLanguagePack(currentUserInformationJson.languageCode));
             loggedInUserName = person.getName();
             userName = loggedInUserName;
         } else { //only Social info we have - person is not identified
+            currentUserInformationJson.languageCode = suggestedLanguageCode; //this shall come from the actual session info
+            currentUserInformationJson.fillLanguagePack(internationalization.getLanguagePack(suggestedLanguageCode));
             userName = "Anonymous";
-            loggedInUserName = GUEST_NAME_INTRO + userName;
+            String guestNameIntro = currentUserInformationJson.getLanguageString("common.guest");
+            loggedInUserName = guestNameIntro + userName;
             if (user instanceof GoogleUser) {
                 userName = user.getSocial().getGoogleUserName();
-                loggedInUserName = GUEST_NAME_INTRO + userName;
+                loggedInUserName = guestNameIntro + userName;
             }
             if (user instanceof FacebookUser) {
                 userName = user.getSocial().getFacebookUserName();
-                loggedInUserName = GUEST_NAME_INTRO + userName;
+                loggedInUserName = guestNameIntro + userName;
             }
         }
         currentUserInformationJson.socialServiceUsed = user.getServiceName();
@@ -112,7 +115,6 @@ public class CurrentUserProvider {
         if (social != null) {
             currentUserInformationJson.fillIdentifiedSocialFields(social);
         }
-        currentUserInformationJson.fillLanguagePack(internationalization.getLanguagePack(currentUserInformationJson.languageCode));
         return currentUserInformationJson;
     }
 
@@ -132,12 +134,12 @@ public class CurrentUserProvider {
             if (person != null) {
                 loggedInUserName = person.getName();
             } else {
-                loggedInUserName = GUEST_NAME_INTRO + "Anonymous";
+                loggedInUserName = "Guest - Anonymous";
                 if (principal instanceof GoogleUser) {
-                    loggedInUserName = GUEST_NAME_INTRO + user.getSocial().getGoogleUserName();
+                    loggedInUserName = user.getSocial().getGoogleUserName();
                 }
                 if (principal instanceof FacebookUser) {
-                    loggedInUserName = GUEST_NAME_INTRO + user.getSocial().getFacebookUserName();
+                    loggedInUserName = user.getSocial().getFacebookUserName();
                 }
             }
         }

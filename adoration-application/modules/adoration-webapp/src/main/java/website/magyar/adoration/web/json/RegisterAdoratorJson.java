@@ -31,6 +31,8 @@ public class RegisterAdoratorJson {
     public Long personId;
     @JsonField
     public Long socialId;
+    @JsonField
+    public String languageCode;
 
     /**
      * Method to convert the structure to a text format.
@@ -50,6 +52,7 @@ public class RegisterAdoratorJson {
         sb.append("Adatkezelési hozzájárulás: ").append(dhc).append(",\n");
         sb.append("Adatkezelési hozzájárulás dátuma: ").append(dhcSignedDate).append(",\n");
         sb.append("Telefonszám: ").append(mobile).append(",\n");
+        sb.append("Nyelv kód: ").append(languageCode).append(",\n");
         if (personId == null) {
             sb.append("A személy nincs beazonosítva.\n");
         } else {

@@ -159,18 +159,21 @@ function coverageClick(h) {
             }
         }
         var counter = 1;
+        var mlCommentText = loggedInUserInfo.languagePack["common.comment"] + ": ";
+        var mlNameText = ", " + loggedInUserInfo.languagePack["common.name"] + ": ";
+        var mlPhoneText = loggedInUserInfo.languagePack["common.phone"] + ": ";
         if (personArray.length > 0) {
             for (i=0; i<personArray.length; i++,counter++) {
                 var r = $("<tr/>");
                 var p = personArray[i];
                 var commentContent = "";
                 if (p.visibleComment.length > 0) {
-                    commentContent = "<tr><td>Megjegyzés: " + p.visibleComment + "</td></tr>";
+                    commentContent = "<tr><td>" + mlCommentText + p.visibleComment + "</td></tr>";
                 }
                 var rContent = "<td><table><tbody><tr><td class=\"coverageDay goodCoverage\" align=\"center\" width=\"25px\">" + counter + "</td><td>" +
-                    "<table><tbody><tr><td>ID: " + p.id + ", Név: " + p.name + "</td></tr>"
+                    "<table><tbody><tr><td>ID: " + p.id + mlNameText + p.name + "</td></tr>"
                         + "<tr><td>E-mail: " + p.email + "</td></tr>"
-                        + "<tr><td>Telefon: " + p.mobile + "</td></tr>"
+                        + "<tr><td>" + mlPhoneText + p.mobile + "</td></tr>"
                         + commentContent
                     + "</tbody></table>"
                     + "</td></tr></tbody></table></td>";
@@ -196,12 +199,12 @@ function coverageClick(h) {
                 p = personArray[i];
                 commentContent = "";
                 if (p.visibleComment.length > 0) {
-                    commentContent = "<tr><td>Megjegyzés: " + p.visibleComment + "</td></tr>";
+                    commentContent = "<tr><td>" + mlCommentText + p.visibleComment + "</td></tr>";
                 }
                 rContent = "<td><table><tr><td class=\"coverageDay onlineAdorator\" align=\"center\" width=\"25px\">" + counter + "</td><td>" +
-                    "<table><tbody><tr><td>ID: " + p.id + ", Név: " + p.name + "</td></tr>"
+                    "<table><tbody><tr><td>ID: " + p.id + mlNameText + p.name + "</td></tr>"
                         + "<tr><td>E-mail: " + p.email + "</td></tr>"
-                        + "<tr><td>Telefon: " + p.mobile + "</td></tr>"
+                        + "<tr><td>" + mlPhoneText + p.mobile + "</td></tr>"
                         + commentContent
                     + "</tbody></table>"
                     + "</td></tr></tbody></table></td>";
@@ -213,7 +216,8 @@ function coverageClick(h) {
         if (item.hasClass("oneTimeCandidate") && !item.hasClass("lowPriorityColumn") && !item.hasClass("plannedHour")) {
             //offer possibility of one-time adoration
             r = $("<tr/>");
-            rContent = "<td><button type=\"button\" class=\"btn btn-success\" onclick=\"registerOneTimeAdoration(" + h + ")\">Jelentkezés egy alkalomra, erre az órára</button></td>";
+            var mlCoverageOneTimeText = loggedInUserInfo.languagePack["coverage.oneTime"];
+            rContent = "<td><button type=\"button\" class=\"btn btn-success\" onclick=\"registerOneTimeAdoration(" + h + ")\">" + mlCoverageOneTimeText + "</button></td>";
             r.append($(rContent));
             $("#coveragePopup").append(r);
         }
@@ -246,8 +250,11 @@ window.onclick = function(event) {
 
 function registerOneTimeAdoration(h) {
   coverageModal.style.display = "none"; //hide the modal first
-  hour = getDayName(h) + "/" + getHourName(h) + " óra";
-  showConfirm("Megerősítés kérdés", "Biztosan jelentkezni kíván a legközelebbi alkalomra: " + hour + "?", function () { registerOneTimeConfirmOk(h) });
+  var mlCommonHourText = loggedInUserInfo.languagePack["common.hour"];
+  var mlCommonConfirmText = loggedInUserInfo.languagePack["common.confirmRequest"];
+  var mlCoverageThisTimeText = loggedInUserInfo.languagePack["coverage.thisTime"];
+  hour = getDayName(h) + "/" + getHourName(h) + " " + mlCommonHourText;
+  showConfirm(mlCommonConfirmText, mlCoverageThisTimeText + hour + "?", function () { registerOneTimeConfirmOk(h) });
 }
 
 function registerOneTimeConfirmOk(h) {
@@ -269,6 +276,6 @@ function registerOneTimeConfirmOk(h) {
         },
     }).fail( function(xhr, status) {
         var obj = JSON.parse(xhr.responseText);
-        showAlert("Hiba történt!", obj.entityCreate);
+        showAlert(loggedInUserInfo.languagePack["common.errorOccurred"], obj.entityCreate);
     });
 }

@@ -17,18 +17,18 @@ function sendMessage() {
     var patt = /^[0-9a-zA-ZöüóőúéáűíÖÜÓŐÚÉÁŰÍ\.\!\?\,\-\n\: ]*$/
     if (!patt.test(b.info)) {
         bad = 1;
-        eStr = "A megadott elérhetőségben el nem fogadható karakterek is vannak, kérjük javítását!";
+        eStr = loggedInUserInfo.languagePack["sendMessage.js.badInfo"];
     }
     if (!patt.test(b.text)) {
         bad = 1;
-        eStr = "Az Üzenetben el nem fogadható karakterek is vannak, kérjük fogalmazza át az üzenetet!";
+        eStr = loggedInUserInfo.languagePack["sendMessage.js.badMsg"];
     }
     if (b.captcha.length == 0 ) {
-        showAlert("Figyelem!", "Kérem jelölje be a \"Nem vagyok robot\" négyzetet!");
+        showAlert(loggedInUserInfo.languagePack["common.warning"], loggedInUserInfo.languagePack["sendMessage.js.badCaptcha"]);
         return;
     }
     if (bad > 0) {
-        showAlert("Hiba az üzenetben!", eStr, function () {window.scrollTo(0, 0)});
+        showAlert(loggedInUserInfo.languagePack["sendMessage.js.msgIssue"], eStr, function () {window.scrollTo(0, 0)});
         return;
     }
     //everything is ok, send registration request
@@ -51,7 +51,7 @@ function sendMessage() {
         },
         complete : enableButtons,
     }).fail( function(xhr, status) {
-        showAlert("Figyelem!", "Az üzenet elküldése sikertelen volt, próbálkozzon ismét.",
+        showAlert(loggedInUserInfo.languagePack["common.warning"], loggedInUserInfo.languagePack["sendMessage.js.failed"],
             function () {window.location.pathname = "/adorationSecure/information"});
         return;
     });
@@ -63,7 +63,7 @@ function enableButtons() {
 }
 
 function dismissModal() {
-    showAlert("Elküldve", "Az üzenet elküldése sikeres volt.",
+    showAlert(loggedInUserInfo.languagePack["sendMessage.js.sent"], loggedInUserInfo.languagePack["sendMessage.js.sentDone"],
         function () {window.location.pathname = "/adorationSecure/information"});
     return;
 }

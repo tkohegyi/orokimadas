@@ -21,7 +21,7 @@ function getInformation() {
             $("#yesGoogle").show();
             $("#nameGoogle").empty();
             $("#emailGoogle").empty();
-            g = $("<div><b>Név: </b>" + information.nameGoogle + "</div>");
+            g = $("<div><b>" + loggedInUserInfo.languagePack["common.name"] + ": </b>" + information.nameGoogle + "</div>");
             $("#nameGoogle").append(g);
             g = $("<div><b>Email: </b>" + information.emailGoogle + "</div>");
             $("#emailGoogle").append(g);
@@ -34,7 +34,7 @@ function getInformation() {
             $("#yesFacebook").show();
             $("#nameFacebook").empty();
             $("#emailFacebook").empty();
-            g = $("<div><b>Név: </b>" + information.nameFacebook + "</div>");
+            g = $("<div><b>" + loggedInUserInfo.languagePack["common.name"] + ": </b>" + information.nameFacebook + "</div>");
             $("#nameFacebook").append(g);
             g = $("<div><b>Email: </b>" + information.emailFacebook + "</div>");
             $("#emailFacebook").append(g);
@@ -43,10 +43,10 @@ function getInformation() {
             $("#yesFacebook").hide();
         }
         $("#socialServiceUsed").empty();
-        g = $("<div><b>Belépéshez használva: </b>" + information.socialServiceUsed + "</div>");
+        g = $("<div><b>" + loggedInUserInfo.languagePack["guestinfo.usedLogin"] + ": </b>" + information.socialServiceUsed + "</div>");
         $("#socialServiceUsed").append(g);
         $("#status").empty();
-        g = $("<div><strong>Státusz: </strong>" + information.status + "</div>");
+        g = $("<div><strong>" + loggedInUserInfo.languagePack["guestinfo.status"] + ": </strong>" + information.status + "</div>");
         $("#status").append(g);
         $("#socialId").val(information.id);
         //show leadership
@@ -55,7 +55,7 @@ function getInformation() {
             //has leadership info
             $("#noLeadership").hide();
             $("#yesLeadership").show();
-            var tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">Koordinátor:</th><th class=\"infoTable\">Név:</th><th class=\"infoTable\">Telefon:</th><th class=\"infoTable\">E-mail:</th></tr>");
+            var tr = $("<tr class=\"tableHead\"><th class=\"infoTable\">" + loggedInUserInfo.languagePack["guestinfo.coordinator"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.name"] + ":</th><th class=\"infoTable\">" + loggedInUserInfo.languagePack["common.phone"] + ":</th><th class=\"infoTable\">E-mail:</th></tr>");
             $("#yesLeadership").append(tr);
             for (var i = 0; i < information.leadership.length; i++) {
                 var coordinator = information.leadership[i];

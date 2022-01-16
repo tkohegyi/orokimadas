@@ -23,8 +23,9 @@ function prepareInfo() {
 }
 
 function notRegisterClick() {
-    showAlert("Figyelem!", "Ön végül úgy döntött, hogy mégsem jelentkezik az Örökimádásra.",
-        function () {window.location.pathname = "/adoration/"});
+    var mlWarningText = loggedInUserInfo.languagePack["common.warning"];
+    var mlNoTimeText = loggedInUserInfo.languagePack["coverage.noTime"];
+    showAlert(mlWarningText, mlNoTimeText, function () {window.location.pathname = "/adoration/"});
 }
 
 function doRegisterClick() {
@@ -48,40 +49,40 @@ function doRegisterClick() {
     var bad = 0;
     if (b.name.length == 0) {
         bad = 1;
-        eStr = "Név megadása szükséges!";
+        eStr = loggedInUserInfo.languagePack["coverage.errorName"];
         $("#nameError").removeAttr('style');
     } else {
         var patt = /^[0-9a-zA-ZöüóőúéáűíÖÜÓŐÚÉÁŰÍ\.\!\?\,\-\:\n ]*$/
         if (!patt.test(b.name)) {
             bad = 1;
-            eStr = "A megadott Névben el nem fogadható karakterek is vannak, kérjük a név javítását!";
+            eStr = loggedInUserInfo.languagePack["coverage.errorNamePattern"];
             $("#nameError").removeAttr('style');
         }
     }
     if ((b.email.length > 0) && (!validateEmail(b.email))) {
         bad = 1;
-        eStr = "A megadott e-mail cím nem helyes!";
+        eStr = loggedInUserInfo.languagePack["coverage.errorEmail"];
         $("#emailError").removeAttr('style');
     }
     var patt = /^[0-9\+\- ]*$/; //NOSONAR
     if ((b.mobile.length > 0) && (!patt.test(b.mobile))) {
         bad = 1;
-        eStr = "A megadott telefonszám nem helyes!";
+        eStr = loggedInUserInfo.languagePack["coverage.errorPhone"];
         $("#mobileError").removeAttr('style');
     }
     if (b.email.length + b.mobile.length == 0) {
         bad = 1;
-        eStr = "Telefonszám és e-mail cím közül legalább az egyik megadása kötelező!";
+        eStr = loggedInUserInfo.languagePack["coverage.errorMissedEmailOrPhone"];
         $("#emailError").removeAttr('style');
         $("#mobileError").removeAttr('style');
     }
     if (b.dhc.indexOf("yes") <= 0) {
         bad = 1;
-        eStr = "Adatkezelési hozzájárulás nélkül a jelentkezést nem tudjuk elfogadni!";
+        eStr = loggedInUserInfo.languagePack["coverage.errorConsent"];
         $("#dhcError").removeAttr('style');
     }
     if (bad > 0) {
-        showAlert("Hiba az adatokban!", eStr, function () {window.scrollTo(0, 0)});
+        showAlert(loggedInUserInfo.languagePack["common.errorData"], eStr, function () {window.scrollTo(0, 0)});
         return;
     }
     //everything is ok, send registration request
@@ -103,7 +104,7 @@ function doRegisterClick() {
         },
         complete : afterRequest,
     }).fail( function(xhr, status) {
-        showAlert("Hiba történt!", xhr.responseText);
+        showAlert(loggedInUserInfo.languagePack["common.errorOccurred"], xhr.responseText);
     });
 }
 

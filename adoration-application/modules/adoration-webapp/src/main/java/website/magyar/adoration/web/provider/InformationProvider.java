@@ -142,18 +142,15 @@ public class InformationProvider {
                 guestInformationJson.isGoogle = false;
             }
             switch (SocialStatusTypes.getTypeFromId(social.getSocialStatus())) {
-            case IDENTIFIED_USER: //adoráló - we should be be here
-                guestInformationJson.status = "Regisztrált adoráló.";
+            case IDENTIFIED_USER: //adoráló - we should not be here
+                guestInformationJson.status = currentUserInformationJson.getLanguageString("getInformation.statusRegistered");
                 break;
             case SOCIAL_USER: //guest
-                guestInformationJson.status = "Vendég felhasználó.";
+                guestInformationJson.status = currentUserInformationJson.getLanguageString("getInformation.statusGuest");
                 break;
             default:
             case WAIT_FOR_IDENTIFICATION: //waiting for identification
-                guestInformationJson.status
-                        = "Nem azonosított felhasználó. "
-                        + "Kérjük írja meg elérhetőségét a koordinátoroknak, a lentebb található Üzenetküldés segítségével, "
-                        + "hogy az azonosítás megtörténhessen.";
+                guestInformationJson.status = currentUserInformationJson.getLanguageString("getInformation.statusUnknown");
                 break;
             }
             guestInformationJson.leadership = coordinatorProvider.getLeadership(currentUserInformationJson);
