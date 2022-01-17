@@ -1,7 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
 <!DOCTYPE html>
-<html lang="hu">
 <head>
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
@@ -20,7 +19,7 @@
 <script src="/resources/js/external/dataTables/datatables.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/adoratorList.js"></script>
-<title>Örökimádás - Vác - Adorátorok és Órák listája</title>
+<title><ex:i18n messageId="adoratorList.jsp.title"/></title>
 <link href="/resources/css/external/bootstrap-4.3.1.min.css" rel="stylesheet" media="screen">
 <link href="/resources/js/external/dataTables/datatables.min.css" rel="stylesheet" type="text/css"/>
 <link href="/resources/css/menu.css" rel="stylesheet" media="screen">
@@ -33,10 +32,10 @@
   </div>
   <div class="container">
     <fieldset class="form-horizontal">
-    <legend class="message-legend">Válassz az alábbi lehetőségek közül...</legend>
+    <legend class="message-legend"><ex:i18n messageId="adoratorList.jsp.selection"/></legend>
     <div class="control-group">
-        <a id="adorators-button" class="btn btn-primary" href="/adorationSecure/adorationListPeople">Adorálók Listája</a>
-        <a id="hours-button" class="btn btn-primary" href="/adorationSecure/adorationListHours">Vállalt Órák Listája</a>
+        <a id="adorators-button" class="btn btn-primary" href="/adorationSecure/adorationListPeople"><ex:i18n messageId="adoratorList.jsp.people"/></a>
+        <a id="hours-button" class="btn btn-primary" href="/adorationSecure/adorationListHours"><ex:i18n messageId="adoratorList.jsp.hours"/></a>
     </div>
     </fieldset>
   </div>
