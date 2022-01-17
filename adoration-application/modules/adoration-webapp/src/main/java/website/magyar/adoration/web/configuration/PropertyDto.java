@@ -12,6 +12,7 @@ public class PropertyDto {
     private final String facebookAppId;
     private final String facebookAppSecret;
     private final Integer sessionTimeout;
+    private final String baseExcelFolder;
     private final String excelFileName;
     private final String dailyInfoFileName;
     private final String hourlyInfoFileName;
@@ -24,7 +25,7 @@ public class PropertyDto {
      */
     public PropertyDto(final String googleClientId, final String googleClientSecret, final String googleRedirectUrl, //NOSONAR
                        final String baseUrl, final String facebookAppId, final String facebookAppSecret,
-                       final Integer sessionTimeout, final String excelFileName, final String dailyInfoFileName,
+                       final Integer sessionTimeout, final String baseExcelFolder, final String excelFileName, final String dailyInfoFileName,
                        final String hourlyInfoFileName, final String adoratorInfoFileName,
                        final String captchaSiteSecret, final String manifestVersion) {
         super();
@@ -35,6 +36,7 @@ public class PropertyDto {
         this.facebookAppId = facebookAppId;
         this.facebookAppSecret = facebookAppSecret;
         this.sessionTimeout = sessionTimeout;
+        this.baseExcelFolder = baseExcelFolder;
         this.excelFileName = excelFileName;
         this.dailyInfoFileName = dailyInfoFileName;
         this.hourlyInfoFileName = hourlyInfoFileName;
@@ -95,4 +97,7 @@ public class PropertyDto {
         return manifestVersion;
     }
 
+    public String getBaseExcelFolder() {
+        return baseExcelFolder;
+    }
 }

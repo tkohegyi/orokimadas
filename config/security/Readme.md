@@ -23,8 +23,8 @@ java -cp jetty-util-9.2.27.v20190403.jar org.eclipse.jetty.util.security.Passwor
 place OBF part into WebAppServer.java
 (+ build/release)
 
-7. set property useHttps=true in uoo.conf.properties
+7. set property useHttps=true in xxx.conf.properties
 
-+1. In case you are using local Uoo server, you may instruct Chrome to accept incesure localhost calls:
++1. In case you are using local App server, you may instruct Chrome to accept incesure localhost calls:
 chrome://flags/#allow-insecure-localhost
 

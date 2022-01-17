@@ -82,7 +82,7 @@ public class ExportController extends ControllerBase {
                     excelProvider.getExcelFull(currentUserInformationJson, servletOutputStream);
                     break;
                 case DAILY_INFO:
-                    excelProvider.getExcelDailyInfo(servletOutputStream);
+                    excelProvider.getExcelDailyInfo(currentUserInformationJson, servletOutputStream);
                     break;
                 case HOURLY_INFO:
                     excelProvider.getExcelHourlyInfo(currentUserInformationJson, servletOutputStream);

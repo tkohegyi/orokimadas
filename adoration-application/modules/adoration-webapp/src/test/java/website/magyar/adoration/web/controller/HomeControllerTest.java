@@ -150,7 +150,7 @@ public class HomeControllerTest {
         MockControllerBase mockControllerBase = new MockControllerBase();
         String expected = mockControllerBase.mockGetJsonString("loggedInUserInfo", currentUserInformationJson);
         doReturn(new PropertyDto(null, null, null, null, null,
-                null, null, null, null, null,
+                null, null, null, null, null, null,
                 null, null, null)).when(webAppConfigurationAccess).getProperties();
         //when
         ResponseEntity<String> result = underTest.getLoggedInUserInfo(null);

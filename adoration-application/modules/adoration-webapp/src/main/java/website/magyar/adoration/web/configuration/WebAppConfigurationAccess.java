@@ -37,6 +37,7 @@ public class WebAppConfigurationAccess implements ConfigurationAccessBase {
         String facebookAppId = propertyHolder.get("facebook_app_id");
         String facebookAppSecret = propertyHolder.get("facebook_app_secret");
         Integer sessionTimeout = NumberUtils.toInt(propertyHolder.get("sessionTimeout"), SESSION_TIMEOUT_DEFAULT_VALUE);
+        String baseExcelFolder = propertyHolder.get("base_excel_folder");
         String excelFileName = propertyHolder.get("excel_file_name");
         String dailyInfoFileName = propertyHolder.get("daily_info_file_name");
         String hourlyInfoFileName = propertyHolder.get("hourly_info_file_name");
@@ -47,7 +48,7 @@ public class WebAppConfigurationAccess implements ConfigurationAccessBase {
             manifestVersion = "???";
         }
         properties = new PropertyDto(googleClientId, googleClientSecret, googleRedirectUrl, baseUrl,
-                facebookAppId, facebookAppSecret, sessionTimeout,
+                facebookAppId, facebookAppSecret, sessionTimeout, baseExcelFolder,
                 excelFileName, dailyInfoFileName, hourlyInfoFileName, adoratorInfoFileName,
                 captchaSiteSecret, manifestVersion);
     }

@@ -40,7 +40,6 @@ import java.util.Map;
 public class ExcelProvider {
 
     private static final Map<Integer, String> HOUR_CODES;
-    private static final Map<Integer, String> DAY_CODES;
     private static final String THERE_IS_NO_INFORMATION = "-";
 
     static {
@@ -52,14 +51,6 @@ public class ExcelProvider {
         HOUR_CODES.put(4, "Cs;");
         HOUR_CODES.put(5, "P;");
         HOUR_CODES.put(6, "Szo;");
-        DAY_CODES = new HashMap<>();
-        DAY_CODES.put(0, "vasárnap");
-        DAY_CODES.put(1, "hétfő");
-        DAY_CODES.put(2, "kedd");
-        DAY_CODES.put(3, "szerda");
-        DAY_CODES.put(4, "csütörtök");
-        DAY_CODES.put(5, "péntek");
-        DAY_CODES.put(6, "szombat");
     }
 
     @Autowired
@@ -121,16 +112,16 @@ public class ExcelProvider {
      * @throws IOException if any issue happens
      */
     public void getExcelFull(CurrentUserInformationJson userInformation, ServletOutputStream outputStream) throws IOException {
-        Workbook w = createInitialXls();
+        Workbook w = createInitialXls(userInformation.languageCode);
         updateAdorators(w);
         updateCoverage(userInformation, w);
         reCalculateAllExcelCells(w);
         w.write(outputStream);
     }
 
-    private Workbook createInitialXls() throws IOException {
+    private Workbook createInitialXls(final String languageCode) throws IOException {
         PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
-        return getSpecificXlsTemplate(propertyDto.getExcelFileName());
+        return getSpecificXlsTemplate(propertyDto.getBaseExcelFolder() + languageCode + propertyDto.getExcelFileName());
     }
 
     private String getHourString(Integer hourId) {
@@ -225,16 +216,21 @@ public class ExcelProvider {
      *
      * @throws IOException if any issue happens
      */
-    public void getExcelDailyInfo(ServletOutputStream outputStream) throws IOException {
-        Workbook w = createInitialDailyInfoXls();
+    public void getExcelDailyInfo(CurrentUserInformationJson userInformation, ServletOutputStream outputStream) throws IOException {
+        Workbook w = createInitialDailyInfoXls(userInformation.languageCode);
         updateDailyInfo(w);
         reCalculateAllExcelCells(w);
+        renameWorksheet("Hajnal", userInformation.getLanguageString("xls.night"), w);
+        renameWorksheet("Délelőtt", userInformation.getLanguageString("xls.morning"), w);
+        renameWorksheet("Délután", userInformation.getLanguageString("xls.afternoon"), w);
+        renameWorksheet("Este", userInformation.getLanguageString("xls.evening"), w);
+        w.setSheetHidden(w.getSheetIndex("Adatok"), true);
         w.write(outputStream);
     }
 
-    private Workbook createInitialDailyInfoXls() throws IOException {
+    private Workbook createInitialDailyInfoXls(final String languageCode) throws IOException {
         PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
-        return getSpecificXlsTemplate(propertyDto.getDailyInfoFileName());
+        return getSpecificXlsTemplate(propertyDto.getBaseExcelFolder() + languageCode + propertyDto.getDailyInfoFileName());
     }
 
     private void updateDailyInfo(Workbook w) {
@@ -288,21 +284,22 @@ public class ExcelProvider {
      * @throws IOException if any issue happens
      */
     public void getExcelHourlyInfo(CurrentUserInformationJson userInformation, ServletOutputStream outputStream) throws IOException {
-        Workbook w = createInitialHourlyInfoXls();
+        Workbook w = createInitialHourlyInfoXls(userInformation.languageCode);
         if (userInformation.personId != null) {
             //person is identified
-            updateHourlyInfo(userInformation.personId, w);
+            updateHourlyInfo(userInformation, userInformation.personId, w);
         }
         reCalculateAllExcelCells(w);
+        renameWorksheet("Órakoordinátor", userInformation.getLanguageString("xls.hourCoordinator"), w);
         w.write(outputStream);
     }
 
-    private Workbook createInitialHourlyInfoXls() throws IOException {
+    private Workbook createInitialHourlyInfoXls(final String languageCode) throws IOException {
         PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
-        return getSpecificXlsTemplate(propertyDto.getHourlyInfoFileName());
+        return getSpecificXlsTemplate(propertyDto.getBaseExcelFolder() + languageCode + propertyDto.getHourlyInfoFileName());
     }
 
-    private void updateHourlyInfo(Long personId, Workbook w) {
+    private void updateHourlyInfo(CurrentUserInformationJson currentUserInformationJson, Long personId, Workbook w) {
         Sheet sheet = w.getSheet("Órakoordinátor");
         Coordinator coordinator = businessWithCoordinator.getCoordinatorFromPersonId(personId);
         if (coordinator != null) {
@@ -338,18 +335,18 @@ public class ExcelProvider {
                     c.setCellValue(p.getVisibleComment());
                 }
                 //iterate through the adorators
-                iterateThroughAdorators(coordinatorType, sheet);
+                iterateThroughAdorators(currentUserInformationJson, coordinatorType, sheet);
             }
         }
     }
 
-    private void iterateThroughAdorators(Integer coordinatorType, Sheet sheet) {
+    private void iterateThroughAdorators(CurrentUserInformationJson currentUserInformationJson, Integer coordinatorType, Sheet sheet) {
         List<Link> links = businessWithLink.getLinksOfWeek(coordinatorType);
         int baseRow = 14;
         for (Link l : links) {
             Integer hourId = l.getHourId();
-            Integer day = hourId / BusinessWithLink.HOUR_IN_A_DAY;
-            String dayString = DAY_CODES.get(day);
+            int day = hourId / BusinessWithLink.HOUR_IN_A_DAY;
+            String dayString = currentUserInformationJson.getLanguageString("common.day." + day);
             Person p = businessWithPerson.getPersonById(l.getPersonId());
             if (p != null) {
                 Row row = getRow(sheet, baseRow); //adorator row
@@ -376,22 +373,23 @@ public class ExcelProvider {
      * @throws IOException if any issue happens
      */
     public void getExcelAdoratorInfo(CurrentUserInformationJson userInformation, ServletOutputStream outputStream) throws IOException {
-        Workbook w = createInitialAdoratorInfoXls();
+        Workbook w = createInitialAdoratorInfoXls(userInformation.languageCode);
         if (userInformation.personId != null) {
             updateAdoratorInfo(userInformation.personId, userInformation, w);
         }
         reCalculateAllExcelCells(w);
+        renameWorksheet("Adoráló", userInformation.getLanguageString("xls.adorator"), w);
         w.write(outputStream);
     }
 
-    private Workbook createInitialAdoratorInfoXls() throws IOException {
+    private Workbook createInitialAdoratorInfoXls(final String languageCode) throws IOException {
         PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
-        return getSpecificXlsTemplate(propertyDto.getAdoratorInfoFileName());
+        return getSpecificXlsTemplate(propertyDto.getBaseExcelFolder() + languageCode + propertyDto.getAdoratorInfoFileName());
     }
 
     private void updateAdoratorInfo(Long personId, CurrentUserInformationJson currentUserInformationJson, Workbook w) {
-        final String publicName = "Publikus";
-        final String hiddenName = "Titkos";
+        final String publicName = currentUserInformationJson.getLanguageString("xls.public");
+        final String hiddenName = currentUserInformationJson.getLanguageString("xls.hidden");;
         Sheet sheet = w.getSheet("Adoráló");
         Person p = businessWithPerson.getPersonById(personId);
         setCellOnSheet(sheet, 2, 2, p.getName());
@@ -417,7 +415,7 @@ public class ExcelProvider {
         setCellOnSheet(sheet, 7, 2, p.getVisibleComment());
         //fill assigned hours
         int baseRow = 10;
-        fillCellsWithAssignedHours(sheet, p, baseRow);
+        fillCellsWithAssignedHours(currentUserInformationJson, sheet, p, baseRow);
         //fill daily coordinators
         baseRow = 20;
         List<Coordinator> allCoordinators = businessWithCoordinator.getLeadership();
@@ -428,7 +426,7 @@ public class ExcelProvider {
                     String coordinatorText = currentUserInformationJson.getLanguageString("coordinator." + c.getCoordinatorType().toString());
                     setCellOnSheet(sheet, baseRow, 1, coordinatorText);
                     setCellOnSheet(sheet, baseRow, 3, getPersonNameInformation(coo));
-                    setCellOnSheet(sheet, baseRow, 4, getPersonMobileAndEmailInformation(coo));
+                    setCellOnSheet(sheet, baseRow, 4, getPersonMobileAndEmailInformation(currentUserInformationJson, coo));
                     baseRow++;
                 }
             }
@@ -442,8 +440,9 @@ public class ExcelProvider {
         setCellOnSheet(sheet, 30, 2, dtf.format(now));
     }
 
-    private void fillCellsWithAssignedHours(Sheet sheet, Person p, int baseRow) {
+    private void fillCellsWithAssignedHours(CurrentUserInformationJson currentUserInformationJson, Sheet sheet, Person p, int baseRow) {
         int actualRow = baseRow;
+        String hourString = " " + currentUserInformationJson.getLanguageString("common.hour");
         List<Link> links = businessWithLink.getLinksOfPerson(p);
         if (links != null) {  //have assigned hours to be filled
             for (Link l : links) {
@@ -453,8 +452,8 @@ public class ExcelProvider {
                 Integer hourId = l.getHourId();
                 int day = hourId / BusinessWithLink.HOUR_IN_A_DAY;
                 Integer hour = hourId - day * BusinessWithLink.HOUR_IN_A_DAY;
-                String dayString = DAY_CODES.get(day);
-                setCellOnSheet(sheet, actualRow, 1, dayString + " " + hour.toString() + " óra");
+                String dayString = currentUserInformationJson.getLanguageString("common.day." + day); //  DAY_CODES.get(day);
+                setCellOnSheet(sheet, actualRow, 1, dayString + " " + hour.toString() + hourString);
                 Coordinator coo = businessWithCoordinator.getHourlyCooOfHour(hour);
                 Person cooP = null;
                 if (coo != null) {
@@ -462,31 +461,31 @@ public class ExcelProvider {
                 }
                 if (cooP != null) {
                     setCellOnSheet(sheet, actualRow, 2, getPersonNameInformation(cooP));
-                    setCellOnSheet(sheet, actualRow, 3, getPersonMobileAndEmailInformation(cooP));
+                    setCellOnSheet(sheet, actualRow, 3, getPersonMobileAndEmailInformation(currentUserInformationJson, cooP));
                 } else {
                     setCellOnSheet(sheet, actualRow, 2, THERE_IS_NO_INFORMATION);
                     setCellOnSheet(sheet, actualRow, 3, THERE_IS_NO_INFORMATION);
                 }
                 //fill previous hour
                 Integer previousHour = businessWithLink.getPreviousHour(hourId);
-                fillNeighbourHour(sheet, previousHour, actualRow, 4);
+                fillNeighbourHour(currentUserInformationJson, sheet, previousHour, actualRow, 4);
                 //fill next hour
                 Integer nextHour = businessWithLink.getNextHour(hourId);
-                fillNeighbourHour(sheet, nextHour, actualRow, 6);
+                fillNeighbourHour(currentUserInformationJson, sheet, nextHour, actualRow, 6);
 
                 actualRow++;
             }
         }
     }
 
-    private void fillNeighbourHour(Sheet sheet, Integer previousHour, int baseRow, int baseCol) {
+    private void fillNeighbourHour(CurrentUserInformationJson currentUserInformationJson, Sheet sheet, Integer previousHour, int baseRow, int baseCol) {
         List<Link> previousLinks = businessWithLink.getPhysicalLinksOfHour(previousHour);
         if (previousLinks != null && !previousLinks.isEmpty()) {
             Link aPreviousLink = previousLinks.get(0);
             Person aPreviousPerson = businessWithPerson.getPersonById(aPreviousLink.getPersonId());
             if (aPreviousPerson != null) {
                 setCellOnSheet(sheet, baseRow, baseCol, getPersonNameInformation(aPreviousPerson));
-                setCellOnSheet(sheet, baseRow, baseCol + 1, getPersonMobileAndEmailInformation(aPreviousPerson));
+                setCellOnSheet(sheet, baseRow, baseCol + 1, getPersonMobileAndEmailInformation(currentUserInformationJson, aPreviousPerson));
             } else {
                 setCellOnSheet(sheet, baseRow, baseCol, THERE_IS_NO_INFORMATION);
                 setCellOnSheet(sheet, baseRow, baseCol + 1, THERE_IS_NO_INFORMATION);
@@ -504,8 +503,9 @@ public class ExcelProvider {
         return name;
     }
 
-    private String getPersonMobileAndEmailInformation(Person p) {
+    private String getPersonMobileAndEmailInformation(CurrentUserInformationJson currentUserInformationJson, Person p) {
         String mobile;
+        String telString = currentUserInformationJson.getLanguageString("xls.ph");
         if (Boolean.TRUE.equals(p.getMobileVisible())) {
             mobile = p.getMobile();
         } else {
@@ -517,7 +517,11 @@ public class ExcelProvider {
         } else {
             email = THERE_IS_NO_INFORMATION;
         }
-        return "tel: " + mobile + " / e-mail: " + email;
+        return telString + mobile + " / e-mail: " + email;
+    }
+
+    private void renameWorksheet(String fromString, String toString, Workbook w) {
+        w.setSheetName(w.getSheetIndex(fromString), toString);
     }
 
 }

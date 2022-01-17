@@ -12,10 +12,14 @@ def releaseCopySpec = project.copySpec {
     from(rootProject.rootDir.absolutePath + '/config/'){
         include 'security/adorApp.cer'
         include 'security/adorApp.keystore'
-        include 'security/little_register.xlsx'
-        include 'security/daily_info.xlsx'
-        include 'security/hc_info.xlsx'
-        include 'security/adorator_info.xlsx'
+        include 'security/hu_little_register.xlsx'
+        include 'security/hu_daily_info.xlsx'
+        include 'security/hu_hc_info.xlsx'
+        include 'security/hu_adorator_info.xlsx'
+        include 'security/en_little_register.xlsx'
+        include 'security/en_daily_info.xlsx'
+        include 'security/en_hc_info.xlsx'
+        include 'security/en_adorator_info.xlsx'
     }
     from(rootProject.rootDir.absolutePath + '/adoration-application/modules/adoration-engine/build/libs/') {
         include "adoration-engine-all.jar"
