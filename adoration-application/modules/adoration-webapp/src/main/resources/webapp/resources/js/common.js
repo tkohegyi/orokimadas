@@ -60,7 +60,7 @@ function getDayNameLocalized(hourId, dayNames) {
 }
 
 function getDayName(hourId) {
-    var dayNames = [loggedInUserInfo.languagePack["common.dayName.sunday"], loggedInUserInfo.languagePack["common.dayName.monday"], loggedInUserInfo.languagePack["common.dayName.tuesday"], loggedInUserInfo.languagePack["common.dayName.wednesday"], loggedInUserInfo.languagePack["common.dayName.thursday"], loggedInUserInfo.languagePack["common.dayName.friday"], loggedInUserInfo.languagePack["common.dayName.saturday"]]
+    var dayNames = [loggedInUserInfo.languagePack["common.day.0"], loggedInUserInfo.languagePack["common.day.1"], loggedInUserInfo.languagePack["common.day.2"], loggedInUserInfo.languagePack["common.day.3"], loggedInUserInfo.languagePack["common.day.4"], loggedInUserInfo.languagePack["common.day.5"], loggedInUserInfo.languagePack["common.day.6"]]
     var x = getDay(hourId);
     return dayNames[x];
 }

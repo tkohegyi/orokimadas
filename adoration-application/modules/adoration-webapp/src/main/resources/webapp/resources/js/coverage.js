@@ -143,7 +143,9 @@ function setupCoverage() {
 function coverageClick(h) {
     if (typeof coverageAdoratorInfo != "undefined" && coverageAdoratorInfo != null) {
         $("#coveragePopup").empty();
-        var rTime = $("<tr><td align=\"center\" colspan=\"2\">Időpont: " + getDayName(h) + "/" + getHourName(h) + " óra</td><tr/>");
+        var mlTimeText = loggedInUserInfo.languagePack["coverage.js.time"];
+        var mlHourText = " " + loggedInUserInfo.languagePack["common.hour"];
+        var rTime = $("<tr><td align=\"center\" colspan=\"2\">" + mlTimeText + getDayName(h) + "/" + getHourName(h) + mlHourText + "</td><tr/>");
         $("#coveragePopup").append(rTime);
         rTime = $("<tr><td align=\"center\" colspan=\"2\"> --------- </td><tr/>");
         $("#coveragePopup").append(rTime);

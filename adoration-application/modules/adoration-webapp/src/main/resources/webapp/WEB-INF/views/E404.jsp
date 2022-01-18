@@ -11,7 +11,7 @@
 <meta name="author" content="Tamas Kohegyi" />
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
-<title>Örökimádás - Vác</title>
+<title><ex:i18n messageId="home.jsp.title"/></title>
 <link href="/resources/css/external/bootstrap-4.3.1.min.css" rel="stylesheet" media="screen">
 <link href="/resources/css/menu.css" rel="stylesheet" media="screen">
 <link href="/resources/css/coverageBar.css" rel="stylesheet" media="screen">
@@ -23,17 +23,14 @@
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <div class="centerwidediv textWebkitCenter">
 		<br />
-		Oppá, hiba történt.
+		<ex:i18n messageId="e404.jsp.oops"/>
 		<br />
     </div>
-    <div class="centerwidediv">
-		Egy olyan kérés érkezett az Örökimádás weboldalára, amely sajnos nem teljesíthető.
-		Az oldal üzemeltetői kaptak egy emlékeztetőt erről a hibáról, és már dolgoznak is azon, hogy ez máskor ne fordulhasson elő.
-		Addig is türelmét kérjuk, mert a hiba kijavítása akár több napot is igénybe vehet.
+    <div class="centerwidediv"><ex:i18n messageId="e404.jsp.txt"/>
 		<br/>
     <hr />
 		<br/>
-		<div class="textWebkitCenter">A fenti menüsort használva folytassa a tevékenységét, vagy várjon 10 másodpercet, és az oldal újratöltődik az Örökimádás fő oldalával.</div>
+		<div class="textWebkitCenter"><ex:i18n messageId="e404.jsp.menu"/></div>
 		<br />
 	</div>
   </div>
