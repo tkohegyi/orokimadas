@@ -36,11 +36,11 @@ subprojects {
     apply plugin: 'jacoco'
 
     jacoco {
-        toolVersion = "0.8.6"
+        toolVersion = "0.8.7"
     }
     jacocoTestReport {
         reports {
-            xml.enabled true
+            xml.required = true
         }
     }
     test.finalizedBy jacocoTestReport

@@ -14,6 +14,7 @@
 <meta name="author" content="Tamas Kohegyi" />
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
+<meta property="og:image" content="https://orokimadas.info:9092/resources/img/topimage3.jpg"/>
 <script src="/resources/js/external/jquery-3.4.1.js"></script>
 <script src="/resources/js/external/bootstrap-4.3.1.min.js"></script>
 <script src="/resources/js/common.js"></script>
