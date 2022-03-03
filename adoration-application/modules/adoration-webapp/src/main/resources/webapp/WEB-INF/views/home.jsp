@@ -15,6 +15,11 @@
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
 <meta property="og:image" content="https://orokimadas.info:9092/resources/img/topimage3.jpg"/>
+<meta property="og:url" content="https://orokimadas.info:9092/adoration/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Perpetual Adoration - Vác, Hungary"/>
+<meta property="og:description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban"/>
+<meta property="fb:app_id" content="1696487070576647"/>
 <script src="/resources/js/external/jquery-3.4.1.js"></script>
 <script src="/resources/js/external/bootstrap-4.3.1.min.js"></script>
 <title><ex:i18n messageId="home.jsp.title"/></title>
