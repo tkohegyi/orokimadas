@@ -31,6 +31,8 @@ public class EmailSender {
         PropertyDto propertyDto = emailConfigurationAccess.getProperties();
         Properties prop = new Properties();
         prop.put("mail.smtp.starttls.enable","true");
+        prop.put("mail.smtp.ssl.trust", "*");
+        prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
         prop.put("mail.smtp.host", propertyDto.getSmtpServer()); //optional, defined in SMTPTransport
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.port", propertyDto.getSmtpPort()); // default port 25
