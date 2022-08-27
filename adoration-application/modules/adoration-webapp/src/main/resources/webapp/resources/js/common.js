@@ -17,7 +17,7 @@ function setupMenu() {
         } else {
             $("#nav-ador-registration").show();
         }
-        if (loggedInUserInfo.isAdoratorAdmin) {
+        if (loggedInUserInfo.isAdoratorAdmin || loggedInUserInfo.isAdoratorAdministratorStaff) {
             $("#nav-application-log").show();
         }
     });

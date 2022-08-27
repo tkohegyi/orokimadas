@@ -34,7 +34,7 @@ public class AuditController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/audit")
     public String audit(HttpSession httpSession) {
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) { //only admins
+        if (isAdoratorSiteAdmin(currentUserProvider, httpSession)) { //only admins
             return "audit";
         }
         return REDIRECT_TO_HOME; //not admin -> go back to basic home page
@@ -51,7 +51,7 @@ public class AuditController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getAuditTrailByDays/{days:.+}")
     public TableDataInformationJson getAuditTrailByDays(HttpSession httpSession, @PathVariable("days") final String requestedDays) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorSiteAdmin(currentUserProvider, httpSession)) {
             //has right to collect and see information
             try {
                 var days = Long.parseLong(requestedDays);

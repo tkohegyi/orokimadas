@@ -44,6 +44,8 @@ public class CurrentUserInformationJson {
     @JsonField
     public boolean isAdoratorAdmin;
     @JsonField
+    public boolean isAdoratorAdministratorStaff;
+    @JsonField
     public Integer coordinatorId;  // id of a coordinator or -1 otherwise
     @JsonField
     public boolean isDailyCoordinator;
@@ -78,13 +80,14 @@ public class CurrentUserInformationJson {
         isRegisteredAdorator = false;
         isPrivilegedAdorator = false;
         isAdoratorAdmin = false;
+        isAdoratorAdministratorStaff = false;
         socialServiceUsed = "Undetermined";
         adorationApplicationVersion = "Örökimádás applikáció - ismeretlen verzió.";
         languagePack = null;
     }
 
     public boolean isPrivilegedUser() {
-        return isPrivilegedAdorator || isAdoratorAdmin;
+        return isPrivilegedAdorator || isAdoratorAdmin || isAdoratorAdministratorStaff;
     }
 
     /**
@@ -105,6 +108,7 @@ public class CurrentUserInformationJson {
         AdoratorStatusTypes status = AdoratorStatusTypes.getTypeFromId(person.getAdorationStatus());
         isRegisteredAdorator = AdoratorStatusTypes.getRegisteredAdoratorSet().contains(status);
         isPrivilegedAdorator = AdoratorStatusTypes.getLeadersSet().contains(status) || coordinatorId > -1;
+        isAdoratorAdministratorStaff = AdoratorStatusTypes.getAdministrativeStaffSet().contains(status);
         isAdoratorAdmin = AdoratorStatusTypes.getAdminsSet().contains(status);
         languageCode = person.getLanguageCode();
     }

@@ -77,7 +77,7 @@ public class CoordinatorController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getCoordinator/{id:.+}")
     public TableDataInformationJson getCoordinatorById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the coordinator
             var id = Long.valueOf(requestedId);
             var coordinatorJson = coordinatorProvider.getCoordinatorAsObject(id, currentUserProvider.getUserInformation(httpSession));

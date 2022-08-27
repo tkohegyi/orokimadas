@@ -49,7 +49,7 @@ public class AdoratorsController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/adorators")
     public String adorators(HttpSession httpSession) {
-        if (!isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (!isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             return REDIRECT_TO_HOME;
         }
         return "adorators";
@@ -64,7 +64,7 @@ public class AdoratorsController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getPersonTable")
     public TableDataInformationJson getPersonTable(HttpSession httpSession, @RequestParam("filter") Optional<String> filter) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the person table
             var people = peopleProvider.getPersonListAsObject(); // this says [{"id":372,"name" we need data in head
             content = new TableDataInformationJson(people);
@@ -103,7 +103,7 @@ public class AdoratorsController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getPersonHistory/{id:.+}")
     public TableDataInformationJson getPersonHistoryById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorSiteAdmin(currentUserProvider, httpSession)) {
             //can get the person history
             try {
                 var id = Long.valueOf(requestedId);
@@ -125,7 +125,7 @@ public class AdoratorsController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getPersonCommitments/{id:.+}")
     public TableDataInformationJson getPersonCommitmentsById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the person commitments
             try {
                 var id = Long.valueOf(requestedId);
@@ -192,7 +192,7 @@ public class AdoratorsController extends ControllerBase {
         try {
             CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization: user must have right user type
-            if (!currentUserInformationJson.isAdoratorAdmin) {
+            if (!currentUserInformationJson.isAdoratorAdministratorStaff) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok
@@ -274,7 +274,7 @@ public class AdoratorsController extends ControllerBase {
         try {
             CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(session);
             //check authorization
-            if (!currentUserInformationJson.isAdoratorAdmin) {
+            if (!currentUserInformationJson.isAdoratorAdministratorStaff) {
                 result = buildUnauthorizedActionBodyResult();
             } else {
                 //authorization checked, ok

@@ -42,7 +42,7 @@ public class LinksController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/links")
     public String adorators(HttpSession httpSession) {
-        if (!isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (!isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             return REDIRECT_TO_HOME;
         }
         return "links";
@@ -57,7 +57,7 @@ public class LinksController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getLinkTable")
     public TableDataInformationJson getLinkTable(HttpSession httpSession, @RequestParam("filter") Optional<String> filter) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the link table
             var o = linkProvider.getLinkListAsObject(currentUserProvider.getUserInformation(httpSession));
             content = new TableDataInformationJson(o);
@@ -74,7 +74,7 @@ public class LinksController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getLinkHistory/{id:.+}")
     public TableDataInformationJson getLinkHistoryById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorSiteAdmin(currentUserProvider, httpSession)) {
             //can get the history
             var id = Long.valueOf(requestedId);
             var history = linkProvider.getLinkHistoryAsObject(id);
@@ -92,7 +92,7 @@ public class LinksController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getLink/{id:.+}")
     public TableDataInformationJson getLinkById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the link
             var id = Long.valueOf(requestedId);
             var person = linkProvider.getLinkAsObject(id, currentUserProvider.getUserInformation(httpSession));

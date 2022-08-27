@@ -43,6 +43,7 @@
     </div>
     </fieldset>
 
+    <div id="logArea">
     <fieldset class="form-horizontal">
         <legend>Logok</legend>
         <div class="control-group">
@@ -52,7 +53,7 @@
             <ol id="div-log-files"></ol>
         </div>
     </fieldset>
-
+    </div>
   </div>
 </body>
 </html>

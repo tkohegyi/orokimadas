@@ -3,6 +3,9 @@ $(document).ready(function() {
     setupMenu();
     setupPersonTable();
     loadStructure();
+    if (!loggedInUserInfo.isAdoratorAdmin) {
+            $("#add-button").hide();
+    }
 });
 
 var structureInfo;
@@ -48,9 +51,16 @@ function setupPersonTable() {
             },
             {
                 "render": function ( data, type, row ) {
-                    var z = "<button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#editModal\" onclick=\"changeClick(" + data + ")\">" + data + "</button>";
+                    var z = "";
+                    if (loggedInUserInfo.isAdoratorAdmin) {
+                        z = Z + "<button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#editModal\" onclick=\"changeClick(" + data + ")\">" + data + "</button>";
+                    } else {
+                        z = z + "<button type=\"button\" class=\"btn btn-info btn-sm\" >" + data + "</button>";
+                    }
                     z = z + "<button type=\"button\" class=\"btn btn-warning btn-sm\" data-toggle=\"modal\" data-target=\"#timeModal\" onclick=\"changeTimeClick(" + data + ")\">Órák</button>";
-                    z = z + "<button type=\"button\" class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#historyModal\" onclick=\"changeHistoryClick(" + data + ")\">Log</button>";
+                    if (loggedInUserInfo.isAdoratorAdmin) {
+                        z = z + "<button type=\"button\" class=\"btn btn-secondary btn-sm\" data-toggle=\"modal\" data-target=\"#historyModal\" onclick=\"changeHistoryClick(" + data + ")\">Log</button>";
+                    }
                     return z;
                 },
                 "targets": 0

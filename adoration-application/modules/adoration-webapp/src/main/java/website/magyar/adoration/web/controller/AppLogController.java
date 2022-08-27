@@ -66,7 +66,7 @@ public class AppLogController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/applog")
     public String appLog(HttpSession httpSession, HttpServletResponse httpServletResponse) {
-        if (!isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (!isAdoratorAdminStaff(currentUserProvider, httpSession)) {  //admin or admin staff
             return REDIRECT_TO_HOME;
         }
         return "applog";
@@ -81,7 +81,7 @@ public class AppLogController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/logs")
     public Map<String, Collection<String>> getLogFiles(HttpSession httpSession) {
         Map<String, Collection<String>> jsonResponse = new HashMap<>();
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             jsonResponse.put(JSON_NAME, logFileProvider.getLogFileNames());
         }
         return jsonResponse;
@@ -102,7 +102,7 @@ public class AppLogController extends ControllerBase {
                                                     @RequestHeader(value = "User-Agent", defaultValue = "") final String userAgent) {
         ResponseEntity<String> responseEntity;
         var body = UNAUTHORIZED_ACTION;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             body = logFileProvider.getLogContent(fileName);
             body = convertLineBreaksIfOnWindows(body, userAgent);
         }
@@ -138,7 +138,7 @@ public class AppLogController extends ControllerBase {
         Map<RequestMappingInfo, HandlerMethod> methods = this.handlerMapping.getHandlerMethods();
         Map<String, Collection<String>> jsonResponse = new HashMap<>();
 
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {  //visible only for admins
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {  //visible only for admins
             for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : methods.entrySet()) {
                 Collection<String> collection = new ArrayList<>();
                 collection.add(entry.getValue().toString());

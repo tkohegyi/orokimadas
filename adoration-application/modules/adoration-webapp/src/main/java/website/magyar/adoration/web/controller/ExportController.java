@@ -41,7 +41,7 @@ public class ExportController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/getExcelFull")
     public void getExcelContent(HttpSession httpSession, HttpServletResponse httpServletResponse) {
-        prepareAndSendExcelResponse(httpSession, httpServletResponse, ExcelExportType.BIG_INFO, isAdoratorAdmin(currentUserProvider, httpSession));
+        prepareAndSendExcelResponse(httpSession, httpServletResponse, ExcelExportType.BIG_INFO, isAdoratorAdminStaff(currentUserProvider, httpSession));
     }
 
     /**

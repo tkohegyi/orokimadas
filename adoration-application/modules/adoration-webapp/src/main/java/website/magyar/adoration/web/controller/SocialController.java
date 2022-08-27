@@ -42,7 +42,7 @@ public class SocialController extends ControllerBase {
      */
     @GetMapping(value = "/adorationSecure/social")
     public String social(HttpSession httpSession) {
-        if (!isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (!isAdoratorSiteAdmin(currentUserProvider, httpSession)) {
             return REDIRECT_TO_HOME;
         }
         return "social";
@@ -58,7 +58,7 @@ public class SocialController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getSocialTable")
     public TableDataInformationJson getSocialTable(HttpSession httpSession) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the person table
             var people = socialProvider.getSocialListAsObject(); // this says [{"id":372,"name" we need data in head
             content = new TableDataInformationJson(people);
@@ -75,7 +75,7 @@ public class SocialController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getSocial/{id:.+}")
     public TableDataInformationJson getSocialById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the person
             var id = Long.valueOf(requestedId);
             var social = socialProvider.getSocialAsObject(id);
@@ -134,7 +134,7 @@ public class SocialController extends ControllerBase {
     @GetMapping(value = "/adorationSecure/getSocialHistory/{id:.+}")
     public TableDataInformationJson getSocialHistoryById(HttpSession httpSession, @PathVariable("id") final String requestedId) {
         TableDataInformationJson content = null;
-        if (isAdoratorAdmin(currentUserProvider, httpSession)) {
+        if (isAdoratorAdminStaff(currentUserProvider, httpSession)) {
             //can get the social history
             var id = Long.valueOf(requestedId);
             var socialHistory = socialProvider.getSocialHistoryAsObject(id);

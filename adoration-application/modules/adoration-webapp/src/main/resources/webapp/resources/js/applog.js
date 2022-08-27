@@ -1,8 +1,20 @@
 $(document).ready(function() {
     $("#nav-application-log").addClass("active");
     setupMenu();
-    setupLogs();
+    setupAccess();
 });
+
+function setupAccess() {
+    if (!loggedInUserInfo.isAdoratorAdmin) {
+        $("#social-button").hide();
+        $("#coordinator-button").hide();
+        $("#audit-button").hide();
+        $("#translator-button").hide();
+        $("#logArea").hide();
+    } else { //admin can see everything
+        setupLogs();
+    }
+}
 
 function setupLogs() {
   $.get('/adorationSecure/logs', function(data) {

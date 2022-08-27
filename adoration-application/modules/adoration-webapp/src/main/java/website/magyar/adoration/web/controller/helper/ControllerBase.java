@@ -28,7 +28,17 @@ public class ControllerBase {
      *
      * @return true when the user is administrator.
      */
-    public boolean isAdoratorAdmin(CurrentUserProvider currentUserProvider, HttpSession httpSession) {
+    public boolean isAdoratorAdminStaff(CurrentUserProvider currentUserProvider, HttpSession httpSession) {
+        CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
+        return currentUserInformationJson.isAdoratorAdmin || currentUserInformationJson.isAdoratorAdministratorStaff;
+    }
+
+    /**
+     * Checks if the current user is a site administrator or not.
+     *
+     * @return true when the user is site administrator.
+     */
+    public boolean isAdoratorSiteAdmin(CurrentUserProvider currentUserProvider, HttpSession httpSession) {
         CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
         return currentUserInformationJson.isAdoratorAdmin;
     }

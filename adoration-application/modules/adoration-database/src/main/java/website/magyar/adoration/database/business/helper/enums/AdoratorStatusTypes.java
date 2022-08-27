@@ -16,10 +16,12 @@ public enum AdoratorStatusTypes {
     DIED_ADORATOR("Died", 4),
     REGISTERED_BY_MISTAKE("Registered by mistake", 5),
     ADORATOR_EMPHASIZED("Emphasized Adorator", 6), //for Margit and all coordinators
-    ADORATOR_ADMIN("Administrator", 7);
+    ADORATOR_ADMINISTRATIVE_STAFF("Administrator", 7),
+    ADORATOR_ADMIN("Site Administrator", 8);
 
     private static final Set<AdoratorStatusTypes> REGISTERED_ADORATOR;
     private static final Set<AdoratorStatusTypes> LEADERS;
+    private static final Set<AdoratorStatusTypes> ADMINISTRATIVE_STAFF;
     private static final Set<AdoratorStatusTypes> ADMINS;
 
     private static final Set<AdoratorStatusTypes> INACTIVE_ADORATORS;
@@ -33,12 +35,18 @@ public enum AdoratorStatusTypes {
 
         REGISTERED_ADORATOR = new HashSet<>();
         REGISTERED_ADORATOR.add(AdoratorStatusTypes.ADORATOR_ADMIN);
+        REGISTERED_ADORATOR.add(AdoratorStatusTypes.ADORATOR_ADMINISTRATIVE_STAFF);
         REGISTERED_ADORATOR.add(AdoratorStatusTypes.ADORATOR);
         REGISTERED_ADORATOR.add(AdoratorStatusTypes.ADORATOR_EMPHASIZED);
 
         LEADERS = new HashSet<>();
         LEADERS.add(AdoratorStatusTypes.ADORATOR_ADMIN);
+        LEADERS.add(AdoratorStatusTypes.ADORATOR_ADMINISTRATIVE_STAFF);
         LEADERS.add(AdoratorStatusTypes.ADORATOR_EMPHASIZED);
+
+        ADMINISTRATIVE_STAFF = new HashSet<>();
+        ADMINISTRATIVE_STAFF.add(AdoratorStatusTypes.ADORATOR_ADMINISTRATIVE_STAFF);
+        ADMINISTRATIVE_STAFF.add(AdoratorStatusTypes.ADORATOR_ADMIN);
 
         ADMINS = new HashSet<>();
         ADMINS.add(AdoratorStatusTypes.ADORATOR_ADMIN);
@@ -60,6 +68,10 @@ public enum AdoratorStatusTypes {
 
     public static Set<AdoratorStatusTypes> getLeadersSet() {
         return LEADERS;
+    }
+
+    public static Set<AdoratorStatusTypes> getAdministrativeStaffSet() {
+        return ADMINISTRATIVE_STAFF;
     }
 
     public static Set<AdoratorStatusTypes> getAdminsSet() {
