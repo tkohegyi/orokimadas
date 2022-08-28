@@ -77,6 +77,7 @@ function setupPersonTable() {
                     case 5: z = 'Céltalanul regisztrált'; break;
                     case 6: z = 'Kiemelt adoráló'; break;
                     case 7: z = 'Adminisztrátor'; break;
+                    case 8: z = 'SiteAdminisztrátor'; break;
                     default: z = '???';
                     }
                     return z;

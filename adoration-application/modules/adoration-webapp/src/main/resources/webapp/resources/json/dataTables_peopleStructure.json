@@ -45,6 +45,7 @@
         { "id": 4, "value": "Elhunyt" },
         { "id": 6, "value": "Kiemelt adoráló" },
         { "id": 7, "value": "Adminisztrátor" },
+        { "id": 8, "value": "SiteAdminisztrátor" },
         { "id": 1, "value": "Újonnan regisztrált" }
       ],
       "edit": {
