@@ -53,7 +53,7 @@ function setupPersonTable() {
                 "render": function ( data, type, row ) {
                     var z = "";
                     if (loggedInUserInfo.isAdoratorAdmin) {
-                        z = Z + "<button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#editModal\" onclick=\"changeClick(" + data + ")\">" + data + "</button>";
+                        z = z + "<button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#editModal\" onclick=\"changeClick(" + data + ")\">" + data + "</button>";
                     } else {
                         z = z + "<button type=\"button\" class=\"btn btn-info btn-sm\" >" + data + "</button>";
                     }
