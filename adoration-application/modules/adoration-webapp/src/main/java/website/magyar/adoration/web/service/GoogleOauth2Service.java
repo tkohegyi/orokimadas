@@ -104,7 +104,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
      * @param authCode authenticaton code received from Google
      * @return with Spring Authentication object
      */
-    public Authentication getGoogleUserInfoJson(final String authCode) {
+    public Authentication getGoogleUserInfoJson(final String authCode, String languageCode) {
         Authentication authentication = null;
         var propertyDto = webAppConfigurationAccess.getProperties();
         try {
@@ -120,7 +120,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
             var gson = new Gson();
             var googleUserInfoJson = gson.fromJson(request.execute().parseAsString(), GoogleUserInfoJson.class);
 
-            var social = detectSocial(googleUserInfoJson);
+            var social = detectSocial(googleUserInfoJson, languageCode);
             var person = detectPerson(social);
             googleUser = new GoogleUser(social, person, propertyDto.getSessionTimeout());
 
@@ -141,7 +141,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
         return person;
     }
 
-    private Social detectSocial(GoogleUserInfoJson googleUserInfoJson) {
+    private Social detectSocial(GoogleUserInfoJson googleUserInfoJson, String languageCode) {
         googleUserInfoJson.email = makeEmptyStringFromNull(googleUserInfoJson.email);
         googleUserInfoJson.name = makeEmptyStringFromNull(googleUserInfoJson.name);
         googleUserInfoJson.picture = makeEmptyStringFromNull(googleUserInfoJson.picture);
@@ -169,26 +169,7 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
             }
             var text = "New Social id: " + id.toString() + "\nGoogle Type,\nName: " + social.getGoogleUserName() + ",\nEmail: " + social.getGoogleEmail();
             emailSender.sendMailToAdministrator(SUBJECT, text); //to administrator to inform about the person
-            text = "Kedves " + social.getGoogleUserName()
-                    + "!\n\nKöszönettel vettük első bejelentkezésedet a Váci Örökimádás (https://orokimadas.info:9092/) weboldalán."
-                    + "\n\nA következő adatokat ismertük meg rólad:"
-                    + "\nNév: " + social.getGoogleUserName()
-                    + "\nE-mail: " + social.getGoogleEmail()
-                    + "\nGoogle azonosító: " + social.getGoogleUserId()
-                    + "\nGoogle kép: " + social.getGoogleUserPicture()
-                    + "\n\nAdatkezelési tájékoztatónkat megtalálhatod itt: https://orokimadas.info:9092/resources/img/AdatkezelesiSzabalyzat.pdf"
-                    + "\nAdataidról információt illetve azok törlését pedig erre az e-mail címre írva kérheted: kohegyi.tamas (kukac) vac-deakvar.vaciegyhazmegye.hu."
-                    + "\nUgyanezen a címen várjuk leveledet akkor is, ha kérdésed, észrevételed vagy javaslatod van a weboldallal kapcsolatban. ";
-            if (personDetected) {
-                text += "\n\nMivel már regisztálva vagy, bártan használd a weboldal szolgáltatásait.";
-
-            } else { //person not detected
-                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért "
-                        + "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
-                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen."
-                        + " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
-            }
-            text += "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
+            text = generateWelcomeMessage(languageCode, social.getGoogleUserName(), social.getGoogleEmail(), social.getGoogleUserId(), social.getGoogleUserPicture(), personDetected);
             //send feedback mail to the registered user
             emailSender.sendMailFromSocialLogin(social.getGoogleEmail(), "Belépés az Örökimádás weboldalán Google azonosítóval", text);
             id = businessWithSocial.newSocial(social, auditTrail);
@@ -226,6 +207,56 @@ public class GoogleOauth2Service extends Oauth2ServiceBase {
         if (!auditTrailCollection.isEmpty()) {
             businessWithSocial.updateSocial(social, auditTrailCollection);
         }
+    }
+
+    private String generateWelcomeMessage(String languageCode, String googleUserName, String googleEmail, String googleUserId, String googleUserPicture, boolean personDetected) {
+        String text = "";
+        if (languageCode == null || !languageCode.equalsIgnoreCase("EN")) {
+            //not empty and not EN -> only HU can be
+            text = "Kedves " + googleUserName
+                    + "!\n\nKöszönettel vettük első bejelentkezésedet a Váci Örökimádás (https://orokimadas.magyar.website/) weboldalán."
+                    + "\n\nA következő adatokat ismertük meg rólad:"
+                    + "\nNév: " + googleUserName
+                    + "\nE-mail: " + googleEmail
+                    + "\nGoogle azonosító: " + googleUserId
+                    + "\nGoogle kép: " + googleUserPicture
+                    + "\n\nAdatkezelési tájékoztatónkat megtalálhatod itt: https://orokimadas.magyar.website/resources/img/AdatkezelesiSzabalyzat.pdf"
+                    + "\nAdataidról információt illetve azok törlését pedig erre az e-mail címre írva kérheted: kohegyi.tamas (kukac) vac-deakvar.vaciegyhazmegye.hu."
+                    + "\nUgyanezen a címen várjuk leveledet akkor is, ha kérdésed, észrevételed vagy javaslatod van a weboldallal kapcsolatban. ";
+            if (personDetected) {
+                text += "\n\nMivel már regisztálva vagy, bártan használd a weboldal szolgáltatásait.";
+
+            } else { //person not detected
+                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért "
+                        + "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
+                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen."
+                        + " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
+            }
+            text += "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
+        } else {
+            text = "Dear " + googleUserName
+                    + ",\n\nThank you for logging into the website of the Perpetual Adoration website of Vác (https://orokimadas.magyar.website/)."
+                    + "\n\nA következő adatokat ismertük meg rólad:"
+                    + "\nName: " + googleUserName
+                    + "\nEmail Address: " + googleEmail
+                    + "\nGoogle identifier: " + googleUserId
+                    + "\nGoogle picture: " + googleUserPicture
+                    + "\n\nYou may find our Privacy Policy and Data Management Policy here (available in Hungarian only): https://orokimadas.magyar.website/resources/img/AdatkezelesiSzabalyzat.pdf"
+                    + "\nFor further information about the usage of your data, or to exercise your Data Subject Access Right, please write an e-mail to this address: kohegyi.tamas (@) vac-deakvar.vaciegyhazmegye.hu."
+                    + "\nIn case have comments or improvement suggestions for the website itself, please use the very same email address to deliver your message. ";
+            if (personDetected) {
+                text += "\n\nAs you are a registered adorator already, you may use the services of the website immediately.";
+
+            } else { //person not detected
+                text += "\n\nSince you have used an e-mail address that is unknown for us, we don't know who you are, "
+                        + "please send a replay to this mail, and please share your real name, and how and exactly when you are participating in the Perpetual Adoration, "
+                        + "or your mobile/cellular phone number to give us the chance to reach you in person. This is necessary for the proper identification."
+                        + " Before it, we may provide a limited access to the website features only.";
+            }
+            text += "\n\nBest regards:\nTamás Kőhegyi\nsecular coordinator of the Perpetual Adoration\nPhone: +36-70-375-4140\n";
+
+        }
+        return text;
     }
 
 }

@@ -1,6 +1,7 @@
 package website.magyar.adoration.web.controller;
 
 import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
+import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.provider.CurrentUserProvider;
 import website.magyar.adoration.web.service.FacebookOauth2Service;
 import website.magyar.adoration.web.service.GoogleOauth2Service;
@@ -121,16 +122,16 @@ public class LoginController {
             HttpServletResponse httpServletResponse,
             HttpServletRequest httpServletRequest
     ) {
-        currentUserProvider.getUserInformation(httpSession);
+        CurrentUserInformationJson currentUserInformationJson = currentUserProvider.getUserInformation(httpSession);
         var auth = SecurityContextHolder.getContext().getAuthentication();
         if ((code.length() > 0) && (state.length() == 0) && ((auth == null) || auth instanceof AnonymousAuthenticationToken)) {  //if GOOGLE login can be performed and it is not yet authenticated for Ador App
             String nextPage;
-            nextPage = authenticateWithGoogle(httpSession, httpServletResponse, code);
+            nextPage = authenticateWithGoogle(httpSession, httpServletResponse, code, currentUserInformationJson.languageCode);
             return nextPage;
         }
         if ((code.length() > 0) && (state.length() > 0) && ((auth == null) || auth instanceof AnonymousAuthenticationToken)) {  //if FACEBOOK login can be performed and it is not yet authenticated for Ador App
             String nextPage;
-            nextPage = authenticateWithFacebook(httpSession, httpServletResponse, code);
+            nextPage = authenticateWithFacebook(httpSession, httpServletResponse, code, currentUserInformationJson.languageCode);
             return nextPage;
         }
         return HOME_PAGE;
@@ -154,16 +155,20 @@ public class LoginController {
         return followUpPage;
     }
 
-    private String authenticateWithFacebook(HttpSession httpSession, HttpServletResponse httpServletResponse, String code) {
+    private String authenticateWithFacebook(HttpSession httpSession, HttpServletResponse httpServletResponse, String code, String languageCode) {
         String followUpPage;
-        var authentication = facebookOauth2Service.getFacebookUserInfoJson(code);
-        followUpPage = commonAuthentication(httpSession, httpServletResponse, authentication, FACEBOOK_TEXT);
+        var authentication = facebookOauth2Service.getFacebookUserInfoJson(code, languageCode);
+        if (authentication == null) { //was unable to get user info properly
+            followUpPage = LOGIN_PAGE;
+        } else {
+            followUpPage = commonAuthentication(httpSession, httpServletResponse, authentication, FACEBOOK_TEXT);
+        }
         return followUpPage;
     }
 
-    private String authenticateWithGoogle(HttpSession httpSession, HttpServletResponse httpServletResponse, String code) {
+    private String authenticateWithGoogle(HttpSession httpSession, HttpServletResponse httpServletResponse, String code, String languageCode) {
         String followUpPage;
-        var authentication = googleOauth2Service.getGoogleUserInfoJson(code);
+        var authentication = googleOauth2Service.getGoogleUserInfoJson(code, languageCode);
         if (authentication == null) { //was unable to get user info properly
             followUpPage = LOGIN_PAGE;
         } else {

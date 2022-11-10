@@ -148,14 +148,14 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
      * @param authCode is the code arrived from Facebook
      * @return with the Authentication class (with a Facebook user in it) or null
      */
-    public Authentication getFacebookUserInfoJson(final String authCode) {
+    public Authentication getFacebookUserInfoJson(final String authCode, String languageCode) {
         FacebookUser facebookUser;
         Authentication authentication = null;
         var propertyDto = webAppConfigurationAccess.getProperties();
         try {
             var accessToken = getAccessToken(authCode, propertyDto.getFacebookAppId(), propertyDto.getFacebookAppSecret(), propertyDto.getGoogleRedirectUrl());
             var facebookUserInfoJson = getFacebookGraph(accessToken);
-            var social = detectSocial(facebookUserInfoJson);
+            var social = detectSocial(facebookUserInfoJson, languageCode);
             var person = detectPerson(social);
             facebookUser = new FacebookUser(social, person, propertyDto.getSessionTimeout());
 
@@ -176,7 +176,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
         return person;
     }
 
-    private Social detectSocial(JSONObject facebookUserInfoJson) {
+    private Social detectSocial(JSONObject facebookUserInfoJson, String languageCode) {
         var userId = facebookUserInfoJson.getAsString("id");
         var email = facebookUserInfoJson.getAsString("email");
         email = makeEmptyStringFromNull(email);
@@ -206,25 +206,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
             }
             var text = "New Social id: " + id.toString() + "\nFacebook Type,\n Name: " + social.getFacebookUserName() + ",\nEmail: " + social.getFacebookEmail();
             emailSender.sendMailToAdministrator(SUBJECT, text); //send mail to administrator
-            text = "Kedves " + social.getFacebookUserName()
-                    + "!\n\nKöszönettel vettük első bejelentkezésedet a Váci Örökimádás (https://orokimadas.info:9092/) weboldalán."
-                    + "\n\nA következő adatokat ismertük meg rólad:"
-                    + "\nNév: " + social.getFacebookUserName()
-                    + "\nE-mail: " + social.getFacebookEmail()
-                    + "\nFacebook azonosító: " + social.getFacebookUserId()
-                    + "\n\nAdatkezelési tájékoztatónkat megtalálhatod itt: https://orokimadas.info:9092/resources/img/AdatkezelesiSzabalyzat.pdf"
-                    + "\nAdataidról információt illetve azok törlését pedig erre az e-mail címre írva kérheted: kohegyi.tamas (kukac) vac-deakvar.vaciegyhazmegye.hu."
-                    + "\nUgyanezen a címen várjuk leveledet akkor is, ha kérdésed, észrevételed vagy javaslatod van a weboldallal kapcsolatban. ";
-            if (personDetected) {
-                text += "\n\nMivel már regisztálva vagy, bártan használd a weboldal szolgáltatásait.";
-
-            } else { //person not detected
-                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért "
-                        + "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
-                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen."
-                        + " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
-            }
-            text += "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
+            text = generateWelcomeMessage(languageCode, social.getFacebookUserName(), social.getFacebookEmail(), social.getFacebookUserId(), personDetected);
             //send feedback mail to the registered user
             emailSender.sendMailFromSocialLogin(social.getFacebookEmail(), "Belépés az Örökimádás weboldalán Facebook azonosítóval", text);
             id = businessWithSocial.newSocial(social, auditTrail);
@@ -257,5 +239,56 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
             businessWithSocial.updateSocial(social, auditTrailCollection);
         }
     }
+
+    private String generateWelcomeMessage(String languageCode, String facebookUserName, String facebookEmail, String facebookUserId, boolean personDetected) {
+        String text = "";
+        if (languageCode == null || !languageCode.equalsIgnoreCase("EN")) {
+            //not empty and not EN -> only HU can be
+            text += "Kedves " + facebookUserName
+                    + "!\n\nKöszönettel vettük első bejelentkezésedet a Váci Örökimádás (https://orokimadas.magyar.website/) weboldalán."
+                    + "\n\nA következő adatokat ismertük meg rólad:"
+                    + "\nNév: " + facebookUserName
+                    + "\nE-mail: " + facebookEmail
+                    + "\nFacebook azonosító: " + facebookUserId
+                    + "\n\nAdatkezelési tájékoztatónkat megtalálhatod itt: https://orokimadas.magyar.website/resources/img/AdatkezelesiSzabalyzat.pdf"
+                    + "\nAdataidról információt illetve azok törlését pedig erre az e-mail címre írva kérheted: kohegyi.tamas (kukac) vac-deakvar.vaciegyhazmegye.hu."
+                    + "\nUgyanezen a címen várjuk leveledet akkor is, ha kérdésed, észrevételed vagy javaslatod van a weboldallal kapcsolatban. ";
+            if (personDetected) {
+                text += "\n\nMivel már regisztálva vagy, bártan használd a weboldal szolgáltatásait.";
+
+            } else { //person not detected
+                text += "\n\nMivel olyan e-mail címet használtál, amely alapján nem tudjuk pontosan, hogy ki vagy, ezért "
+                        + "erre a levélre válaszolva kérlek írd meg, hogy ki vagy és mikor szoktál az Örökimádásban részt venni, "
+                        + "vagy a telefonszámodat, hogy felvehessük veled a kapcsolatot. Ez mindenféleképpen szükséges, hogy a megfelelő azonosítás megtörténjen."
+                        + " Amíg ez nem történik meg, csak korlátozottan tudunk hozzáférést biztosítani a weboldalhoz.";
+            }
+            text += "\n\nÜdvözlettel:\nKőhegyi Tamás\naz örökimádás világi koordinátora\n+36-70-375-4140\n";
+        } else {
+            //only EN can be
+            text += "Dear " + facebookUserName
+                    + ",\n\nThank you for logging into the website of the Perpetual Adoration website of Vác (https://orokimadas.magyar.website/)."
+                    + "\n\nThe following information was shared with us about you:"
+                    + "\nName: " + facebookUserName
+                    + "\nEmail Address: " + facebookEmail
+                    + "\nFacebook identifier: " + facebookUserId
+                    + "\n\nYou may find our Privacy Policy and Data Management Policy here (available in Hungarian only): https://orokimadas.magyar.website/resources/img/AdatkezelesiSzabalyzat.pdf"
+                    + "\nFor further information about the usage of your data, or to exercise your Data Subject Access Right, please write an e-mail to this address: kohegyi.tamas (@) vac-deakvar.vaciegyhazmegye.hu"
+                    + "\nIn case have comments or improvement suggestions for the website itself, please use the very same email address to deliver your message. ";
+            if (personDetected) {
+                text += "\n\nAs you are a registered adorator already, you may use the services of the website immediately.";
+
+            } else { //person not detected
+                text += "\n\nSince you have used an e-mail address that is unknown for us, we don't know who you are, "
+                        + "please send a replay to this mail, and please share your real name, and how and exactly when you are participating in the Perpetual Adoration, "
+                        + "or your mobile/cellular phone number to give us the chance to reach you in person. This is necessary for the proper identification."
+                        + " Before it, we may provide a limited access to the website features only.";
+            }
+            text += "\n\nBest regards:\nTamás Kőhegyi\nsecular coordinator of the Perpetual Adoration\nPhone: +36-70-375-4140\n";
+        }
+
+        return text;
+    }
+
+
 
 }
