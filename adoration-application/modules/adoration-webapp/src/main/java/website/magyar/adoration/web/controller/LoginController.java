@@ -3,6 +3,7 @@ package website.magyar.adoration.web.controller;
 import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.provider.CurrentUserProvider;
+import website.magyar.adoration.web.service.AuthenticatedUser;
 import website.magyar.adoration.web.service.FacebookOauth2Service;
 import website.magyar.adoration.web.service.GoogleOauth2Service;
 import org.slf4j.Logger;
@@ -143,8 +144,17 @@ public class LoginController {
         var sc = SecurityContextHolder.getContext();
         sc.setAuthentication(authentication);
         httpSession.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
-        logger.info("User logged in with {}: {}", serviceName, currentUserProvider.getQuickUserName(authentication));
+        String userName = currentUserProvider.getQuickUserName(authentication);
+        logger.info("User logged in with {}: {}", serviceName, userName);
         currentUserProvider.registerLogin(httpSession, serviceName);
+        var principal = authentication.getPrincipal();
+        if (principal instanceof AuthenticatedUser) {
+            var user = (AuthenticatedUser) principal;
+            currentUserProvider.addSession(httpSession.getId(), user);
+            logger.info("Session: {} connected to user:{}", httpSession.getId(), userName);
+        } else {
+            logger.warn("Session: {} is without proper user.", httpSession.getId());
+        }
         try {
             httpServletResponse.sendRedirect(webAppConfigurationAccess.getProperties().getGoogleRedirectUrl());
             followUpPage = null;
@@ -159,6 +169,8 @@ public class LoginController {
         String followUpPage;
         var authentication = facebookOauth2Service.getFacebookUserInfoJson(code, languageCode);
         if (authentication == null) { //was unable to get user info properly
+            currentUserProvider.removeSession(httpSession.getId());
+            httpSession.invalidate();
             followUpPage = LOGIN_PAGE;
         } else {
             followUpPage = commonAuthentication(httpSession, httpServletResponse, authentication, FACEBOOK_TEXT);
@@ -171,6 +183,8 @@ public class LoginController {
         var authentication = googleOauth2Service.getGoogleUserInfoJson(code, languageCode);
         if (authentication == null) { //was unable to get user info properly
             followUpPage = LOGIN_PAGE;
+            currentUserProvider.removeSession(httpSession.getId());
+            httpSession.invalidate();
         } else {
             followUpPage = commonAuthentication(httpSession, httpServletResponse, authentication, GOOGLE_TEXT);
         }
@@ -198,9 +212,11 @@ public class LoginController {
                 logger.info("User logout: {}", currentUserProvider.getQuickUserName(authentication));
                 currentUserProvider.registerLogout(httpSession);
             }
+            currentUserProvider.removeSession(httpSession.getId());
             sc.setAuthentication(null); // this cleans up the authentication data technically
             httpSession.removeAttribute(SPRING_SECURITY_CONTEXT_KEY); // this clean up the session itself
         }
+        httpSession.invalidate();
         try {
             httpServletResponse.sendRedirect(webAppConfigurationAccess.getProperties().getBaseUrl());
             return null;
