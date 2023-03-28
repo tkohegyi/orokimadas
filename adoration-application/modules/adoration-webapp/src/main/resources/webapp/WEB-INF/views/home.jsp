@@ -118,6 +118,10 @@
             </tr>
             <tr>
                 <td />
+                <td><ex:i18n messageId="home.jsp.documents.downloadable.mail2023"/></td>
+            </tr>
+            <tr>
+                <td />
                 <td><ex:i18n messageId="home.jsp.documents.downloadable.mail"/></td>
             </tr>
             <tr>
