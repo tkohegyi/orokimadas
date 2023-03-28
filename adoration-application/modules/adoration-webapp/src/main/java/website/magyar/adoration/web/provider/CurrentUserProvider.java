@@ -206,7 +206,7 @@ public class CurrentUserProvider {
      * @param httpSession       identifies the user
      * @param oauth2ServiceName identifies the used social service
      */
-    public void registerLogin(HttpSession httpSession, final String oauth2ServiceName) {
+    public void logLoginInAuditTrail(HttpSession httpSession, final String oauth2ServiceName) {
         var currentUserInformationJson = getUserInformation(httpSession);
         internationalization.setLanguage(httpSession, currentUserInformationJson.languageCode);
         var data = oauth2ServiceName;

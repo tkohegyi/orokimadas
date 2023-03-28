@@ -145,8 +145,6 @@ public class LoginController {
         sc.setAuthentication(authentication);
         httpSession.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
         String userName = currentUserProvider.getQuickUserName(authentication);
-        logger.info("User logged in with {}: {}", serviceName, userName);
-        currentUserProvider.registerLogin(httpSession, serviceName);
         var principal = authentication.getPrincipal();
         if (principal instanceof AuthenticatedUser) {
             var user = (AuthenticatedUser) principal;
@@ -155,6 +153,8 @@ public class LoginController {
         } else {
             logger.warn("Session: {} is without proper user.", httpSession.getId());
         }
+        logger.info("User logged in with {}: {}", serviceName, userName);
+        currentUserProvider.logLoginInAuditTrail(httpSession, serviceName);
         try {
             httpServletResponse.sendRedirect(webAppConfigurationAccess.getProperties().getGoogleRedirectUrl());
             followUpPage = null;
