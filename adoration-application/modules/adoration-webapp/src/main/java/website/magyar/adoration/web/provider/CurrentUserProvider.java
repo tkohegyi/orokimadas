@@ -115,10 +115,10 @@ public class CurrentUserProvider {
                 if (user.isSessionValid() && checkSession(httpSession, user)) {
                     user.extendSessionTimeout();
                     currentUserInformationJson = getCurrentUserInformation(httpSession, user, currentUserInformationJson.languageCode);
-                    logger.info("User found {} principal:{} session: {}", currentUserInformationJson.userName, principal, httpSession.getId());
+                    //logger.info("User found {} principal:{} session: {}", currentUserInformationJson.userName, principal, httpSession.getId());
                 } else { //session expired!
                     String sessionID = httpSession.getId();
-                    logger.info("Session expired/invalidated: {}", sessionID);
+                    //logger.info("Session expired/invalidated: {}", sessionID);
                     removeSession(sessionID);
                     securityContext.setAuthentication(null); // this cleans up the authentication data technically
                     httpSession.removeAttribute(SPRING_SECURITY_CONTEXT_KEY); // this clean up the session itself
