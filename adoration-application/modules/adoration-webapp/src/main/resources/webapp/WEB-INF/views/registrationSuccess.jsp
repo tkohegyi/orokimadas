@@ -12,7 +12,7 @@
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
 <title><ex:i18n messageId="registrationSuccess.jsp.title"/></title>
-<link href="/resources/css/external/bootstrap-4.3.1.min.css" rel="stylesheet" media="screen">
+<link href="/resources/css/external/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="/resources/css/menu.css" rel="stylesheet" media="screen">
 <link id="favicon" rel="shortcut icon" type="image/png" href="/resources/img/favicon.png" />
 </head>
@@ -25,7 +25,7 @@
 		<p>
 			<ex:i18n messageId="registrationSuccess.jsp.successText1"/><br /><br />
 			<ex:i18n messageId="registrationSuccess.jsp.successText2"/>
-			<a href="/resources/img/BishopLetter-BeerM.pdf" target="new"><ex:i18n messageId="registrationSuccess.jsp.successText3"/></a>
+			<a href="/resources/img/10_2023_BishopLetter_2023.pdf" target="new"><ex:i18n messageId="registrationSuccess.jsp.successText3"/></a>
 			<ex:i18n messageId="registrationSuccess.jsp.successText4"/><a href="/resources/img/AlapvetoSzabalyok.pdf" target="new2"><ex:i18n messageId="registrationSuccess.jsp.successText5"/></a>
 			<br/><ex:i18n messageId="registrationSuccess.jsp.successText6"/><br /><br />
 			<ex:i18n messageId="registrationSuccess.jsp.successText7"/><br /><ex:i18n messageId="registrationSuccess.jsp.successText8"/>
@@ -33,8 +33,8 @@
 		</p>
 	</div>
 </div>
-<script src="/resources/js/external/jquery-3.4.1.js"></script>
-<script src="/resources/js/external/bootstrap-4.3.1.min.js"></script>
+<script src="/resources/js/external/jquery-3.6.4.min.js"></script>
+<script src="/resources/js/external/bootstrap.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/registrationSuccess.js"></script>
 </body>

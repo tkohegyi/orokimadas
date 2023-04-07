@@ -14,16 +14,16 @@
 <meta name="author" content="Tamas Kohegyi" />
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
-<meta property="og:image" content="https://orokimadas.info:9092/resources/img/topimage3.jpg"/>
-<meta property="og:url" content="https://orokimadas.info:9092/adoration/"/>
+<meta property="og:image" content="https://orokimadas.magyar.website/resources/img/topimage3.jpg"/>
+<meta property="og:url" content="https://orokimadas.magyar.website/adoration/"/>
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="Perpetual Adoration - Vác, Hungary"/>
 <meta property="og:description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban"/>
 <meta property="fb:app_id" content="1696487070576647"/>
-<script src="/resources/js/external/jquery-3.4.1.js"></script>
-<script src="/resources/js/external/bootstrap-4.3.1.min.js"></script>
+<script src="/resources/js/external/jquery-3.6.4.min.js"></script>
+<script src="/resources/js/external/bootstrap.min.js"></script>
 <title><ex:i18n messageId="home.jsp.title"/></title>
-<link href="/resources/css/external/bootstrap-4.3.1.min.css" rel="stylesheet" media="screen">
+<link href="/resources/css/external/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="/resources/css/menu.css" rel="stylesheet" media="screen">
 <link href="/resources/css/coverageBar.css" rel="stylesheet" media="screen">
 <link id="favicon" rel="shortcut icon" type="image/png" href="/resources/img/favicon.png">
