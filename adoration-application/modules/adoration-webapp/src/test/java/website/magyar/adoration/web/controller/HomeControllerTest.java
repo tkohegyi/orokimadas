@@ -6,8 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
-import website.magyar.adoration.web.configuration.PropertyDto;
-import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
+import org.springframework.ui.ModelMap;
 import website.magyar.adoration.web.helper.MockControllerBase;
 import website.magyar.adoration.web.json.CoverageInformationJson;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -37,11 +37,10 @@ public class HomeControllerTest {
     @Mock
     private CurrentUserProvider currentUserProvider;
     @Mock
-    private WebAppConfigurationAccess webAppConfigurationAccess;
-    @Mock
     private CoverageProvider coverageProvider;
-    @Mock
+
     private CurrentUserInformationJson currentUserInformationJson;
+
     @Mock
     private HttpServletRequest httpServletRequest;
     @Mock
@@ -53,7 +52,9 @@ public class HomeControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Whitebox.setInternalState(underTest, "logger", logger);
-        doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(null);
+
+        currentUserInformationJson = new CurrentUserInformationJson();
+        doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(any());
     }
 
     @Test
@@ -69,6 +70,7 @@ public class HomeControllerTest {
     public void realHome() {
         //given - no precondition
         when(httpSession.getAttribute(anyString())).thenReturn("hu");
+        ModelMap modelMap = new ModelMap();
         //when
         String result = underTest.realHome(httpSession);
         // then
@@ -142,21 +144,6 @@ public class HomeControllerTest {
         // then
         assertEquals("E404", result);
         verify(logger).info("E500 caused by: {}, method: {}, URI: {}", "A", "C", "unknown");
-    }
-
-    @Test
-    public void getLoggedInUserInfo() {
-        //given
-        MockControllerBase mockControllerBase = new MockControllerBase();
-        String expected = mockControllerBase.mockGetJsonString("loggedInUserInfo", currentUserInformationJson);
-        doReturn(new PropertyDto(null, null, null, null, null,
-                null, null, null, null, null, null,
-                null, null, null)).when(webAppConfigurationAccess).getProperties();
-        //when
-        ResponseEntity<String> result = underTest.getLoggedInUserInfo(null);
-        //then
-        String json = result.getBody();
-        assertEquals(expected, json);
     }
 
     @Test

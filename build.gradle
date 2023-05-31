@@ -5,17 +5,17 @@ plugins {
 if ( !hasProperty('buildNumber') ) {
     rootProject.ext.buildNumber = 'SNAPSHOT'
 }
-version = "V2.0." + "${rootProject.ext.buildNumber}"
+version = "V2.1." + "${rootProject.ext.buildNumber}"
 
 ext {
     jUnitVersion = '4.13.2'
-    springFrameworkVersion = '5.0.19.RELEASE'
-    springSecurityVersion = '5.0.19.RELEASE'
+    springFrameworkVersion = '5.2.24.RELEASE'
+    springSecurityVersion = '5.8.3'
     mockitoCoreVersion = '3.3.3'
-    orgSfl4jVersion = '1.7.30'
-    jettyVersion = '9.4.43.v20210629'
+    orgSfl4jVersion = '1.7.36'
+    jettyVersion = '9.4.51.v20230217'
     javaxAnnotationApi='javax.annotation:javax.annotation-api:1.3.2'
-    orgJsonApi='org.json:json:20210307'
+    orgJsonApi='org.json:json:20230227'
 }
 
 sonarqube {

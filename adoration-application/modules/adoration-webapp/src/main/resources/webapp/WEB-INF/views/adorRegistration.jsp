@@ -32,6 +32,8 @@
                 <legend class="message-legend" style="text-align:center; color:#E05050; font-family: Oswald"><ex:i18n messageId="adorRegistration.jsp.login1"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="./../resources/img/google_login.png" alt="Google"/></a><ex:i18n messageId="adorRegistration.jsp.login2"/><a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="./../resources/img/facebook_login.png" alt="Facebook"/></a><ex:i18n messageId="adorRegistration.jsp.login3"/>
                 </legend>
             </div>
+            <div id="sslSign"><ex:i18n messageId="login.jsp.cookieWarning"/></div>
+            <hr />
             <div>
                 <ex:i18n messageId="adorRegistration.jsp.yes"/>
             </div>
@@ -151,17 +153,7 @@
         <hr />
         <style type="text/css">
             #adorationVersion {display:inline-block;}
-            #sslSign {display:inline-block;}
         </style>
-        <div id="sslSign" class="right">
-            <script type="text/javascript"> //<![CDATA[
-              var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
-              document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
-            //]]></script>
-            <script language="JavaScript" type="text/javascript">
-              TrustLogo("https://www.positivessl.com/images/seals/positivessl_trust_seal_sm_124x32.png", "POSDV", "none");
-            </script>
-        </div>
 
     <%@include file="../include/commonAlert.html" %>
 </div>

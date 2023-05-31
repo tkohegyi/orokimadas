@@ -1,5 +1,5 @@
 ﻿<%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
+<%@ taglib prefix="ex" uri = "/WEB-INF/custom.tld"%>
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
@@ -141,15 +141,7 @@
         #sslSign {display:inline-block;}
     </style>
     <div id="adorationVersion"></div>
-    <div id="sslSign" class="right">
-        <script type="text/javascript"> //<![CDATA[
-          var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
-          document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
-        //]]></script>
-        <script language="JavaScript" type="text/javascript">
-          TrustLogo("https://www.positivessl.com/images/seals/positivessl_trust_seal_sm_124x32.png", "POSDV", "none");
-        </script>
-    </div>
+    <div id="secureLogo"></div>
   </div>
 
   <%@include file="../include/commonAlert.html" %>

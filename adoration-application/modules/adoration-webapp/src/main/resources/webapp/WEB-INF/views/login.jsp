@@ -36,21 +36,14 @@
                 <br /></p>
             </div>
         </fieldset>
-        <hr />
         <style type="text/css">
             #adorationVersion {display:inline-block;}
             #sslSign {display:inline-block;}
         </style>
+        <hr />
+        <div id="sslSign"><ex:i18n messageId="login.jsp.cookieWarning"/></div>
+        <hr />
         <div id="adorationVersion"></div>
-        <div id="sslSign" class="right">
-            <script type="text/javascript"> //<![CDATA[
-              var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
-              document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
-            //]]></script>
-            <script language="JavaScript" type="text/javascript">
-              TrustLogo("https://www.positivessl.com/images/seals/positivessl_trust_seal_sm_124x32.png", "POSDV", "none");
-            </script>
-        </div>
     </div>
     <script src="/resources/js/external/jquery-3.6.4.min.js"></script>
     <script src="/resources/js/external/bootstrap.min.js"></script>
