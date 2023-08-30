@@ -42,8 +42,8 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
 
     public static final String FACEBOOK_TEXT = "Facebook";
 
-    private static final String GRAPH_URL = "https://graph.facebook.com/v13.0/oauth/access_token?";
-    private static final String AUTHORIZATION_URL = "https://www.facebook.com/v13.0/dialog/oauth?";
+    private static final String GRAPH_URL = "https://graph.facebook.com/v17.0/oauth/access_token?";
+    private static final String AUTHORIZATION_URL = "https://www.facebook.com/v17.0/dialog/oauth?";
     private static final String SUBJECT = "[AdoratorApp] - Új Facebook Social";
 
     private final Logger logger = LoggerFactory.getLogger(FacebookOauth2Service.class);
