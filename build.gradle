@@ -13,7 +13,8 @@ ext {
     springSecurityVersion = '5.8.3'
     mockitoCoreVersion = '3.3.3'
     orgSfl4jVersion = '1.7.36'
-    jettyVersion = '9.4.51.v20230217'
+    jettyVersion = '9.4.52.v20230823'
+//    jettyVersion = '12.0.1'
     javaxAnnotationApi='javax.annotation:javax.annotation-api:1.3.2'
     orgJsonApi='org.json:json:20230227'
 }
