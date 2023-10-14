@@ -53,6 +53,16 @@ public class HomeController extends ControllerBase {
      *
      * @return with proper content
      */
+    @GetMapping(value = "/adoration")
+    public String almostRealHome() {
+        return "redirect:/adoration/";
+    }
+
+    /**
+     * Serving the Home page request.
+     *
+     * @return with proper content
+     */
     @GetMapping(value = "/adoration/")
     public String realHome(HttpSession httpSession) {
         currentUserProvider.getUserInformation(httpSession);
@@ -96,6 +106,26 @@ public class HomeController extends ControllerBase {
      */
     @GetMapping(value = "/sitemap.xml")
     public String siteMapXml() {
+        return "redirect:/resources/sitemap.xml";
+    }
+
+    /**
+     * Serving "sitemaps.xml" request.
+     *
+     * @return with the proper content
+     */
+    @GetMapping(value = "/sitemaps.xml")
+    public String siteMapsXml() {
+        return "redirect:/resources/sitemap.xml";
+    }
+
+    /**
+     * Serving "sitemap_index.xml" request.
+     *
+     * @return with the proper content
+     */
+    @GetMapping(value = "/sitemap_index.xml")
+    public String siteMapIndexXml() {
         return "redirect:/resources/sitemap.xml";
     }
 

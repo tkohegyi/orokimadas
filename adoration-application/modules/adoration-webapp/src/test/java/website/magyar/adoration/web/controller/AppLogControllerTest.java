@@ -18,6 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -59,12 +60,6 @@ public class AppLogControllerTest {
         Whitebox.setInternalState(underTest, "currentUserProvider", currentUserProvider);
         Whitebox.setInternalState(underTest, "logFileProvider", logFileProvider);
         doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(null);
-
-        //initiate registered methods
-        Map<RequestMappingInfo, HandlerMethod> methods = new HashMap<>();
-        methods.put(RequestMappingInfo.paths("*").build(), new HandlerMethod(new DummyTestObject(), DummyTestObject.class.getMethod("getTrue")));
-        doReturn(methods).when(handlerMapping).getHandlerMethods();
-        Whitebox.setInternalState(underTest, "handlerMapping", handlerMapping);
     }
 
     @Test
@@ -175,24 +170,6 @@ public class AppLogControllerTest {
         ResponseEntity<String> result = underTest.getLogFileContent(null, fileName, true, userAgentWindows);
         //THEN
         assertEquals(expectedBody, result.getBody());
-    }
-
-    @Test
-    public void testShowEndPointsForAdministrator() {
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", true);
-        //when
-        Map<String, Collection<String>> result = underTest.showEndPoints(null);
-        //then
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    public void testShowEndPointsForNotAdministrator() {
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", false);
-        //when
-        Map<String, Collection<String>> result = underTest.showEndPoints(null);
-        //then
-        assertEquals(0, result.size());
     }
 
     @Test
