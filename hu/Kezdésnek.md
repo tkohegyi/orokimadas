@@ -41,7 +41,7 @@ Egy-egy hiányzásra jó előre fel kell készülni. A felkészülés azt jelent
 Helyettes keresése egyébként nem kötődik egy-egy előre tudott hiányzáshoz, vagy az óra lemondásához. Mindenkinek javasolt az, hogy gondolkodjon el ezen, és próbálja megtalálni környezetében azt a 2-3 embert/közösséget (tehát nem egyet!), akikre majd számíthat akkor, amikor valóban szükség lesz rá. Ilyen segítségre előbb-utóbb mindenkinek szüksége lesz, egy adoráló sem gondolhat arra, hogy ő kivétel.
 
 Arra a helyzetre is fel kell készülni, amikor a vállat óra végén nem érkezik meg a váltás. Ilyen eset bármikor előfordulhat, és nagyon fontos, hogy kéznél legyenek az ilyenkor szükséges információk:
--	Az adoráló tudja meg előre, hogy kia az, aki a soron következő órát vállalta. Legyen a telefonszáma kéznél, és bátran fel kell hívni azonnal, ha nem érkezik meg időben. 
+-	Az adoráló tudja meg előre, hogy ki az, aki a soron következő órát vállalta. Legyen a telefonszáma kéznél, és bátran fel kell hívni azonnal, ha nem érkezik meg időben. 
 -	Az adoráló azt is tudakolja meg, hogy ki a következő óra órafelelőse, és mi az ő elérhetősége. Ha a soron következő órát vállalót nem lehet épp elérni, az ő órafelelősét érdemes felhívni.
 A soron következő órát vállaló személy és annak órafelelőse meg fogja tudni oldani a problémát. 
 Ezeket az információkat legegyszerűbben a következő órát vállalóval elbeszélgetve lehet beszerezni, de akár az Örökimádás weboldalára bejelentkezve is hozzáférhetők ezek az információk. Ehhez viszont szükséges mobil internet és "okostelefon".
