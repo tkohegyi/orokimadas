@@ -32,7 +32,7 @@
                 <p><span style="font-weight:bold"><ex:i18n messageId="login.jsp.firstLoginCase"/></span></p>
                 <br /><ex:i18n messageId="login.jsp.loginText1"/><br />
                 <ex:i18n messageId="login.jsp.loginText2"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="/resources/img/google_login.png" alt="Google logo"/></a><ex:i18n messageId="login.jsp.loginText3"/><br/>
-                <ex:i18n messageId="login.jsp.loginText4"/><a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="/resources/img/facebook_login.png" alt="Facebook logo"/></a><ex:i18n messageId="login.jsp.loginText5"/><br/>
+                <!-- <ex:i18n messageId="login.jsp.loginText4"/><a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="/resources/img/facebook_login.png" alt="Facebook logo"/></a><ex:i18n messageId="login.jsp.loginText5"/><br/> -->
                 <br /></p>
             </div>
         </fieldset>
