@@ -21,8 +21,8 @@ ext {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "tkohegyi_common"
-        property "sonar.organization", "tkohegyi"
+        property "sonar.projectKey", "website-magyar_orokimadas"
+        property "sonar.organization", "website-magyar"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.java.checkstyle.reportPaths", "build/reports/checkstyle/main.xml"
         property "sonar.exclusions", "**/external/**/*";
