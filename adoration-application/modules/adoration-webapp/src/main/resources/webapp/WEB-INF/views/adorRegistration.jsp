@@ -29,7 +29,7 @@
         <legend class="message-legend h4"></legend>
         <fieldset id="suggestLogin" class="form-horizontal">
             <div class="alert alert-danger" role="alert">
-                <legend class="message-legend" style="text-align:center; color:#E05050; font-family: Oswald"><ex:i18n messageId="adorRegistration.jsp.login1"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="./../resources/img/google_login.png" alt="Google"/></a><ex:i18n messageId="adorRegistration.jsp.login2"/><a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="./../resources/img/facebook_login.png" alt="Facebook"/></a><ex:i18n messageId="adorRegistration.jsp.login3"/>
+                <legend class="message-legend" style="text-align:center; color:#E05050; font-family: Oswald"><ex:i18n messageId="adorRegistration.jsp.login1"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="./../resources/img/google_login.png" alt="Google"/></a><ex:i18n messageId="adorRegistration.jsp.login3"/>
                 </legend>
             </div>
             <div id="sslSign"><ex:i18n messageId="login.jsp.cookieWarning"/></div>

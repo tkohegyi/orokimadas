@@ -31,7 +31,7 @@
     <fieldset id="suggestLogin" class="form-horizontal">
         <br />
         <div>
-            <legend class="message-legend" style="text-align:center; color:#E05050; padding: 0px; font-family: Oswald"><ex:i18n messageId="live.jsp.login1"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="/resources/img/google_login.png" alt="Google"/></a><ex:i18n messageId="live.jsp.login2"/><a id="fLoginAnchor" class="login" href="/adoration/loginFacebook"><img src="/resources/img/facebook_login.png" alt="Facebook"/></a><ex:i18n messageId="live.jsp.login3"/></legend>
+            <legend class="message-legend" style="text-align:center; color:#E05050; padding: 0px; font-family: Oswald"><ex:i18n messageId="live.jsp.login1"/><a id="gLoginAnchor" class="login" href="/adoration/loginGoogle"><img src="/resources/img/google_login.png" alt="Google"/></a><ex:i18n messageId="live.jsp.login3"/></legend>
         </div>
         <hr />
         <div id="sslSign"><ex:i18n messageId="login.jsp.cookieWarning"/></div>

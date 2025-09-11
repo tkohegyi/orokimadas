@@ -1,22 +1,23 @@
 Hogyan is működik az Örökimádás?
 ----------------------------------------
 Igazából 4 dolog kell hozzá:
-- Egy megfelelő *Kápolna*, amit erre szánnak - nemcsak a hívek, hanem a kápolna egyházi tulajdonosát/üzemeltetőjét is, és természetesen az adott terület püspökének jóváhagyására/támogatására.
+- Egy megfelelő *Kápolna*, amit erre szánnak - nemcsak a hívek, hanem a kápolna egyházi tulajdonosa/üzemeltetője is, és természetesen az adott terület püspökének jóváhagyása/támogatása.
 - *Adorálók*, akik egy-egy órát vállalnak hetente - elvileg 1 hét 168 óra, tehát abszolút optimális esetben ennyi ember kell minimum, 
 de van betegség, szabadság, ilyen-olyan egyéb halaszthatatlan ügy, illetve van, aki nem is gondolja komolyan, 
 tehát, akkor van nagyjából teljes létszám, ha minden órára van 2 személy is - össz 336. Ez lenne nagyjából optimális. A tényleges és reális szám valahol a kettő között van, de mindig érvényes a szabály: minél több annál jobb.
 - *Szervezők*, akik koordinálják az Örökimádást, úgymint:
   - egy egyházi vezető (pap)
   - egy világi vezető (általános koordinátor), 
-  - valakire, aki ért a számítógépekhez, és van ideje adminisztrálgatni a változásokat (adminisztrátor)
-  - 4 napszakfelelősre (napszak-koordinátor)
-  - valamint minden órának saját órafelelőse van (óra-koordinátor, ez 24 ember). 
+  - valaki, aki ért a számítógépekhez, és van ideje adminisztrálgatni a változásokat (adminisztrátor)
+  - 4 napszakfelelős (napszak-koordinátor)
+  - valamint órafelelős, a nap mind a 24 órájára (óra-koordinátor, ez 24 ember). 
   A szervezők egyébként - normális esetben - egyben adorálók is, valamint több funkciót is betölthet egy személy, bár ezt nem érdemes túlzásba vinni.
 - Végül, de nem utolsósorban, szükséges egy jó nagy adag segítség az Úrtól.
 
 Vácott mi a helyzet, hány adoráló van?
 ----------------------------------------
-Körülbelül 250 adorálóval kezdtük, az ideális létszámot (336) még sohasem értük el, a létszám viszonylag stabil, azóta is a 250 körül mozog, jelenleg körülbelül 243 aktív adoráló van (2017 májusa). Ahogy az látszik [itt](http://vacitemplom.piarista.hu/adoration/index.php), az egyenletlen eloszlás miatt - ami teljesen érthető - így is van sok olyan óra, ahol nagyon oda kell figyelni arra, hogy mindig folyamatos legyen a Szentségimádás.
+Körülbelül 250 adorálóval kezdtük (2014), az ideális létszámot (336) még sohasem értük el, a létszám viszonylag stabil volt egészen a Covid-ig, amikor drasztikusan lecsökkent a létszám, és már nem tudtuk tartani az állandó örökimádást, és az éjszakai időszakok alatt szüneteltetnünk kellett. 
+Jelenleg körülbelül 121 (!) aktív adoráló van (2025 szeptembere). Ahogy az látszik [itt](https://orokimadas.magyar.website), sokan hiányoznak ahhoz, hogy folyamatos lehessen a Szentségimádás.
 
 Az adorálók száma egyébként úgy nagyjából az Örökimádás biztonságosságával azaz folyamatosságával összefüggésben van, nagyjából a következők alapján:
 
