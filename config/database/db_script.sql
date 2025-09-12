@@ -133,6 +133,7 @@ CREATE TABLE dbo.social (
     googleuserid character varying(255),
     googleusername character varying(255),
     googleuserpicture character varying(255),
+    comment character varying(255),
     personid bigint
 );
 
