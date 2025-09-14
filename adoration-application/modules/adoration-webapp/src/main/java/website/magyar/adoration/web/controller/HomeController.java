@@ -70,6 +70,17 @@ public class HomeController extends ControllerBase {
     }
 
     /**
+     * Serving the Privacy Policy page request.
+     *
+     * @return with proper content
+     */
+    @GetMapping(value = "/pp")
+    public String privacyPolicyPage(HttpSession httpSession) {
+        currentUserProvider.getUserInformation(httpSession);
+        return "pp";
+    }
+
+    /**
      * Serving "favicon.ico" request.
      *
      * @return with proper content

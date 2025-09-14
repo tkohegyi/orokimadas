@@ -10,7 +10,7 @@
 <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes" />
 <meta name="HandheldFriendly" content="true" />
-<meta name="apple-mobile-web-app-capable" content="YES" />
+<meta name="mobile-web-app-capable" content="YES" />
 <meta name="author" content="Tamas Kohegyi" />
 <meta name="Description" content="Perpetual adoration in Hungary, Vác / Örökimádás a váci Szent Anna Piarista Templomban" />
 <meta name="Keywords" content="örökimádás,vác,perpetual,adoration" />
@@ -140,8 +140,12 @@
         #adorationVersion {display:inline-block;}
         #sslSign {display:inline-block;}
     </style>
-    <div id="adorationVersion"></div>
+    <div class="centerwidediv">
+        <table aria-describedby="actualCoverage" style="width: -webkit-fill-available;"><tbody>
+            <tr><td><div><ex:i18n messageId="home.jsp.privacy"/></div></td><td style="text-align: -webkit-right;"><div id="adorationVersion"></div></td></tr>
+        </tbody></table>
     <div id="secureLogo"></div>
+    </div>
   </div>
 
   <%@include file="../include/commonAlert.html" %>
