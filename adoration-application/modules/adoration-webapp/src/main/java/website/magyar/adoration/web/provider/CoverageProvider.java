@@ -206,6 +206,10 @@ public class CoverageProvider {
 
     private Long createPersonCommitment(CurrentUserInformationJson currentUserInformationJson, Link newLink) {
         Long id;
+        if (newLink.getType() == 1) {
+            logger.info("{} {} tried to create a new Link with Online type.", USER, currentUserInformationJson.userName);
+            throw new DatabaseHandlingException(CANNOT_UPDATE_PERSON_COMMITMENT_TEXT);
+        }
         Collection<AuditTrail> auditTrailCollection = new ArrayList<>();
         newLink.setId(businessWithNextGeneralKey.getNextGeneralId());
         var auditTrail = businessWithAuditTrail.prepareAuditTrail(newLink.getPersonId(), currentUserInformationJson.userName,
@@ -294,6 +298,10 @@ public class CoverageProvider {
                 logger.info("{} {} tried to create/update Link with bad type.", USER, userName);
                 throw new DatabaseHandlingException(CANNOT_UPDATE_PERSON_COMMITMENT_TEXT);
             }
+        }
+        if (newInt == 1 && !newInt.equals(oldInt)) {
+            logger.info("{} {} tried to change Link type to Online.", USER, userName);
+            throw new DatabaseHandlingException(CANNOT_UPDATE_PERSON_COMMITMENT_TEXT);
         }
         if (!newInt.equals(oldInt)) {
             auditTrailCollection.add(prepareUpdateAuditTrail(newLink.getPersonId(), newLink.getId(), userName, "Type",

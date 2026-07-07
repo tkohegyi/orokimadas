@@ -70,16 +70,8 @@
 				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.green.text"/></td>
 			</tr>
 			<tr>
-				<td style="vertical-align:middle;" class="onlineAdorator textRight"><ex:i18n messageId="home.jsp.explanation.blue.frame"/></td>
-				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.blue.frame.text"/></td>
-			</tr>
-			<tr>
 				<td style="vertical-align:middle;" class="lowPriorityColumn textRight"><ex:i18n messageId="home.jsp.explanation.gray"/></td>
 				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.gray.text"/></td>
-			</tr>
-			<tr>
-				<td style="vertical-align:middle;background-color:#60ABF3" class="textRight" ><ex:i18n messageId="home.jsp.explanation.blue"/></td>
-				<td style="padding-left:4px"><ex:i18n messageId="home.jsp.explanation.blue.text"/></td>
 			</tr>
 		</table>
 		<br />

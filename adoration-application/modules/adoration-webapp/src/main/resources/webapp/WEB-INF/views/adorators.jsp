@@ -230,7 +230,7 @@
                           <tr><td>Mód</td><td>
                               <select id="newType">
                                   <option value="0">Kápolnában</option>
-                                  <option value="1">Online</option>
+                                  <option value="1" disabled="disabled">Online</option>
                                   <option value="2">Egyszeri helyettesítés</option>
                                   <option value="3">Egyszeri lemondás</option>
                               </select></td></tr>
