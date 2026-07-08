@@ -1,6 +1,6 @@
 package website.magyar.adoration.helper;
 
-import com.sun.mail.smtp.SMTPTransport; //NOSONAR
+import org.eclipse.angus.mail.smtp.SMTPTransport; //NOSONAR
 import website.magyar.adoration.configuration.EmailConfigurationAccess;
 import website.magyar.adoration.configuration.PropertyDto;
 import org.slf4j.Logger;
@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 
