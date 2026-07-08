@@ -1,6 +1,5 @@
 package website.magyar.adoration.web.controller;
 
-import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,9 @@ import website.magyar.adoration.web.controller.helper.ControllerBase;
 import website.magyar.adoration.web.provider.CoverageProvider;
 import website.magyar.adoration.web.provider.CurrentUserProvider;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Controller for handling requests for the application home page.
@@ -159,9 +159,9 @@ public class HomeController extends ControllerBase {
     @RequestMapping(value = "/adoration/e404", method = {RequestMethod.GET, RequestMethod.POST})
     public String e404(HttpSession httpSession, HttpServletRequest httpServletRequest) {
         currentUserProvider.getUserInformation(httpSession);
-        var originalUri = "unknown";
-        if (httpServletRequest instanceof Request) {
-            originalUri = ((Request) httpServletRequest).getOriginalURI();
+        var originalUri = (String) httpServletRequest.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+        if (originalUri == null) {
+            originalUri = "unknown";
         }
         logger.info("E404 caused by: {}, method: {}, URI: {}",
                 httpServletRequest.getRemoteHost(), httpServletRequest.getMethod(), originalUri);
@@ -177,9 +177,9 @@ public class HomeController extends ControllerBase {
     @RequestMapping(value = "/adoration/e500", method = {RequestMethod.GET, RequestMethod.POST})
     public String e500(HttpSession httpSession, HttpServletRequest httpServletRequest) {
         currentUserProvider.getUserInformation(httpSession);
-        var originalUri = "unknown";
-        if (httpServletRequest instanceof Request) {
-            originalUri = ((Request) httpServletRequest).getOriginalURI();
+        var originalUri = (String) httpServletRequest.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+        if (originalUri == null) {
+            originalUri = "unknown";
         }
         logger.info("E500 caused by: {}, method: {}, URI: {}",
                 httpServletRequest.getRemoteHost(), httpServletRequest.getMethod(), originalUri);

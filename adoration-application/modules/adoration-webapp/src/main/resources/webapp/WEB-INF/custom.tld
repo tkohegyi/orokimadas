@@ -1,6 +1,8 @@
-<taglib>
+<taglib xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-jsptaglibrary_3_1.xsd"
+        version="3.1">
     <tlib-version>1.0</tlib-version>
-    <jsp-version>2.0</jsp-version>
     <short-name>Common WM TLD</short-name>
     <tag>
         <name>i18n</name>

@@ -15,8 +15,8 @@ import website.magyar.adoration.web.provider.CurrentUserProvider;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
