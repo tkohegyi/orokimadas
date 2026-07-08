@@ -39,4 +39,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           chmod +x gradlew
-          ./gradlew build release sonarqube --info
+          ./gradlew build release sonar --info --stacktrace
