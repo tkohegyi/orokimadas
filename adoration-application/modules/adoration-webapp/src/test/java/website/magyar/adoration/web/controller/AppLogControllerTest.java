@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import website.magyar.adoration.web.provider.CurrentUserProvider;
 import website.magyar.adoration.web.provider.LogFileProvider;
@@ -53,8 +53,8 @@ public class AppLogControllerTest {
     @Before
     public void setUp() throws NoSuchMethodException {
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "currentUserProvider", currentUserProvider);
-        Whitebox.setInternalState(underTest, "logFileProvider", logFileProvider);
+        ReflectionTestUtils.setField(underTest, "currentUserProvider", currentUserProvider);
+        ReflectionTestUtils.setField(underTest, "logFileProvider", logFileProvider);
         doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(null);
     }
 
@@ -84,7 +84,7 @@ public class AppLogControllerTest {
         fileNames.add("a");
         expected.put(JSON_NAME, fileNames);
         given(logFileProvider.getLogFileNames()).willReturn(fileNames);
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", true);
+        ReflectionTestUtils.setField(currentUserInformationJson, "isAdoratorAdmin", true);
         //WHEN
         Map<String, Collection<String>> result = underTest.getLogFiles(null);
         //THEN
@@ -99,7 +99,7 @@ public class AppLogControllerTest {
         fileNames.add("a");
         expected.put(JSON_NAME, fileNames);
         given(logFileProvider.getLogFileNames()).willReturn(fileNames);
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", false);
+        ReflectionTestUtils.setField(currentUserInformationJson, "isAdoratorAdmin", false);
         //WHEN
         Map<String, Collection<String>> result = underTest.getLogFiles(null);
         //THEN
@@ -112,7 +112,7 @@ public class AppLogControllerTest {
         String expectedBody = "content";
         String fileName = "something";
         given(logFileProvider.getLogContent(fileName)).willReturn(expectedBody);
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", true);
+        ReflectionTestUtils.setField(currentUserInformationJson, "isAdoratorAdmin", true);
         //WHEN
         ResponseEntity<String> result = underTest.getLogFileContent(null, fileName, true, NOT_IMPORTANT);
         //THEN
@@ -128,7 +128,7 @@ public class AppLogControllerTest {
         String expectedBody = "content";
         String fileName = "something";
         given(logFileProvider.getLogContent(fileName)).willReturn(expectedBody);
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", true);
+        ReflectionTestUtils.setField(currentUserInformationJson, "isAdoratorAdmin", true);
         //WHEN
         ResponseEntity<String> result = underTest.getLogFileContent(null, fileName, false, NOT_IMPORTANT);
         //THEN
@@ -146,7 +146,7 @@ public class AppLogControllerTest {
         String body = "content\n";
         String fileName = "something";
         given(logFileProvider.getLogContent(fileName)).willReturn(body);
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", true);
+        ReflectionTestUtils.setField(currentUserInformationJson, "isAdoratorAdmin", true);
         //WHEN
         ResponseEntity<String> result = underTest.getLogFileContent(null, fileName, true, userAgentWindows);
         //THEN
@@ -161,7 +161,7 @@ public class AppLogControllerTest {
         String body = "content\n";
         String fileName = "something";
         given(logFileProvider.getLogContent(fileName)).willReturn(body);
-        Whitebox.setInternalState(currentUserInformationJson, "isAdoratorAdmin", false);
+        ReflectionTestUtils.setField(currentUserInformationJson, "isAdoratorAdmin", false);
         //WHEN
         ResponseEntity<String> result = underTest.getLogFileContent(null, fileName, true, userAgentWindows);
         //THEN

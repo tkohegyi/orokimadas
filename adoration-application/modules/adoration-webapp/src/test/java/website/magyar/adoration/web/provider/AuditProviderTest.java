@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.adoration.database.business.BusinessWithAuditTrail;
 import website.magyar.adoration.web.helper.DummyTestObject;
 
@@ -29,7 +29,7 @@ public class AuditProviderTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "businessWithAuditTrail", businessWithAuditTrail);
+        ReflectionTestUtils.setField(underTest, "businessWithAuditTrail", businessWithAuditTrail);
 
     }
 

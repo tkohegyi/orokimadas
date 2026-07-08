@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.adoration.configuration.PropertyHolder;
 
 import static org.junit.Assert.assertEquals;
@@ -34,7 +34,7 @@ public class EngineConfigurationAccessTest {
     public void testGetProperties() {
         //GIVEN
         properties = new PropertyDto(defaultPort);
-        Whitebox.setInternalState(underTest, "properties", properties);
+        ReflectionTestUtils.setField(underTest, "properties", properties);
         //WHEN
         PropertyDto returnedProperty = underTest.getProperties();
         //THEN
@@ -44,7 +44,7 @@ public class EngineConfigurationAccessTest {
     @Test
     public void testGetPropertyHolder() {
         //GIVEN
-        Whitebox.setInternalState(underTest, "propertyHolder", propertyHolder);
+        ReflectionTestUtils.setField(underTest, "propertyHolder", propertyHolder);
         doReturn(defaultPort).when(propertyHolder).getInt("webapp.port");
         //WHEN
         underTest.loadProperties();
