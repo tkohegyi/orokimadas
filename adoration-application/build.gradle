@@ -48,7 +48,7 @@ subprojects {
         }
         implementation group: 'org.springframework', name: 'spring-webmvc', version: "${springFrameworkVersion}"
         implementation group: 'org.aspectj', name: 'aspectjrt', version:'1.6.12'
-        implementation group: 'org.postgresql', name: 'postgresql', version:'42.2.20'
+        implementation group: 'org.postgresql', name: 'postgresql', version:'42.7.13'
         testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoCoreVersion}"
         testImplementation group: 'org.mockito', name: 'mockito-inline', version: "${mockitoCoreVersion}"
         testImplementation "junit:junit:${jUnitVersion}"

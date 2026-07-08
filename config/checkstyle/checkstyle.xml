@@ -47,7 +47,6 @@
         <module name="UnnecessarySemicolonAfterOuterTypeDeclaration" />
         <module name="JavadocMissingWhitespaceAfterAsteriskCheck" />
         <module name="JavadocMethod">
-            <property name="scope" value="protected" />
             <property name="allowMissingParamTags" value="true" />
         </module>
         <module name="JavadocType">
