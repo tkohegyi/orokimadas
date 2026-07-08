@@ -5,7 +5,7 @@ plugins {
 if ( !hasProperty('buildNumber') ) {
     rootProject.ext.buildNumber = 'SNAPSHOT'
 }
-version = "V2.1." + "${rootProject.ext.buildNumber}"
+version = "V2.2." + "${rootProject.ext.buildNumber}"
 
 ext {
     jUnitVersion = '4.13.2'
