@@ -121,21 +121,6 @@ function setupCoverage() {
                 item2.removeClass("oneTimeCandidate");
             }
 
-            var onlineValue = coverageOnlineHourInfo[i];
-            if (onlineValue.length > 0) {
-                if (item.hasClass("lowPriority")) { //only online is possible, so emphasize it
-                    item.removeClass("lowPriorityColumn");
-                    item.addClass("exclusiveOnlineAdorator");
-                    item2.removeClass("lowPriorityColumn");
-                    item2.addClass("exclusiveOnlineAdorator");
-                } else { //normal hour with online
-                    item.addClass("onlineAdorator");
-                    item2.addClass("onlineAdorator");
-                }
-            } else {
-                item.removeClass("onlineAdorator");
-                item2.removeClass("onlineAdorator");
-            }
         }
     });
 }
