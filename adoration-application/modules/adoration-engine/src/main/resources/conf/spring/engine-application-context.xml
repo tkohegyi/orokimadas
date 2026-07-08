@@ -14,18 +14,4 @@
     <constructor-arg value="%s %n%nUI is available via URL: https://localhost:%d/ %n"/>
   </bean>
 
-  <bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
-    <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
-        <property name="realmName" value="test" />
-    </bean>
-    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
-        <constructor-arg>
-            <list>
-                <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
-                <bean class="org.springframework.security.access.vote.RoleVoter" />
-                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-            </list>
-        </constructor-arg>
-    </bean>
-
 </beans>

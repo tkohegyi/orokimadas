@@ -13,7 +13,6 @@ import website.magyar.adoration.database.tables.Person;
 import website.magyar.adoration.database.tables.Social;
 import website.magyar.adoration.exception.SystemException;
 import website.magyar.adoration.helper.EmailSender;
-import website.magyar.adoration.web.configuration.PropertyDto;
 import website.magyar.adoration.web.configuration.WebAppConfigurationAccess;
 import website.magyar.adoration.web.service.helper.Oauth2ServiceBase;
 import org.slf4j.Logger;
@@ -21,10 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,6 +42,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
     private static final String GRAPH_URL = "https://graph.facebook.com/v17.0/oauth/access_token?";
     private static final String AUTHORIZATION_URL = "https://www.facebook.com/v17.0/dialog/oauth?";
     private static final String SUBJECT = "[AdoratorApp] - Új Facebook Social";
+    private static final String SCOPE = "email,public_profile";
 
     private final Logger logger = LoggerFactory.getLogger(FacebookOauth2Service.class);
 
@@ -63,15 +61,6 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
     @Autowired
     private EmailSender emailSender;
 
-    private FacebookConnectionFactory facebookConnectionFactory;
-
-    @PostConstruct
-    private void facebookOauth2Service() {
-        PropertyDto propertyDto = webAppConfigurationAccess.getProperties();
-        facebookConnectionFactory = new FacebookConnectionFactory(propertyDto.getFacebookAppId(), propertyDto.getFacebookAppSecret());
-        facebookConnectionFactory.setScope("email,public_profile");
-    }
-
     /**
      * Get Facebook redirect URL to its Oauth2 service.
      *
@@ -83,7 +72,7 @@ public class FacebookOauth2Service extends Oauth2ServiceBase {
         authorizationUrl = AUTHORIZATION_URL
                 + "client_id=" + propertyDto.getFacebookAppId()
                 + "&redirect_uri=" + propertyDto.getGoogleRedirectUrl()
-                + "&state=no-state&display=popup&response_type=code&scope=" + facebookConnectionFactory.getScope();
+                + "&state=no-state&display=popup&response_type=code&scope=" + SCOPE;
         //note use this: &response_type=granted_scopes to get list of granted scopes
         return authorizationUrl;
     }
