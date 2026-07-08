@@ -13,7 +13,6 @@ public class PropertyDto {
      * @param port the port used by the web application
      */
     public PropertyDto(final Integer port) {
-        super();
         this.port = port;
     }
 
