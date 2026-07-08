@@ -20,7 +20,7 @@ public class NextGeneralKey {
      *
      * In case of MSSQL database an alternative code need to be used:
      * Iterator<BigInteger> iter;
-     * Query query = session.createSQLQuery( "SELECT NEXT VALUE FOR dbo.AdorationUniqueNumber");
+     * Query query = session.createNativeQuery( "SELECT NEXT VALUE FOR dbo.AdorationUniqueNumber");
      * iter = (Iterator<BigInteger>) query.getResultList();
      * iter.next().longValue();
      *
@@ -28,7 +28,7 @@ public class NextGeneralKey {
      */
     public Long getNextGeneralKay(Session session) {
         ArrayList<BigInteger> values;
-        Query query = session.createSQLQuery("select nextval('\"dbo\".\"AdorationUniqueNumber\"')"); //NOSONAR
+        Query query = session.createNativeQuery("select nextval('\"dbo\".\"AdorationUniqueNumber\"')"); //NOSONAR
         values = (ArrayList<BigInteger>) query.getResultList(); //NOSONAR
         return values.get(0).longValue();
     }

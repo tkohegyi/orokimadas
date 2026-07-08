@@ -1,6 +1,6 @@
 package website.magyar.adoration.database.business;
 
-import com.sun.istack.NotNull; //NOSONAR
+import org.springframework.lang.NonNull;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import website.magyar.adoration.database.SessionFactoryHelper;
@@ -30,7 +30,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param auditTrail is the associated audit objects
      * @return with the ID of the new Coordinator
      */
-    public Long newCoordinator(@NotNull Coordinator newC, @NotNull AuditTrail auditTrail) {
+    public Long newCoordinator(@NonNull Coordinator newC, @NonNull AuditTrail auditTrail) {
         Long id = null;
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
@@ -69,7 +69,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param id is its ID.
      * @return with the Coordinator found. Returns null if not found.
      */
-    public Coordinator getById(@NotNull Long id) {
+    public Coordinator getById(@NonNull Long id) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Coordinator as C where C.id = :" + EXPECTED_PARAMETER;
@@ -88,7 +88,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param auditTrailList is the related audit records to be deleted
      * @return with the ID of the deleted Coordinator
      */
-    public Long deleteCoordinator(@NotNull Coordinator coordinator, List<AuditTrail> auditTrailList) {
+    public Long deleteCoordinator(@NonNull Coordinator coordinator, List<AuditTrail> auditTrailList) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();
@@ -117,7 +117,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param auditTrailCollection is the audit records about the changes
      * @return with the ID of the updated record
      */
-    public Long updateCoordinator(@NotNull Coordinator coordinator, @NotNull Collection<AuditTrail> auditTrailCollection) {
+    public Long updateCoordinator(@NonNull Coordinator coordinator, @NonNull Collection<AuditTrail> auditTrailCollection) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();
@@ -164,7 +164,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param id is the ID of the person
      * @return with the Coordinator object of the person - or null if it does not exist
      */
-    public Coordinator getCoordinatorFromPersonId(@NotNull Long id) {
+    public Coordinator getCoordinatorFromPersonId(@NonNull Long id) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Coordinator as C where C.personId = :" + EXPECTED_PARAMETER + " order by C.coordinatorType desc";
@@ -176,7 +176,7 @@ public class BusinessWithCoordinator extends BusinessBase {
         return (Coordinator) returnWithFirstItem(result);
     }
 
-    private Coordinator getByCoordinatorType(@NotNull Integer i) {
+    private Coordinator getByCoordinatorType(@NonNull Integer i) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Coordinator as C where C.coordinatorType = :" + EXPECTED_PARAMETER;
@@ -194,7 +194,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param hour is the specific hour
      * @return with the respective Daily Coordinator
      */
-    public Coordinator getDailyCooOfHour(@NotNull Integer hour) {
+    public Coordinator getDailyCooOfHour(@NonNull Integer hour) {
         if (hour >= BusinessWithLink.HOUR_IN_A_DAY) {
             return null;
         }
@@ -208,7 +208,7 @@ public class BusinessWithCoordinator extends BusinessBase {
      * @param hour is the specific hour
      * @return with the respective Hourly Coordinator (or null if it is missing)
      */
-    public Coordinator getHourlyCooOfHour(@NotNull Integer hour) {
+    public Coordinator getHourlyCooOfHour(@NonNull Integer hour) {
         return getByCoordinatorType(hour);
     }
 }

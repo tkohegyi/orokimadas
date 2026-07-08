@@ -1,6 +1,6 @@
 package website.magyar.adoration.database.business;
 
-import com.sun.istack.NotNull; //NOSONAR
+import org.springframework.lang.NonNull;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import website.magyar.adoration.database.SessionFactoryHelper;
@@ -30,7 +30,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param auditTrail is the connected audit record
      * @return with the Id of the Social object
      */
-    public Long newSocial(@NotNull Social newSocial, @NotNull AuditTrail auditTrail) {
+    public Long newSocial(@NonNull Social newSocial, @NonNull AuditTrail auditTrail) {
         Long id = null;
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
@@ -56,7 +56,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param googleUserId is the searched id
      * @return with the Social object or null
      */
-    public Social getSocialByGoogleUserId(@NotNull final String googleUserId) {
+    public Social getSocialByGoogleUserId(@NonNull final String googleUserId) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Social as S where S.googleUserId like :likeValue";
@@ -76,7 +76,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param facebookUserId is the searched id
      * @return with the Social object or null
      */
-    public Social getSocialByFacebookUserId(@NotNull final String facebookUserId) {
+    public Social getSocialByFacebookUserId(@NonNull final String facebookUserId) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Social as S where S.facebookUserId like :likeValue";
@@ -94,7 +94,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param person is the person we looking fro among Social records
      * @return with the list of the associated Social records
      */
-    public List<Social> getSocialsOfPerson(@NotNull Person person) {
+    public List<Social> getSocialsOfPerson(@NonNull Person person) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Social as S where S.personId = :" + EXPECTED_PARAMETER;
@@ -127,7 +127,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param id is the Id of the Social record we are looking for
      * @return with the Social record, of null if not found
      */
-    public Social getSocialById(@NotNull Long id) {
+    public Social getSocialById(@NonNull Long id) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Social as S where S.id = :" + EXPECTED_PARAMETER;
@@ -146,7 +146,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param auditTrailList is the list of associated audit records to be deleted as well
      * @return with the Id of the Social record that has been deleted
      */
-    public Long deleteSocial(@NotNull Social social, List<AuditTrail> auditTrailList) {
+    public Long deleteSocial(@NonNull Social social, List<AuditTrail> auditTrailList) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();
@@ -175,7 +175,7 @@ public class BusinessWithSocial extends BusinessBase {
      * @param auditTrailCollection is the list of associated audit records, reflecting the changes
      * @return with the Id of the changed Social record
      */
-    public Long updateSocial(@NotNull Social social, Collection<AuditTrail> auditTrailCollection) {
+    public Long updateSocial(@NonNull Social social, Collection<AuditTrail> auditTrailCollection) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();

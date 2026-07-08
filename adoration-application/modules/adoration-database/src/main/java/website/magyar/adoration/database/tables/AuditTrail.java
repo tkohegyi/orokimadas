@@ -1,15 +1,15 @@
 package website.magyar.adoration.database.tables;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Descriptor class for Database table: Audit trail.
  */
 @Entity
-@Table(name = "dbo.auditTrail")
+@Table(name = "auditTrail", schema = "dbo")
 public class AuditTrail {
 
     private Long id;

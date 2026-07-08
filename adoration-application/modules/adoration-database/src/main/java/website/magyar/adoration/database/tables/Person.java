@@ -3,10 +3,10 @@ package website.magyar.adoration.database.tables;
 import website.magyar.adoration.database.business.helper.enums.AdoratorStatusTypes;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
  * Technically: Adorators.
  */
 @Entity
-@Table(name = "dbo.person")
+@Table(name = "person", schema = "dbo")
 public class Person {
 
     private Long id;

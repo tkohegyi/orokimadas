@@ -1,6 +1,6 @@
 package website.magyar.adoration.database.business;
 
-import com.sun.istack.NotNull; //NOSONAR
+import org.springframework.lang.NonNull;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import website.magyar.adoration.database.SessionFactoryHelper;
@@ -45,7 +45,7 @@ public class BusinessWithPerson extends BusinessBase {
      * @param name is the name of the searched person
      * @return with the Person data, if found, or null, if not found
      */
-    public Person getPersonByName(@NotNull final String name) {
+    public Person getPersonByName(@NonNull final String name) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Person as P where P.name = :expectedName";
@@ -64,7 +64,7 @@ public class BusinessWithPerson extends BusinessBase {
      * @param auditTrail is the audit record attached to the new Person data
      * @return with the id of the newly created Person record
      */
-    public Long newPerson(@NotNull Person newPerson, @NotNull AuditTrail auditTrail) {
+    public Long newPerson(@NonNull Person newPerson, @NonNull AuditTrail auditTrail) {
         Long id;
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
@@ -89,7 +89,7 @@ public class BusinessWithPerson extends BusinessBase {
      * @param id is the unique id of the Person
      * @return with the Person object found, or null if not found
      */
-    public Person getPersonById(@NotNull final Long id) {
+    public Person getPersonById(@NonNull final Long id) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Person as P where P.id = :" + EXPECTED_PARAMETER;
@@ -107,7 +107,7 @@ public class BusinessWithPerson extends BusinessBase {
      * @param email is the e-mail of the Person
      * @return with the Person object found, or null if not found
      */
-    public Person getPersonByEmail(@NotNull final String email) {
+    public Person getPersonByEmail(@NonNull final String email) {
         Session session = SessionFactoryHelper.getOpenedSession();
         session.beginTransaction();
         String hql = "from Person as P where P.email like :email";
@@ -126,7 +126,7 @@ public class BusinessWithPerson extends BusinessBase {
      * @param auditTrailCollection is the list of audit record
      * @return with the Id of the updated Person object
      */
-    public Long updatePerson(@NotNull Person person, @NotNull Collection<AuditTrail> auditTrailCollection) {
+    public Long updatePerson(@NonNull Person person, @NonNull Collection<AuditTrail> auditTrailCollection) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();
@@ -154,7 +154,7 @@ public class BusinessWithPerson extends BusinessBase {
      * @param auditTrailList the nice list of all person related audit record, all of them will be removed
      * @return with the id of the Person that was deleted
      */
-    public Long deletePerson(@NotNull Person person, List<Social> socialList, List<Link> linkList, List<AuditTrail> auditTrailList) {
+    public Long deletePerson(@NonNull Person person, List<Social> socialList, List<Link> linkList, List<AuditTrail> auditTrailList) {
         //the huge method of deleting an activity from DB.
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
