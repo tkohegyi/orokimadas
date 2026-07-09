@@ -68,7 +68,6 @@
         </div>
 
         <br /><ex:i18n messageId="adorRegistration.jsp.coverageExplanation"/><br /><ex:i18n messageId="adorRegistration.jsp.coverageExplanation2"/>
-        <br /><ex:i18n messageId="adorRegistration.jsp.coverageExplanation3"/>
 		<br />
         <p/>
         <table class="jelentkezes" role="presentation">
@@ -117,7 +116,6 @@
                 <td class="right"><ex:i18n messageId="adorRegistration.jsp.selectedMethod"/>&nbsp;<span style="color:red">*</span></td>
                 <td class="left"><select id="method">
                         <option id="method-1" value="1"><ex:i18n messageId="adorRegistration.jsp.methodA"/></option>
-                        <option id="method-2" value="2"><ex:i18n messageId="adorRegistration.jsp.methodB"/></option>
                         <option id="method-3" value="3"><ex:i18n messageId="adorRegistration.jsp.methodC"/></option>
                 </select></td>
             </tr>

@@ -40,6 +40,7 @@ public class PeopleProvider extends ProviderBase {
     private static final String SUBJECT_NEW_MESSAGE = "[AdoratorApp] - Üzenet egy felhasználótól";
     private static final int MIN_METHOD_NUMBER = 1;
     private static final int MAX_METHOD_NUMBER = 3;
+    private static final int ONLINE_METHOD_NUMBER = 2;
 
     private final Logger logger = LoggerFactory.getLogger(PeopleProvider.class);
 
@@ -281,6 +282,10 @@ public class PeopleProvider extends ProviderBase {
                 || !isMethodAcceptable(adoratorJson.method)) {
             logger.warn("User: {} / {} tried to use dangerous value for a new Adorator.", userName, adoratorJson.name);
             throw new DatabaseHandlingException("Field content (Integer) is not allowed.");
+        }
+        if (adoratorJson.method == ONLINE_METHOD_NUMBER) {
+            logger.info("User: {} / {} tried to register with Online method.", userName, adoratorJson.name);
+            throw new DatabaseHandlingException("Online registration is not allowed.");
         }
         //if person is identified, then it is not a new adorator
         if (adoratorJson.personId != null) {
