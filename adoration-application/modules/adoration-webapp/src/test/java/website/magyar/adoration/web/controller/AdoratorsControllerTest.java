@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 import website.magyar.adoration.web.helper.DummyTestObject;
 import website.magyar.adoration.web.json.CurrentUserInformationJson;
@@ -50,10 +50,10 @@ public class AdoratorsControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "currentUserProvider", currentUserProvider);
-        Whitebox.setInternalState(underTest, "peopleProvider", peopleProvider);
-        Whitebox.setInternalState(underTest, "coverageProvider", coverageProvider);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "currentUserProvider", currentUserProvider);
+        ReflectionTestUtils.setField(underTest, "peopleProvider", peopleProvider);
+        ReflectionTestUtils.setField(underTest, "coverageProvider", coverageProvider);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(null);
     }
 

@@ -13,7 +13,7 @@
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <!-- property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/adoration</property -->
 
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">none</property> <!-- create / create-drop / update / validate / none-->
 
         <!-- property name="connection.username">adorApp</property -->
@@ -23,7 +23,7 @@
         <property name="connection.pool_size">20</property>
 
         <!-- c3p0 config http://www.hibernate.org/214.html -->
-        <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
         <property name="hibernate.c3p0.acquire_increment">5</property>
         <property name="hibernate.c3p0.idle_test_period">60</property>
         <property name="hibernate.c3p0.min_size">1</property>

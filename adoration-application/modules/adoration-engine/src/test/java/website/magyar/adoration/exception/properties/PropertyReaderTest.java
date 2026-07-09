@@ -3,6 +3,7 @@ package website.magyar.adoration.exception.properties;
 
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.adoration.configuration.PropertyHolder;
 import website.magyar.adoration.configuration.PropertyReader;
 import org.junit.Test;
@@ -12,8 +13,6 @@ import org.junit.Before;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.reflect.Whitebox.getInternalState;
-import static org.powermock.reflect.Whitebox.setInternalState;
 
 
 /**
@@ -32,7 +31,7 @@ public class PropertyReaderTest {
         MockitoAnnotations.initMocks(this);
         properties = new Properties();
         propertyHolder = new PropertyHolder();
-        setInternalState(underTest, "propertyHolder", propertyHolder);
+        ReflectionTestUtils.setField(underTest, "propertyHolder", propertyHolder);
     }
 
     @Test
@@ -42,7 +41,7 @@ public class PropertyReaderTest {
         //WHEN
         underTest.setProperties(properties);
         //THEN
-        PropertyHolder actual = (PropertyHolder) getInternalState(underTest, "propertyHolder");
+        PropertyHolder actual = (PropertyHolder) ReflectionTestUtils.getField(underTest, "propertyHolder");
         assertEquals(actual.getInt("webapp.port"), Integer.valueOf(1234));
     }
 }

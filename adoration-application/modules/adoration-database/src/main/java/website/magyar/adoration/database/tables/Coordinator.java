@@ -2,16 +2,16 @@ package website.magyar.adoration.database.tables;
 
 import website.magyar.adoration.database.business.helper.enums.CoordinatorTypes;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Descriptor class for Database table: Coordinator.
  */
 @Entity
-@Table(name = "dbo.coordinator")
+@Table(name = "coordinator", schema = "dbo")
 public class Coordinator {
 
     private Long id;

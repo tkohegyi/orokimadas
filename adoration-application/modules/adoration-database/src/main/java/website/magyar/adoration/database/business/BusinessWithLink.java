@@ -1,6 +1,6 @@
 package website.magyar.adoration.database.business;
 
-import com.sun.istack.NotNull; //NOSONAR
+import org.springframework.lang.NonNull;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import website.magyar.adoration.database.SessionFactoryHelper;
@@ -72,7 +72,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param id of the Link
      * @return with the Link object
      */
-    public Link getLink(@NotNull Long id) {
+    public Link getLink(@NonNull Long id) {
         if (id == null) {
             throw new DatabaseHandlingException("Search for Link called with null id - contact to maintainers");
         }
@@ -96,7 +96,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param hourId of the week
      * @return with English standard weekday name.
      */
-    public String getDayNameFromHourId(@NotNull Integer hourId) {
+    public String getDayNameFromHourId(@NonNull Integer hourId) {
         int day;
         day = Math.floorDiv(hourId, HOUR_IN_A_DAY);
         String dayString;
@@ -110,7 +110,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param hourId in a week
      * @return hour in a day
      */
-    public String getHourFromHourId(@NotNull Integer hourId) {
+    public String getHourFromHourId(@NonNull Integer hourId) {
         int hour;
         hour = Math.floorMod(hourId, HOUR_IN_A_DAY);
         return Integer.toString(hour);
@@ -138,7 +138,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param auditTrailCollection is the audit records to be saved for the new Link
      * @return with the ID of the just saved Link
      */
-    public Long newLink(@NotNull Link link, @NotNull Collection<AuditTrail> auditTrailCollection) {
+    public Long newLink(@NonNull Link link, @NonNull Collection<AuditTrail> auditTrailCollection) {
         Long id;
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
@@ -159,7 +159,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param auditTrailCollection is the audit records of the change
      * @return with the Id of the updated Link object
      */
-    public Long updateLink(@NotNull Link link, Collection<AuditTrail> auditTrailCollection) {
+    public Long updateLink(@NonNull Link link, Collection<AuditTrail> auditTrailCollection) {
         Long id;
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
@@ -180,7 +180,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param auditTrail is the audit record associated with the Link to be deleted - will be deleted as well
      * @return with the Id of the deleted Link record
      */
-    public Long deleteLink(@NotNull Link link, @NotNull AuditTrail auditTrail) {
+    public Long deleteLink(@NonNull Link link, @NonNull AuditTrail auditTrail) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();
@@ -203,7 +203,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param person is the adorator
      * @return with the list of Link objects
      */
-    public List<Link> getLinksOfPerson(@NotNull Person person) {
+    public List<Link> getLinksOfPerson(@NonNull Person person) {
         if (person == null) {
             throw new DatabaseHandlingException("getLinksOfPerson called with null parameter - contact to maintainers");
         }
@@ -229,7 +229,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param hourId is the hour in the week
      * @return with the adorator-hour Link object list
      */
-    public List<Link> getPhysicalLinksOfHour(@NotNull Integer hourId) {
+    public List<Link> getPhysicalLinksOfHour(@NonNull Integer hourId) {
         String hql = "from Link as L where L.hourId = :" + EXPECTED_PARAMETER + " and L.type = 0";
         return linkQuery(hql, hourId);
     }
@@ -241,7 +241,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param hourId is the hour id in the week
      * @return with the list of Links, ordered by the hours, ascending
      */
-    public List<Link> getLinksOfWeek(@NotNull Integer hourId) {
+    public List<Link> getLinksOfWeek(@NonNull Integer hourId) {
         String hql = "from Link as L where L.hourId in (:" + EXPECTED_PARAMETER + ") and L.type = 0 order by L.hourId asc";
         int i = 1;
         List<Integer> expectedHours = Arrays.asList(hourId,
@@ -273,7 +273,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param hourId is the base hour id
      * @return with the id of the previous hour
      */
-    public Integer getPreviousHour(@NotNull Integer hourId) {
+    public Integer getPreviousHour(@NonNull Integer hourId) {
         int previousHour;
         if (hourId > Link.MIN_HOUR) {
             previousHour = hourId - 1;
@@ -289,7 +289,7 @@ public class BusinessWithLink extends BusinessBase {
      * @param hourId is the base hour id
      * @return with the id of the next hour
      */
-    public Integer getNextHour(@NotNull Integer hourId) {
+    public Integer getNextHour(@NonNull Integer hourId) {
         int nextHour;
         if (hourId < Link.MAX_HOUR) {
             nextHour = hourId + 1;

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ModelMap;
 import website.magyar.adoration.web.helper.MockControllerBase;
 import website.magyar.adoration.web.json.CoverageInformationJson;
@@ -15,8 +15,8 @@ import website.magyar.adoration.web.provider.CurrentUserProvider;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,7 +51,7 @@ public class HomeControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        Whitebox.setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
 
         currentUserInformationJson = new CurrentUserInformationJson();
         doReturn(currentUserInformationJson).when(currentUserProvider).getUserInformation(any());

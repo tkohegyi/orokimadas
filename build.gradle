@@ -5,17 +5,16 @@ plugins {
 if ( !hasProperty('buildNumber') ) {
     rootProject.ext.buildNumber = 'SNAPSHOT'
 }
-version = "V2.2." + "${rootProject.ext.buildNumber}"
+version = "V3.0." + "${rootProject.ext.buildNumber}"
 
 ext {
     jUnitVersion = '4.13.2'
-    springFrameworkVersion = '5.3.39'
-    springSecurityVersion = '5.8.16'
-    mockitoCoreVersion = '3.12.4'
-    orgSfl4jVersion = '1.7.36'
-    jettyVersion = '9.4.58.v20250814'
-//    jettyVersion = '12.0.1'
-    javaxAnnotationApi='javax.annotation:javax.annotation-api:1.3.2'
+    springFrameworkVersion = '6.2.19'
+    springSecurityVersion = '6.5.11'
+    mockitoCoreVersion = '5.23.0'
+    orgSfl4jVersion = '2.0.18'
+    jettyVersion = '12.0.37'
+    jakartaAnnotationApi='jakarta.annotation:jakarta.annotation-api:2.1.1'
     orgJsonApi='org.json:json:20230227'
 }
 
@@ -47,8 +46,8 @@ subprojects {
     test.finalizedBy jacocoTestReport
 
     // Source and target info
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     compileJava {
         options.encoding = "UTF-8"
@@ -61,7 +60,7 @@ subprojects {
     // checkstyle settings
     // general checkstyle availability:  https://checkstyle.sourceforge.io/releasenotes.html
     // compatibility with sonar https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
-    checkstyle.toolVersion = '8.45.1'
+    checkstyle.toolVersion = '10.26.1'
     checkstyle.ignoreFailures = true
     checkstyle.configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
     checkstyle.configProperties = ['samedir' : "${rootDir}/config/checkstyle"]

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 import website.magyar.adoration.web.service.ServerException;
 
 import static org.mockito.BDDMockito.given;
@@ -13,7 +14,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.powermock.reflect.Whitebox.setInternalState;
 
 /**
  * Unit tests for the class {@link WebAppServer}.
@@ -55,7 +55,7 @@ public class WebAppServerTest {
     @Test(expected = ServerException.class)
     public void testStopShouldThrowExceptionWhenWebAppCanNotBeStopped() throws Exception {
         //GIVEN
-        setInternalState(underTest, "server", server);
+        ReflectionTestUtils.setField(underTest, "server", server);
         given(server.isStarted()).willReturn(true);
         Exception e = new Exception(EXCEPTION_MESSAGE);
         doThrow(e).when(underTest).stopJettyServer();
@@ -67,7 +67,7 @@ public class WebAppServerTest {
     @Test
     public void testStopShouldCallStopJettyServer() throws Exception {
         //GIVEN
-        setInternalState(underTest, "server", server);
+        ReflectionTestUtils.setField(underTest, "server", server);
         given(server.isStarted()).willReturn(true);
         doNothing().when(underTest).stopJettyServer();
         //WHEN
@@ -79,7 +79,7 @@ public class WebAppServerTest {
     @Test
     public void testStopShouldDoNothingWhenServerIsNull() throws Exception {
         //GIVEN
-        setInternalState(underTest, "server", (Object[]) null);
+        ReflectionTestUtils.setField(underTest, "server", null);
         //WHEN
         underTest.stop();
         //THEN
@@ -89,7 +89,7 @@ public class WebAppServerTest {
     @Test
     public void testStopShouldDoNothingWhenServerIsNotStarted() throws Exception {
         //GIVEN
-        setInternalState(underTest, "server", server);
+        ReflectionTestUtils.setField(underTest, "server", server);
         given(server.isStarted()).willReturn(false);
         //WHEN
         underTest.stop();

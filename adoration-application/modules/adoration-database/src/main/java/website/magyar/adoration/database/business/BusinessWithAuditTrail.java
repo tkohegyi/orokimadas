@@ -1,7 +1,7 @@
 package website.magyar.adoration.database.business;
 
-import com.sun.istack.NotNull; //NOSONAR
-import com.sun.istack.Nullable; //NOSONAR
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import website.magyar.adoration.database.SessionFactoryHelper;
@@ -36,7 +36,7 @@ public class BusinessWithAuditTrail extends BusinessBase {
      * @param days is the number of days before now
      * @return with the list of related audit records
      */
-    public List<AuditTrail> getAuditTrailOfLastDays(@NotNull Long days) {
+    public List<AuditTrail> getAuditTrailOfLastDays(@NonNull Long days) {
         List<AuditTrail> result;
         if (days == null || days <= 0) {
             throw new DatabaseHandlingException("Tried to get audit trail for negative or zero days, pls contact to maintainers.");
@@ -61,7 +61,7 @@ public class BusinessWithAuditTrail extends BusinessBase {
      * @param id is the given reference id
      * @return with the list of related audit records
      */
-    public List<AuditTrail> getAuditTrailOfObject(@NotNull Long id) {
+    public List<AuditTrail> getAuditTrailOfObject(@NonNull Long id) {
         if (id == null) {
             throw new DatabaseHandlingException("Tried to get audit trail for a null id, pls contact to maintainers");
         }
@@ -88,7 +88,7 @@ public class BusinessWithAuditTrail extends BusinessBase {
      * @param data        record info
      * @return with the audit record prepared for save
      */
-    public AuditTrail prepareAuditTrail(@NotNull Long refId, @NotNull String userName, @NotNull String type, @NotNull String description, @Nullable String data) {
+    public AuditTrail prepareAuditTrail(@NonNull Long refId, @NonNull String userName, @NonNull String type, @NonNull String description, @Nullable String data) {
         DateTimeConverter dateTimeConverter = new DateTimeConverter();
         AuditTrail auditTrail = new AuditTrail();
         auditTrail.setId(businessWithNextGeneralKey.getNextGeneralId());
@@ -108,7 +108,7 @@ public class BusinessWithAuditTrail extends BusinessBase {
      * @param text     is the text to be checked
      * @param userName is the person name who initiated the change
      */
-    public void checkDangerousValue(@NotNull final String text, @NotNull final String userName) {
+    public void checkDangerousValue(@NonNull final String text, @NonNull final String userName) {
         Pattern p = Pattern.compile("[\\\\#&<>]");
         Matcher m = p.matcher(text);
         if (m.find()) {
@@ -122,7 +122,7 @@ public class BusinessWithAuditTrail extends BusinessBase {
      *
      * @param auditTrail the record to be stored.
      */
-    public void saveAuditTrailSafe(@NotNull AuditTrail auditTrail) {
+    public void saveAuditTrailSafe(@NonNull AuditTrail auditTrail) {
         Session session = SessionFactoryHelper.getOpenedSession();
         try {
             session.beginTransaction();

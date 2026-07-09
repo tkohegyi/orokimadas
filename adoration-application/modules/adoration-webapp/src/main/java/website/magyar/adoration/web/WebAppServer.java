@@ -2,9 +2,10 @@ package website.magyar.adoration.web;
 
 import org.apache.tomcat.InstanceManager;
 import org.apache.tomcat.SimpleInstanceManager;
-import org.eclipse.jetty.annotations.ServletContainerInitializersStarter;
-import org.eclipse.jetty.apache.jsp.JettyJasperInitializer;
-import org.eclipse.jetty.plus.annotation.ContainerInitializer;
+import org.eclipse.jetty.ee10.apache.jsp.JettyJasperInitializer;
+import org.eclipse.jetty.ee10.servlet.ErrorPageErrorHandler;
+import org.eclipse.jetty.ee10.servlet.listener.ContainerInitializer;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -12,14 +13,11 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.webapp.WebAppContext;
 import website.magyar.adoration.web.service.ServerException;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
  * Responsible for configuring, starting and stopping the jetty server.
@@ -67,28 +65,20 @@ public class WebAppServer {
         }
     }
 
-    private static List<ContainerInitializer> jspInitializers() {
-        var sci = new JettyJasperInitializer();
-        var initializer = new ContainerInitializer(sci, null);
-        List<ContainerInitializer> initializers = new ArrayList<>();
-        initializers.add(initializer);
-        return initializers;
-    }
-
     private WebAppContext configureWebAppContext() {
         final WebAppContext context = new WebAppContext();
         var baseUrl = getBaseUrl();
         context.setDescriptor(baseUrl + WEB_XML_LOCATION);
-        context.setResourceBase(baseUrl + "");
+        context.setBaseResourceAsString(baseUrl);
         context.setContextPath("/");
         context.setParentLoaderPriority(true);
 
         context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
                 ".*/.*jsp-api-[^/]*\\.jar$|.*/.*jsp-[^/]*\\.jar$|.*/.*taglibs[^/]*\\.jar$");
 
-        context.setAttribute("org.eclipse.jetty.containerInitializers", jspInitializers());
+        ServletContainerInitializer sci = new JettyJasperInitializer();
+        context.addEventListener(ContainerInitializer.asContextListener(sci));
         context.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
-        context.addBean(new ServletContainerInitializersStarter(context), true);
 
         var errorHandler = new ErrorPageErrorHandler();
         errorHandler.addErrorPage(HttpStatus.NOT_FOUND.value(), "/adoration/e404");
@@ -111,7 +101,7 @@ public class WebAppServer {
             httpConfiguration.setSecurePort(port);
             HttpConfiguration httpsConfig = new HttpConfiguration(httpConfiguration);
             httpsConfig.addCustomizer(new SecureRequestCustomizer());
-            SslContextFactory sslContextFactory = new SslContextFactory.Server();
+            SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
             sslContextFactory.setKeyStorePath(keyStoreFile);
             sslContextFactory.setKeyStorePassword(keyStorePassword);
             ServerConnector httpsConnector = new ServerConnector(server,  //NOSONAR - java:S2095 / Resources should be closed - well, this one should not

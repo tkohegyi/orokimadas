@@ -14,6 +14,7 @@ import website.magyar.adoration.properties.PropertyLoader;
 import website.magyar.adoration.web.WebAppServer;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Properties;
 
@@ -22,7 +23,6 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.powermock.reflect.Whitebox.setInternalState;
 
 /**
  * Unit tests for the class {@link AdorationBootstrap}.
@@ -56,9 +56,9 @@ public class AdorationBootstrapTest {
     public void setUp() {
         underTest = Mockito.spy(new AdorationBootstrap());
         MockitoAnnotations.initMocks(this);
-        setInternalState(underTest, "systemExceptionSelector", systemExceptionSelector);
-        setInternalState(underTest, "propertyLoader", propertyLoader);
-        setInternalState(underTest, "logger", logger);
+        ReflectionTestUtils.setField(underTest, "systemExceptionSelector", systemExceptionSelector);
+        ReflectionTestUtils.setField(underTest, "propertyLoader", propertyLoader);
+        ReflectionTestUtils.setField(underTest, "logger", logger);
         properties = new Properties();
         given(propertyLoader.loadProperties(ARGS[0])).willReturn(properties);
         doNothing().when(sessionFactoryHelper).initiateHibernateSessionFactory(null, null, null);

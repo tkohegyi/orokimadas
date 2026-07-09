@@ -22,7 +22,7 @@ import website.magyar.adoration.web.json.CurrentUserInformationJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

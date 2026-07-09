@@ -3,16 +3,16 @@ package website.magyar.adoration.database.tables;
 import website.magyar.adoration.database.business.helper.enums.AdorationMethodTypes;
 import website.magyar.adoration.database.exception.DatabaseHandlingException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Descriptor class for Database table: Link - connection betwen hours and adorators.
  */
 @Entity
-@Table(name = "dbo.link")
+@Table(name = "link", schema = "dbo")
 public class Link {
 
     public static final Integer MIN_HOUR = 0;
