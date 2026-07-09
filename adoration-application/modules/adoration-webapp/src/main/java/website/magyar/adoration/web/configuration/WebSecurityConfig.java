@@ -6,7 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 /**
  * Java-based replacement for the former WEB-INF/spring-security.xml.
@@ -19,10 +19,11 @@ public class WebSecurityConfig {
 
     /**
      * Defines the application's security filter chain.
-     * Uses explicit {@link AntPathRequestMatcher}s rather than the MVC-aware
+     * Uses explicit {@link PathPatternRequestMatcher}s rather than the MVC-aware
      * requestMatchers(String...) overload, since this app's security config lives in the root
      * ApplicationContext, separate from the DispatcherServlet's MVC context that would otherwise
      * be needed for Spring Security's MvcRequestMatcher/HandlerMappingIntrospector auto-detection.
+     * PathPatternRequestMatcher has no such shared-context requirement, unlike MvcRequestMatcher.
      * The original XML config never actually gated any URL via Spring Security's own authorization
      * layer (no active intercept-url beyond the two permitAll patterns below) - every
      * /adorationSecure/** endpoint enforces its own access check in application code
@@ -36,9 +37,10 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+        PathPatternRequestMatcher.Builder matchers = PathPatternRequestMatcher.withDefaults();
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/"), new AntPathRequestMatcher("/resources/**")).permitAll()
+                        .requestMatchers(matchers.matcher("/"), matchers.matcher("/resources/**")).permitAll()
                         .anyRequest().permitAll())
                 .csrf(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
